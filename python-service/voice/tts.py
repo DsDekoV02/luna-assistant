@@ -22,6 +22,12 @@ class TTSEngine:
     - Optimal text length: 9-19 words
     - Best punctuation: natural pauses with '...'
     - Best style: conversational/mixed
+    
+    Voice Design (tested 2026-09-20 session 27):
+    - Model: mimo-v2.5-tts-voicedesign
+    - Produces higher quality than voice clone
+    - No reference audio needed \u2014 uses text description
+    - Recommended for production use
     """
 
     # Reference audio priority (best quality first)
@@ -31,11 +37,19 @@ class TTSEngine:
         "luna_clone_v6_test1.wav",  # V6 test
     ]
 
-    def __init__(self, mimo_client, cache=None, voice_ref_path: Optional[str] = None):
+    # Voice design descriptions for Luna
+    VOICE_DESIGN_DESCRIPTIONS = {
+        "anime_es": "Una chica anime espa\u00f1ola con voz suave y expresiva, ligeramente infantil pero inteligente",
+        "joven_latina": "Una chica joven latinoamericana de voz dulce y c\u00e1lida, como una asistente virtual amigable",
+        "calm_assistant": "Una asistente virtual femenina de voz calmada, clara y profesional, con acento latino neutro",
+    }
+
+    def __init__(self, mimo_client, cache=None, voice_ref_path: Optional[str] = None, voice_design_profile: str = "anime_es"):
         self.client = mimo_client
         self.cache = cache
         self.voice_ref_path = voice_ref_path
         self.voice_ref_b64: Optional[str] = None
+        self.voice_design_profile = voice_design_profile
         self._load_voice_ref()
 
     def _load_voice_ref(self):
@@ -48,26 +62,29 @@ class TTSEngine:
         else:
             logger.warning("No voice reference file found. Voice clone unavailable.")
 
-    def speak(self, text: str, use_clone: bool = True) -> bytes:
+    def speak(self, text: str, use_clone: bool = True, use_design: bool = False) -> bytes:
         """Convert text to speech. Returns WAV audio bytes.
 
         Args:
             text: Text to speak
             use_clone: If True, use voice clone; if False, use standard TTS
+            use_design: If True, use voice design (overrides use_clone)
 
         Returns:
             WAV audio bytes
         """
         # Check cache first
         if self.cache:
-            cache_key = self._cache_key(text, use_clone)
+            cache_key = self._cache_key(text, use_clone, use_design)
             cached = self.cache.get(cache_key)
             if cached:
                 logger.debug(f"TTS cache hit for: {text[:50]}...")
                 return cached
 
-        # Generate audio
-        if use_clone and self.voice_ref_b64:
+        # Generate audio \u2014 priority: design > clone > standard
+        if use_design:
+            audio = self._design_speak(text)
+        elif use_clone and self.voice_ref_b64:
             audio = self._clone_speak(text)
         else:
             audio = self._standard_speak(text)
@@ -99,11 +116,25 @@ class TTSEngine:
             logger.info("Falling back to standard TTS")
             return self._standard_speak(text)
 
+    def _design_speak(self, text: str) -> bytes:
+        """TTS with voice design \u2014 generates a custom voice from description."""
+        try:
+            description = self.VOICE_DESIGN_DESCRIPTIONS.get(
+                self.voice_design_profile,
+                self.VOICE_DESIGN_DESCRIPTIONS["anime_es"]
+            )
+            return self.client.voice_design(description, text)
+        except Exception as e:
+            logger.error(f"Voice design TTS error: {e}")
+            logger.info("Falling back to standard TTS")
+            return self._standard_speak(text)
+
     async def speak_async(
         self,
         text: str,
         on_complete: Optional[Callable[[bytes], Awaitable[None]]] = None,
         use_clone: bool = True,
+        use_design: bool = False,
     ) -> bytes:
         """Generate TTS asynchronously using a thread pool.
 
@@ -114,19 +145,25 @@ class TTSEngine:
             text: Text to speak
             on_complete: Optional async callback(audio_bytes) when done
             use_clone: Use voice clone
+            use_design: Use voice design (overrides use_clone)
 
         Returns:
             WAV audio bytes (empty on failure)
 """
         loop = asyncio.get_event_loop()
-        audio = await loop.run_in_executor(None, self.speak, text, use_clone)
+        audio = await loop.run_in_executor(None, self.speak, text, use_clone, use_design)
         if on_complete and audio:
             await on_complete(audio)
         return audio
 
-    def _cache_key(self, text: str, use_clone: bool) -> str:
+    def _cache_key(self, text: str, use_clone: bool, use_design: bool = False) -> str:
         """Generate cache key for TTS."""
-        mode = "clone" if use_clone else "standard"
+        if use_design:
+            mode = f"design:{self.voice_design_profile}"
+        elif use_clone:
+            mode = "clone"
+        else:
+            mode = "standard"
         return f"tts:{mode}:{hashlib.md5(text.encode()).hexdigest()}"
 
 

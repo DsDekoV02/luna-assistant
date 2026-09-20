@@ -243,4 +243,34 @@ La estrategia optima es usar texto simple y natural.
 
 ---
 
+## 2026-09-20 — Session 26: Voice Clone Quality Analysis
+
+### Voice Clone — Limitación Fundamental del Modelo
+**Modelo:** `mimo-v2.5-tts-voiceclone`
+
+**Test riguroso:** 3 referencias × 5 frases = 15 muestras, evaluadas con ASR (WER)
+
+| Referencia | Tamaño Promedio | Tiempo Promedio | WER (ASR) |
+|-----------|----------------|-----------------|----------|
+| kohana_fina | 206KB | 4.7s | 106% |
+| session23 | 242KB | 4.2s | 94% |
+| session25 | 194KB | 11.2s | 88% |
+
+**WER 88-106% = audio casi completamente irreconocible.**
+
+**Causa raíz:** El modelo `mimo-v2.5-tts-voiceclone` produce audio que "suena" como la persona pero las palabras están completamente malformadas. NO es un problema de:
+- Referencia de voz (las 3 producen resultados similares)
+- Text processing (el pipeline V6 limpia correctamente)
+- Longitud del texto (frases cortas y largas fallan igual)
+
+**Recomendación:** Usar `mimo-v2.5-tts` (TTS estándar) o explorar `mimo-v2.5-tts-voicedesign` como alternativa.
+
+### Text Processor V6 — Cambios
+- ❌ Eliminadas reglas fonéticas incorrectas: 'h' words (hola→ola), 'b/v' words, 'c/z' words
+- ❌ Eliminada expansión de contracciones ('al'→'a el', 'del'→'de el')
+- ✅ Mantenidas solo reglas útiles: 'ps' clusters, nicknames
+- Razonamiento: El TTS maneja español estándar naturalmente. Respelling causaba ASR hallucination.
+
+---
+
 *"Cada experimento nos acerca más a la Luna."* 🌙

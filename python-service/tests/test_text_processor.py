@@ -277,13 +277,15 @@ class TestAddPauses:
 # ── expand_contractions ──────────────────────────────────────────
 
 class TestExpandContractions:
-    def test_al(self):
+    def test_al_unchanged(self):
+        """'al' is standard Spanish — should NOT be expanded for TTS."""
         result = expand_contractions("voy al parque")
-        assert "a el" in result
+        assert result == "voy al parque"
 
-    def test_del(self):
+    def test_del_unchanged(self):
+        """'del' is standard Spanish — should NOT be expanded for TTS."""
         result = expand_contractions("salgo del trabajo")
-        assert "de el" in result
+        assert result == "salgo del trabajo"
 
 
 # ── split_sentences ──────────────────────────────────────────────

@@ -270,52 +270,18 @@ def fix_asr_names(text: str) -> str:
 
 # Phonetic respelling for words that TTS consistently mispronounces
 # These are Spanish words that voice clone models struggle with
+# NOTE: Do NOT respell 'h' words (hola->ola, etc.) — 'h' is silent in Spanish
+# and the TTS model handles it correctly. Respelling causes ASR hallucination.
+# NOTE: Do NOT respell 'b/v' words — they're the same sound in Latin American
+# Spanish. The TTS model handles this naturally.
 PHONETIC_RESPELLING = {
     # User nicknames (ensure correct pronunciation)
     'dekov': 'dekov',
     'salocin': 'salosin',
-    # Words with 'h' (silent in Spanish but TTS sometimes aspirates)
-    'hola': 'ola',
-    'hasta': 'asta',
-    'hacer': 'aser',
-    'hora': 'ora',
-    'hoy': 'oy',
-    'hay': 'ay',
-    'hecho': 'echo',
-    'hablar': 'ablar',
-    'haber': 'aber',
-    'hecho': 'echo',
-    'historia': 'istoria',
-    'hermano': 'ermano',
-    'hermana': 'ermana',
-    'humano': 'umano',
-    'habitacion': 'abitacion',
-    'horrible': 'orrible',
-    'hospital': 'ospital',
-    'hotel': 'otel',
-    # Words with 'b/v' (same sound in Spanish, but TTS sometimes differentiates)
-    'vivo': 'bibo',
-    'verde': 'berde',
-    'vamos': 'bamos',
-    'verdad': 'berdad',
-    'ventana': 'bentana',
-    # Words with 'c/z' (Latin American 's' sound)
-    'cerveza': 'serbesa',
-    'zapato': 'sapato',
-    'cielo': 'sielo',
-    'cinco': 'sinco',
-    # Difficult consonant clusters
+    # Difficult consonant clusters that TTS garbles
     'psicologia': 'sicologia',
     'psicologo': 'sicologo',
     'pterodactilo': 'pterodactilo',
-    'extra': 'ekstra',
-    'examen': 'eksamen',
-    'texto': 'teksto',
-    'extremo': 'ekstremo',
-    # NOTE: 'qu' words (que, quiero, porque, etc.) are NOT respelled.
-    # Testing showed that 'ke', 'kiero', 'porke' produce WORSE voice clone
-    # quality — the TTS model handles standard Spanish 'qu' naturally,
-    # and the respelled forms cause ASR hallucination (WER >80%).
 }
 
 # Micro-pause markers for better rhythm in voice clone
@@ -406,10 +372,9 @@ ENGLISH_TO_SPANISH = {
 }
 
 # Contractions that sound better expanded for TTS clarity
-CONTRACTIONS = {
-    'al': 'a el',
-    'del': 'de el',
-}
+# NOTE: Don't expand contractions — 'al' and 'del' are standard Spanish
+# and the TTS model handles them naturally. Expanding them sounds unnatural.
+CONTRACTIONS = {}
 
 
 def remove_accents(text: str) -> str:

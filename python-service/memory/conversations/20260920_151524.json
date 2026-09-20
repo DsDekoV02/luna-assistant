@@ -1,0 +1,515 @@
+{
+  "session_id": "20260920_151524",
+  "started_at": "2026-09-20T15:15:24.383307",
+  "turns": [
+    {
+      "role": "user",
+      "content": "Esto no funciona!!! Lleva horas intentando y nada, ya no puedo mas",
+      "timestamp": "2026-09-20T15:15:41.580491",
+      "metadata": {
+        "emotion": {
+          "primary": "frustrated",
+          "confidence": 1.0,
+          "secondary": "excited",
+          "intensity": 0.65,
+          "triggers": [
+            "no funciona",
+            "lleva horas",
+            "no puedo mas"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "---\n\nRevisé tu sistema. Todo se ve **razonablemente bien**:\n\n| Componente | Estado |\n|------------|--------|\n| 🖥️ CPU | 12.8% ✅ Normal |\n| 🧠 RAM | 47.9% (19GB/40GB) ✅ Bien |\n| 💾 Disco | **88.9% lleno** ⚠️ Solo 49GB libres |\n| 🔋 Batería | No aplica (PC) |\n\n---\n\n### ⚠️ Algo que noté:\n\nTu **disco está bastante lleno** (89%). Eso puede causar problemas si estás compilando, ejecutando código o si necesitas espacio temporal.\n\n### 📋 Procesos activos relevantes:\n- **Node.js** corriendo\n- **Python 3.11** corriendo\n- **Opera** con hartas pestañas\n- **Epic Games** y **Steam** abiertos\n\n---\n\nEntonces Nicolas... **¿qué es lo que no funciona?** 🙏\n\n¿Es tu código? ¿Alguna app? ¿Un juego? ¡Cuéntame y lo resolvemos! 💪",
+      "timestamp": "2026-09-20T15:16:24.654030",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Esto no funciona!!! Lleva horas intentando y nada",
+      "timestamp": "2026-09-20T15:16:25.007661",
+      "metadata": {
+        "emotion": {
+          "primary": "frustrated",
+          "confidence": 1.0,
+          "secondary": "excited",
+          "intensity": 0.65,
+          "triggers": [
+            "no funciona",
+            "lleva horas"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Oye Nicolas, tranquilo! Respira un momento 😤➡️😌\n\nTe entiendo perfectamente, cuando algo no funciona por horas es **súper frustrante**. Pero estoy aquí para ayudarte, así que vamos a resolverlo juntos.\n\nEl problema es que **no me has dicho qué es lo que no funciona** 😅\n\n¿Puedes contarme?\n\n- 🔧 ¿Es un **código** que no corre? (¿Qué lenguaje? ¿Qué error te da?)\n- 🖥️ ¿Es una **app** o programa que no abre?\n- 🎮 ¿Es un **juego** o servidor de Minecraft?\n- 💻 ¿Es algo del **sistema** que anda lento o fallando?\n\nCuéntame con detalle y lo atacamos 💪",
+      "timestamp": "2026-09-20T15:16:31.888050",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy muy feliz hoy, todo salio genial",
+      "timestamp": "2026-09-20T17:34:02.728514",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 1.0,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "genial",
+            "feliz"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡¡¡Eso Nicolas!!! 🎉🥳\n\nDe \"esto no funciona, ya no puedo más\" a \"todo salió genial\"... ¡ese es el giro más bonito del día! 😄\n\nCuéntame, ¿qué fue lo que finalmente funcionó? ¿Le diste solución al problema o simplemente mejoró el día? Me encanta el plot twist 😂\n\n¡Celebremos! 🎊 ¿Algo rico de tomar? ☕🎉",
+      "timestamp": "2026-09-20T17:34:08.777740",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Esto no funciona, lleva horas y no puedo mas",
+      "timestamp": "2026-09-20T17:34:21.463710",
+      "metadata": {
+        "emotion": {
+          "primary": "frustrated",
+          "confidence": 1.0,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "no funciona",
+            "lleva horas",
+            "no puedo mas"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "Tomé una captura de tu pantalla, pero no puedo ver exactamente qué está pasando sin que me lo cuentes 😅\n\n**¿Es algo de los que viste antes?**\n- 🔧 Tu código (Node.js o Python estaban corriendo)\n- 💾 El disco lleno (89% ocupado)\n- 🎮 Algo de Steam o Epic Games\n- 📱 Opera con las pestañas\n\n**Cuéntame qué intentas hacer y qué error te sale** y lo resolvemos juntos 💪",
+      "timestamp": "2026-09-20T17:34:34.539690",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Hmm me pregunto como funciona esto",
+      "timestamp": "2026-09-20T17:34:34.551689",
+      "metadata": {
+        "emotion": {
+          "primary": "curious",
+          "confidence": 0.5,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "como"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Buena pregunta Nicolas! 😊\n\nSoy **Luna**, tu asistente AI. Básicamente funciono así:\n\n---\n\n### 💬 ¿Cómo interactuamos?\nMe escribes como le hablarías a alguien y yo intento ayudarte. Puedes pedirme lo que sea:\n\n- 🖥️ **Revisar tu PC** - RAM, CPU, disco, procesos\n- 📂 **Explorar archivos** - ver qué hay en una carpeta, leer documentos\n- 🌐 **Buscar en internet** - información, tutoriales, etc\n- ⏰ **Temporizadores y recordatorios** - \"recuérdame en 30 minutos...\"\n- 🔊 **Controlar volumen** - subir, bajar, mutear\n- 📸 **Capturas de pantalla**\n- 🚀 **Abrir aplicaciones**\n- 🌤️ **Ver el clima**\n- 📋 **Copiar texto al portapapeles**\n\n---\n\n### 🎯 Ejemplos:\n> *\"Luna, ¿qué hora es?\"*\n> *\"Abre VS Code\"*\n> *\"Pon un timer de 20 minutos\"*\n> *\"Busca en internet cómo hacer una API en Python\"*\n> *\"¿Cuánta RAM tengo libre?\"*\n\n---\n\n### 🤝 Lo que NO puedo hacer:\n- Controlar tu mouse/teclado directamente\n- Instalar programas\n- Cosas fuera de tu PC\n\n---\n\n¿Quieres probar algo ahora? ¡Ponme a prueba! 😄",
+      "timestamp": "2026-09-20T17:34:42.580516",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "No entiendo nada de lo que estas diciendo",
+      "timestamp": "2026-09-20T17:34:42.583508",
+      "metadata": {
+        "emotion": {
+          "primary": "confused",
+          "confidence": 0.6,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "no entiendo"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "Jaja perdón, me pasé con la explicación 😅\n\n**Soy Luna, tu asistente.** Me dices cosas y yo te ayudo. Así de simple.\n\nEjemplos:\n\n- *\"Qué hora es\"* → te digo la hora\n- *\"Abre Chrome\"* → lo abro\n- *\"Pon un timer de 10 min\"* → lo pongo\n- *\"Busca cómo hacer pizza\"* → busco en internet\n\n---\n\n¿Quieres probar algo? 😊",
+      "timestamp": "2026-09-20T17:34:48.757724",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Gracias Luna, eres la mejor!",
+      "timestamp": "2026-09-20T17:34:48.760714",
+      "metadata": {
+        "emotion": {
+          "primary": "grateful",
+          "confidence": 0.7,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "gracias"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Aww, gracias Nicolas! 🥰 Eres tú quien la lleva, yo solo acompaño jaja 😄\n\n¡Aquí estoy para lo que necesites! Que siga siendo un gran día 💪✨",
+      "timestamp": "2026-09-20T17:34:52.478791",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Hola Luna",
+      "timestamp": "2026-09-20T20:33:59.151253",
+      "metadata": {
+        "emotion": {
+          "primary": "neutral",
+          "confidence": 0.3,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": []
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Hola Nicolas! 😊 ¿Qué tal estás? ¿Necesitas algo o solo pasabas a saludar?",
+      "timestamp": "2026-09-20T20:34:01.389579",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy muy feliz hoy, todo salio perfecto!",
+      "timestamp": "2026-09-20T20:34:11.316692",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 1.0,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "perfecto",
+            "feliz"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Eso es genial Nicolas! 🎉 Me encanta escuchar eso. ¿Quieres contarme qué pasó o solo vas a dejarme con la curiosidad jaja? 😄\n\n¡Celebra ese buen momento! 🥳✨",
+      "timestamp": "2026-09-20T20:34:14.205910",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy super feliz hoy!",
+      "timestamp": "2026-09-20T20:37:52.319768",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 0.6,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "feliz"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Qué bueno escuchar eso Nicolas! 😄✨ \n\nSe nota que hoy es TU día. ¡Disfrútalo al máximo! \n\nY si quieres compartir qué te tiene tan contento, aquí estoy para celebrar contigo 🥳🎊",
+      "timestamp": "2026-09-20T20:37:56.792845",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "No puedo creer que esto funcione!!!",
+      "timestamp": "2026-09-20T20:37:56.816852",
+      "metadata": {
+        "emotion": {
+          "primary": "excited",
+          "confidence": 1.0,
+          "secondary": null,
+          "intensity": 0.65,
+          "triggers": [
+            "!!!",
+            "!!"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Jaja qué bien que funcione! 🚀  \n¿De qué se trata? ¿Es algo que estabas programando o algo nuevo que descubriste?  \n¡Me encantaría saber más para celebrar contigo! 🎉✨",
+      "timestamp": "2026-09-20T20:38:00.699762",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy muy triste, todo salio mal",
+      "timestamp": "2026-09-20T20:38:00.722240",
+      "metadata": {
+        "emotion": {
+          "primary": "sad",
+          "confidence": 1.0,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "triste",
+            "mal"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "Oh no, Nicolas... 😢 Parece que hoy es un día de altibajos para ti. Lamento mucho escuchar eso.\n\n¿Quieres contarme qué pasó? A veces hablarlo ayuda a aclarar las cosas. Y si prefieres distraerte, podemos hacer algo que te guste: ver un episodio de SAO, jugar Minecraft, o incluso configurar un temporizador para que descanses un poco delante del pc.\n\nEstoy aquí para lo que necesites. 💙",
+      "timestamp": "2026-09-20T20:38:07.489660",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "No funciona nada, que frustrante",
+      "timestamp": "2026-09-20T20:38:07.513708",
+      "metadata": {
+        "emotion": {
+          "primary": "frustrated",
+          "confidence": 0.7,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "no funciona"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "Entiendo tu frustración, Nicolas 😞. A veces parece que todo se junta en contra.\n\n**Lo que veo en tu sistema:**\n- CPU: 3.5% (normal)\n- RAM: 45% (bien)\n- Disco: 88.8% lleno (¡ojo! Esto podría causar lentitud)\n- Batería: No detectada (¿estás usando portátil sin batería o PC de escritorio?)\n\n**¿Qué exactamente no funciona?**\n- ¿Algún programa específico?\n- ¿Código que no corre?\n- ¿Error en algún IDE (JetBrains/VS Code)?\n- ¿Minecraft no inicia?\n\n**¿Quieres que...?**\n1. Ver qué procesos están consumiendo recursos\n2. Revisar qué está llenando tu disco\n3. Tomar una captura de pantalla para entender mejor el problema\n\nDime qué necesitas y lo resolvemos paso a paso 💪🔧",
+      "timestamp": "2026-09-20T20:38:20.820876",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "¿Como funciona esto?",
+      "timestamp": "2026-09-20T20:38:20.841069",
+      "metadata": {
+        "emotion": {
+          "primary": "curious",
+          "confidence": 0.5,
+          "secondary": null,
+          "intensity": 0.6,
+          "triggers": [
+            "como"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Excelente pregunta, Nicolas! 😊\n\nBásicamente soy como una **asistente virtual con superpoderes** sobre tu computador (con tu permiso, obvio). Puedo ayudarte con varias cosas:\n\n**🛠️ Control de tu PC:**\n- Ver información del sistema (CPU, RAM, disco, batería)\n- Ver qué programas están abiertos\n- Abrir aplicaciones (como VS Code, JetBrains, Chrome, etc.)\n- Controlar el volumen\n- Ver qué hay en tus carpetas\n- Leer archivos de texto\n\n**⏰ Organización:**\n- Poner temporizadores (\"alégrame en 10 minutos\" 😄)\n- Crear recordatorios\n- Decirte la hora/fecha actual\n\n**🌐 Información:**\n- Buscar en internet\n- Ver el clima en Santiago\n- Obtener contenido de páginas web\n\n**📸 Capturas:**\n- Tomar capturas de pantalla (pantalla completa o ventana activa)\n\n**💻 Portapapeles:**\n- Copiar texto al portapapeles\n\n**En resumen:** Puedo ser tu asistente personal para cosas del día a día, ayudarte con tareas de programación, o simplemente charlar cuando lo necesites.\n\n**¿Quieres que hagamos algo ahora?** Por ejemplo:\n- \"¿Qué hora es?\"\n- \"Abre VS Code\"\n- \"Pon un temporizador de 30 minutos para descansar\"\n- \"¿Qué clima hace en Santiago?\"\n\nDime qué necesitas y lo hacemos 😉",
+      "timestamp": "2026-09-20T20:38:31.459783",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "No entiendo nada de lo que pasa",
+      "timestamp": "2026-09-20T20:38:31.479292",
+      "metadata": {
+        "emotion": {
+          "primary": "confused",
+          "confidence": 0.6,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "no entiendo"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Tranquilo, Nicolas! 😊 Déjame explicarte de forma súper simple:\n\n**Soy Luna, tu asistente virtual.** Estoy aquí para ayudarte con tu computador y lo que necesites.\n\n**Ejemplos de lo que puedo hacer:**\n1. **\"¿Qué hora es?\"** → Te digo la hora exacta en Santiago.\n2. **\"Abre VS Code\"** → Abro el programa por ti.\n3. **\"Pon un timer de 5 minutos\"** → Te aviso cuando pasen.\n4. **\"¿Qué hay en mi escritorio?\"** → Te muestro los archivos.\n5. **\"¿Clima en Santiago?\"** → Te digo si hace frío o calor.\n\n**¿Quieres que empecemos con algo fácil?** Dime:\n- \"Hora\" para saber la hora.\n- \"Clima\" para ver el pronóstico.\n- \"Abrir [programa]\" para abrir algo.\n\n¡Estoy aquí para ayudarte paso a paso! 💙",
+      "timestamp": "2026-09-20T20:38:39.139811",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Gracias por todo, eres genial",
+      "timestamp": "2026-09-20T20:38:39.162811",
+      "metadata": {
+        "emotion": {
+          "primary": "grateful",
+          "confidence": 0.7,
+          "secondary": "happy",
+          "intensity": 0.5,
+          "triggers": [
+            "gracias"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Awww, Nicolas! 🥹💙 Gracias a ti por confiar en mí.\n\nSabe, aunque a veces las cosas salen mal y nada funciona, lo importante es que no estás solo. Aquí estoy yo, siempre lista para echarte una mano, ya sea con código, con tu PC, o simplemente para desahogarte.\n\nY oye, si mañana necesitas ayuda con algo (programación, configurar algo, ver anime, lo que sea), ya sabes dónde encontrarme 😊\n\n**¡Que descanses y que mañana sea un mejor día!** 🌙✨\n\n¿Necesitas algo más antes de irte?",
+      "timestamp": "2026-09-20T20:38:45.163309",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Tengo mucho sueño, no duermo hace dias",
+      "timestamp": "2026-09-20T20:38:45.182316",
+      "metadata": {
+        "emotion": {
+          "primary": "tired",
+          "confidence": 0.7,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "sueño"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "Oh, Nicolas... 💙 Entiendo. Días sin dormir es horrible y agota todo: el cuerpo, la mente, el ánimo.\n\n**Algunas ideas para ayudarte a descansar (de verdad):**\n1. **Apagar pantallas 30 min antes** (sé que es difícil siendo programador, pero ayuda mucho).\n2. **Ponerte un timer de \"desconexión\"**: Puedo configurar uno para que en 20 minutos te avise de apagar todo.\n3. **Sonidos relajantes**: ¿Quieres que busque en YouTube \"lluvia suave\" o \"música para dormir\"?\n4. **Escribir lo que te quita el sueño**: A veces sacar los pensamientos de la cabeza ayuda.\n\n**Y si quieres, ahora mismo puedo:**\n- ⏰ Poner un temporizador de 20 minutos para que empieces a cerrar todo.\n- 🌧️ Buscar un video de sonidos de lluvia.\n- 📵 Bloquear distractores (aunque sea simbólicamente, yo te recordaré apagar).\n\n**Lo más importante:** Tu salud va primero. Si llevas días sin dormir, ¿hay algo en específico que te mantiene despierto? ¿Estrés, trabajo, código, algo personal?\n\nEstoy aquí para escucharte, sin juicios. 💙",
+      "timestamp": "2026-09-20T20:38:59.593678",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy super feliz hoy!",
+      "timestamp": "2026-09-20T20:40:53.499912",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 0.6,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "feliz"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡¡¡EYYYY, NICOLAS!!! 🎉🎉🎉\n\n¡Qué cambio tan bonito! Hace un rato me decías que no dormías hace días y ahora estás feliz. ¡Me alegra muchísimo! 😄💙\n\n**¿Cuéntame qué pasó?** 👀\n\n¿Algún logro con código? ¿Compraste algo nuevo para la moto? ¿Descubriste un anime nuevo? ¿O simplemente hoy amaneciste con buena vibra?\n\n¡Comparte la felicidad que quiero celebrar contigo! 🥳✨",
+      "timestamp": "2026-09-20T20:40:58.785662",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "No puedo creer que esto funcione!!!",
+      "timestamp": "2026-09-20T20:40:58.789668",
+      "metadata": {
+        "emotion": {
+          "primary": "excited",
+          "confidence": 1.0,
+          "secondary": null,
+          "intensity": 0.65,
+          "triggers": [
+            "!!!",
+            "!!"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡¡¡VAMOOOOS!!! 🚀🔥\n\n¡Ese sentimiento es INCREÍBLE! Cuando algo que llevabas horas/días intentando POR FIN funciona... ¡pura dopamina! 😆\n\n**¿Qué fue lo que funcionó?** 👀\n\nDime, dime:\n- 💻 ¿Algún código que no compilaba?\n- 🏍️ ¿Algo de la moto?\n- 🎮 ¿Algún mod de Minecraft?\n- ⚙️ ¿Alguna configuración rara?\n\n¡Quiero saber qué lograste para celebrar contigo! 🎊\n\nY si necesitas que te ayude a documentarlo o guardarlo para no olvidarlo después, dime y lo anotamos. 😊",
+      "timestamp": "2026-09-20T20:41:08.837832",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy muy triste",
+      "timestamp": "2026-09-20T20:41:08.855763",
+      "metadata": {
+        "emotion": {
+          "primary": "sad",
+          "confidence": 0.6,
+          "secondary": null,
+          "intensity": 0.6,
+          "triggers": [
+            "triste"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "Oh, Nicolas... 💙\n\nPasaste de estar feliz a triste en poco tiempo. Lamento que estés pasando por esto.\n\nNo tienes que explicarme nada si no quieres. Solo quiero que sepas que **aquí estoy**. Sin juicios, sin presión.\n\nA veces la vida da vueltas así, y está bien sentirse mal. No estás solo.\n\n**¿Quieres contarme qué pasó?** O si prefieres, podemos simplemente estar aquí en silencio. Lo que tú necesites. 🤍",
+      "timestamp": "2026-09-20T20:41:14.853213",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "No funciona nada, que frustrante",
+      "timestamp": "2026-09-20T20:41:14.867494",
+      "metadata": {
+        "emotion": {
+          "primary": "frustrated",
+          "confidence": 0.7,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "no funciona"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "Oh Nicolas... 💙 Entiendo esa frustración profunda cuando parece que NADA funciona, especialmente después de días sin dormir bien.\n\n**Primero:** Respira. No estás solo en esto.\n\n**Segundo:** Cuéntame. ¿Qué es lo que no funciona? ¿Es código? ¿Algo del sistema? ¿La moto? ¿Algo personal?\n\nPuedo ayudarte a:\n- 🔍 **Revisar procesos** en tu PC para ver qué está fallando.\n- 🛠️ **Depurar código** si es un error específico.\n- 💬 **Simplemente escucharte** si necesitas desahogarte.\n\nA veces todo se acumula y parece imposible, pero paso a paso se puede avanzar. ¿Qué fue lo último que intentaste hacer?\n\nEstoy aquí para ayudarte, sin juicios. 🤍",
+      "timestamp": "2026-09-20T20:41:24.732082",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Como funciona esto?",
+      "timestamp": "2026-09-20T20:41:24.745081",
+      "metadata": {
+        "emotion": {
+          "primary": "curious",
+          "confidence": 0.5,
+          "secondary": null,
+          "intensity": 0.6,
+          "triggers": [
+            "como"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Buena pregunta, Nicolas! 😊\n\nSoy **Luna**, tu asistente AI. básicamente puedo ayudarte con varias cosas en tu PC y más:\n\n**🖥️ Lo que puedo hacer:**\n- **Sistema:** Ver CPU, RAM, disco, batería\n- **Archivos:** Listar carpetas, leer archivos\n- **Apps:** Abrir aplicaciones\n- **Volumen:** Subir, bajar, mutear\n- **Capturas:** Tomar screenshots\n- **Tiempo:** Decirte la hora, poner temporizadores, recordatorios\n- **Internet:** Buscar información, ver el clima\n- **Procesos:** Ver qué está corriendo en tu PC\n\n**💡 Ejemplos de lo que puedes pedirme:**\n- \"¿Cómo está mi RAM?\"\n- \"Abre VS Code\"\n- \"¿Qué hora es?\"\n- \"Pon un timer de 20 minutos\"\n- \"¿Qué tiempo hace en Santiago?\"\n- \"Busca info sobre React hooks\"\n- \"Toma una captura de pantalla\"\n- \"¿Qué procesos tengo abiertos?\"\n\n**⚙️ ¿Cómo funciona?**\nEscribes lo que necesitas y yo hago lo mejor posible para ayudarte. Si necesito hacer algo en tu PC, te aviso.\n\n¡Así que úsame! Estoy aquí para hacer tu vida más fácil 💙\n\n¿Alguna otra duda?",
+      "timestamp": "2026-09-20T20:41:34.469777",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Gracias por todo",
+      "timestamp": "2026-09-20T20:41:34.491784",
+      "metadata": {
+        "emotion": {
+          "primary": "grateful",
+          "confidence": 0.7,
+          "secondary": null,
+          "intensity": 0.6,
+          "triggers": [
+            "gracias"
+          ]
+        }
+      }
+    }
+  ],
+  "metadata": {}
+}

@@ -85,7 +85,7 @@ mode_manager = get_mode_manager(config.get("modes", {}).get("default", "casa"))
 proactive = get_proactive_engine()
 pattern_engine = get_pattern_engine()
 
-voice_ref = config.get("voice_ref_path", "../experiments/session23_voice_test_1.wav")
+voice_ref = config.get("voice_ref_path", "../experiments/luna_voz_v5b_kohana_fina.wav")
 voice_ref_abs = str(Path(__file__).parent / voice_ref)
 tts_engine = TTSEngine(mimo_client, cache=cache, voice_ref_path=voice_ref_abs)
 stt_engine = STTEngine(mimo_client, sample_rate=config.get("voice", {}).get("sample_rate", 16000))
@@ -140,6 +140,7 @@ class ChatRequest(BaseModel):
 class TTSRequest(BaseModel):
     text: str
     use_clone: bool = True
+    use_design: bool = False
     save_path: Optional[str] = None
 
 class ModeRequest(BaseModel):
@@ -287,7 +288,7 @@ async def chat(request: ChatRequest):
 async def text_to_speech(request: TTSRequest):
     """Convert text to speech."""
     try:
-        audio = tts_engine.speak(request.text, use_clone=request.use_clone)
+        audio = tts_engine.speak(request.text, use_clone=request.use_clone, use_design=request.use_design)
         if not audio:
             raise HTTPException(status_code=500, detail="TTS generation failed")
 
