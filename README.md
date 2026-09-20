@@ -146,6 +146,12 @@ Cobertura completa de todos los módulos.
 | Memoria | ChromaDB + sentence-transformers |
 | Avatar | Three.js (morphing, partículas, glow) |
 
+## ☕ Apoya el Proyecto
+
+Si te resulta útil o te parece interesante, considera dejar una ⭐ en el repo.
+
+[![Ko-fi](https://img.shields.io/badge/Ko--fi-Support_me-FF5E5B?style=flat&logo=ko-fi&logoColor=white)](https://ko-fi.com/dsdekov)
+
 ## 📄 Licencia
 
 Proyecto personal — Nicolas @ DsDekoV02

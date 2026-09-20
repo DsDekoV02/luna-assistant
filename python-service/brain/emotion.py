@@ -77,13 +77,14 @@ EMOTION_PATTERNS: List[Tuple[List[str], Emotion, float]] = [
     (["no puedo más", "estoy mal", "todo mal", "depre", "deprimido", "agotado"],
      Emotion.SAD, 0.8),
 
-    # Frustrated
+    # Frustrated (before excited — "no funciona!!!" should be frustrated, not excited)
     (["pucha", "csm", "ctm", "conchetumare", "mierda", "puta", "la wea",
       "qué wea", "wtf", "bruh", "facepalm", "no puede ser"],
      Emotion.FRUSTRATED, 0.7),
     (["no funciona", "no sirve", "no andaa", "qué onda", "por qué no",
-      "lleva rato", "ya van", "otra vez"],
-     Emotion.FRUSTRATED, 0.6),
+      "lleva rato", "ya van", "otra vez", "lleva horas", "no puedo mas",
+      "no aguanto", "qué lata", "qué fome"],
+     Emotion.FRUSTRATED, 0.7),  # Raised from 0.6 to 0.7
     (["odio", "detesto", "no soporto", "insoportable"],
      Emotion.ANGRY, 0.7),
 
@@ -113,7 +114,8 @@ EMOTION_PATTERNS: List[Tuple[List[str], Emotion, float]] = [
 
     # Confused
     (["no entiendo", "no cacho", "no pillo", "qué", "cómo así",
-      "no tiene sentido", "explica", "repíteme", "de nuevo"],
+      "no tiene sentido", "explica", "repíteme", "de nuevo",
+      "confundido", "confunde", "me tiene confundido"],
      Emotion.CONFUSED, 0.6),
     (["??", "¿¿", "pero qué", "espera", "momento"],
      Emotion.CONFUSED, 0.5),
