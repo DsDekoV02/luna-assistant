@@ -271,6 +271,9 @@ def fix_asr_names(text: str) -> str:
 # Phonetic respelling for words that TTS consistently mispronounces
 # These are Spanish words that voice clone models struggle with
 PHONETIC_RESPELLING = {
+    # User nicknames (ensure correct pronunciation)
+    'dekov': 'dekov',
+    'salocin': 'salosin',
     # Words with 'h' (silent in Spanish but TTS sometimes aspirates)
     'hola': 'ola',
     'hasta': 'asta',
