@@ -353,6 +353,8 @@ class MiMoClient:
         url = f"{self.base_url}/{endpoint}"
         response = self.session.post(url, json=data, stream=stream, timeout=120)
         response.raise_for_status()
+        # Force UTF-8 encoding to avoid Windows charmap issues
+        response.encoding = 'utf-8'
         return response
 
     # ── Brain (Chat) ──────────────────────────────────────────────
@@ -577,7 +579,11 @@ class MiMoClient:
         }
         response = self._post("chat/completions", payload)
         data = response.json()
-        return data["choices"][0]["message"]["content"]
+        content = data["choices"][0]["message"]["content"]
+        # Ensure proper encoding for non-ASCII characters
+        if isinstance(content, bytes):
+            content = content.decode("utf-8", errors="replace")
+        return content
 
     # ── Vision ────────────────────────────────────────────────────
 

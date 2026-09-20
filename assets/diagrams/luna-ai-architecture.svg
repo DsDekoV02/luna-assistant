@@ -1,0 +1,341 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 980" width="1200" height="980" role="img" aria-label="Luna AI — Architecture diagram">
+  <title>Luna AI — Architecture</title>
+  <desc>Professional architecture diagram for Luna AI: Electron frontend, Python FastAPI service, MiMo APIs, emotions, voice pipeline and persistent memory.</desc>
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M1 1.5L8.5 5L1 8.5" fill="none" stroke="context-stroke" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <marker id="arrSoft" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M1 1.5L8.5 5L1 8.5" fill="none" stroke="context-stroke" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <style>
+      .bg { fill: #0B0F14; }
+      .title { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 28px; font-weight: 600; fill: #E8EEF5; }
+      .subtitle { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 400; fill: #8B9BB4; }
+      .layer { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 11px; font-weight: 600; fill: #8B9BB4; letter-spacing: 1.4px; }
+      .cardTitle { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 14px; font-weight: 600; fill: #E8EEF5; }
+      .cardSub { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 11px; font-weight: 400; fill: #8B9BB4; }
+      .mod { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 11px; font-weight: 500; fill: #C5D0DE; }
+      .modPath { font-family: 'Consolas', 'SF Mono', ui-monospace, monospace; font-size: 10px; font-weight: 400; fill: #7A8A9E; }
+      .badge { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 10px; font-weight: 600; fill: #0B0F14; }
+      .badgeDark { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 10px; font-weight: 600; fill: #E8EEF5; }
+      .flowLabel { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 11px; font-weight: 500; fill: #A8B8CC; }
+      .panelTitle { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 13px; font-weight: 600; fill: #E8EEF5; }
+      .panelBody { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 11px; font-weight: 400; fill: #A8B8CC; }
+      .step { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 11px; font-weight: 500; fill: #E8EEF5; }
+      .stepN { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; font-size: 10px; font-weight: 700; fill: #0B0F14; }
+      .icon { font-family: 'Segoe UI Emoji', 'Segoe UI Symbol', 'Segoe UI', sans-serif; font-size: 16px; }
+    </style>
+  </defs>
+
+  <!-- Background -->
+  <rect class="bg" x="0" y="0" width="1200" height="980"/>
+
+  <!-- Header -->
+  <text class="title" x="48" y="42">Luna AI</text>
+  <text class="subtitle" x="48" y="66">Arquitectura del sistema · Runtime en tiempo real · Dark theme</text>
+  <rect x="48" y="78" width="46" height="4" rx="2" fill="#4DA3FF"/>
+  <rect x="100" y="78" width="28" height="4" rx="2" fill="#3DDC97"/>
+  <rect x="134" y="78" width="28" height="4" rx="2" fill="#B388FF"/>
+  <rect x="168" y="78" width="28" height="4" rx="2" fill="#64D8CB"/>
+  <rect x="202" y="78" width="28" height="4" rx="2" fill="#FFD166"/>
+  <rect x="236" y="78" width="28" height="4" rx="2" fill="#FF8A80"/>
+
+  <!-- Legend -->
+  <g transform="translate(760, 28)">
+    <rect x="0" y="0" width="18" height="10" rx="3" fill="#15202B" stroke="#4DA3FF" stroke-width="1"/>
+    <text class="cardSub" x="24" y="9">Frontend</text>
+    <rect x="95" y="0" width="18" height="10" rx="3" fill="#15202B" stroke="#3DDC97" stroke-width="1"/>
+    <text class="cardSub" x="119" y="9">Python</text>
+    <rect x="175" y="0" width="18" height="10" rx="3" fill="#15202B" stroke="#B388FF" stroke-width="1"/>
+    <text class="cardSub" x="199" y="9">MiMo API</text>
+    <rect x="0" y="20" width="18" height="10" rx="3" fill="#15202B" stroke="#64D8CB" stroke-width="1"/>
+    <text class="cardSub" x="24" y="29">Voz</text>
+    <rect x="95" y="20" width="18" height="10" rx="3" fill="#15202B" stroke="#FFD166" stroke-width="1"/>
+    <text class="cardSub" x="119" y="29">Memoria</text>
+    <rect x="175" y="20" width="18" height="10" rx="3" fill="#15202B" stroke="#FF8A80" stroke-width="1"/>
+    <text class="cardSub" x="199" y="29">Emoción</text>
+  </g>
+
+  <!-- ================= MAIN COLUMN ================= -->
+
+  <!-- Layer label: CLIENTE -->
+  <text class="layer" x="48" y="120">01 · CLIENTE</text>
+
+  <!-- User node -->
+  <g>
+    <rect x="48" y="136" width="160" height="72" rx="10" fill="#121820" stroke="#3D4F63" stroke-width="1"/>
+    <circle cx="78" cy="172" r="16" fill="#1A2432" stroke="#8B9BB4" stroke-width="1"/>
+    <circle cx="78" cy="167" r="5" fill="none" stroke="#8B9BB4" stroke-width="1.4"/>
+    <path d="M70 182c2.5-5 13.5-5 16 0" fill="none" stroke="#8B9BB4" stroke-width="1.4" stroke-linecap="round"/>
+    <text class="cardTitle" x="106" y="166">Usuario</text>
+    <text class="cardSub" x="106" y="184">Voz · texto · emociones</text>
+  </g>
+
+  <!-- Arrow user -> electron -->
+  <line x1="208" y1="172" x2="278" y2="172" stroke="#4DA3FF" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text class="flowLabel" x="243" y="162" text-anchor="middle">input</text>
+
+  <!-- Electron card -->
+  <g>
+    <rect x="280" y="120" width="280" height="104" rx="12" fill="#15202B" stroke="#4DA3FF" stroke-width="1.5"/>
+    <rect x="280" y="120" width="280" height="4" rx="2" fill="#4DA3FF"/>
+    <!-- icon: cube/avatar -->
+    <rect x="296" y="140" width="28" height="28" rx="6" fill="#1A2838" stroke="#4DA3FF" stroke-width="1"/>
+    <text class="icon" x="301" y="160">◈</text>
+    <text class="cardTitle" x="336" y="152">Electron App</text>
+    <text class="cardSub" x="336" y="170">Frontend desktop · Three.js Avatar 3D</text>
+    <rect x="296" y="186" width="78" height="22" rx="6" fill="#1A2838" stroke="#4DA3FF" stroke-width="0.75"/>
+    <text class="mod" x="308" y="200" fill="#8FC2F5">Avatar 3D</text>
+    <rect x="382" y="186" width="70" height="22" rx="6" fill="#1A2838" stroke="#4DA3FF" stroke-width="0.75"/>
+    <text class="mod" x="394" y="200" fill="#8FC2F5">UI / HUD</text>
+    <rect x="460" y="186" width="84" height="22" rx="6" fill="#1A2838" stroke="#4DA3FF" stroke-width="0.75"/>
+    <text class="mod" x="470" y="200" fill="#8FC2F5">Mic / audio</text>
+  </g>
+
+  <!-- Arrow electron <-> websocket -->
+  <line x1="420" y1="224" x2="420" y2="268" stroke="#4DA3FF" stroke-width="1.5" marker-end="url(#arr)"/>
+  <line x1="436" y1="268" x2="436" y2="224" stroke="#3DDC97" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text class="flowLabel" x="470" y="250">WebSocket :8765</text>
+  <text class="cardSub" x="470" y="266">bidireccional · tiempo real</text>
+
+  <!-- Layer label: SERVICIO -->
+  <text class="layer" x="48" y="300">02 · PYTHON SERVICE</text>
+
+  <!-- Python Service outer frame -->
+  <g>
+    <rect x="48" y="316" width="700" height="290" rx="16" fill="#0F1520" stroke="#3DDC97" stroke-width="1.5"/>
+    <rect x="48" y="316" width="700" height="4" rx="2" fill="#3DDC97"/>
+    <text class="cardTitle" x="72" y="348" fill="#E8EEF5">Python Service</text>
+    <text class="cardSub" x="72" y="368">FastAPI + WebSocket server · orquestación cognitiva</text>
+    <rect x="560" y="332" width="160" height="24" rx="6" fill="#0B2018" stroke="#3DDC97" stroke-width="0.75"/>
+    <text class="badgeDark" x="574" y="348" fill="#3DDC97">PUERTO 8765 · WS</text>
+
+    <!-- brain/ -->
+    <g>
+      <rect x="72" y="392" width="200" height="88" rx="8" fill="#15202B" stroke="#3DDC97" stroke-width="0.75"/>
+      <circle cx="96" cy="418" r="12" fill="#0B2018" stroke="#3DDC97" stroke-width="1"/>
+      <text class="icon" x="90" y="423" fill="#3DDC97">🧠</text>
+      <text class="cardTitle" x="116" y="416">brain/</text>
+      <text class="modPath" x="88" y="448">mimo_client.py</text>
+      <text class="modPath" x="88" y="466">emotion.py</text>
+    </g>
+
+    <!-- voice/ -->
+    <g>
+      <rect x="288" y="392" width="200" height="88" rx="8" fill="#15202B" stroke="#64D8CB" stroke-width="0.75"/>
+      <circle cx="312" cy="418" r="12" fill="#0C2422" stroke="#64D8CB" stroke-width="1"/>
+      <text class="icon" x="306" y="423">🎙</text>
+      <text class="cardTitle" x="332" y="416">voice/</text>
+      <text class="modPath" x="304" y="448">speech · streaming</text>
+      <text class="modPath" x="304" y="466">listener · clone · text</text>
+    </g>
+
+    <!-- memory/ -->
+    <g>
+      <rect x="504" y="392" width="220" height="88" rx="8" fill="#15202B" stroke="#FFD166" stroke-width="0.75"/>
+      <circle cx="528" cy="418" r="12" fill="#221C0B" stroke="#FFD166" stroke-width="1"/>
+      <text class="icon" x="522" y="423">🗄</text>
+      <text class="cardTitle" x="548" y="416">memory/</text>
+      <text class="modPath" x="520" y="448">conversation.py</text>
+      <text class="modPath" x="520" y="466">rag_semantic.py</text>
+    </g>
+
+    <!-- tools/ -->
+    <g>
+      <rect x="72" y="496" width="200" height="88" rx="8" fill="#15202B" stroke="#8B9BB4" stroke-width="0.75"/>
+      <circle cx="96" cy="522" r="12" fill="#1A2432" stroke="#8B9BB4" stroke-width="1"/>
+      <text class="icon" x="90" y="527">🛡</text>
+      <text class="cardTitle" x="116" y="520">tools/</text>
+      <text class="modPath" x="88" y="552">registry · security</text>
+      <text class="modPath" x="88" y="570">allowlist.py</text>
+    </g>
+
+    <!-- modes/ + proactive/ -->
+    <g>
+      <rect x="288" y="496" width="200" height="88" rx="8" fill="#15202B" stroke="#B388FF" stroke-width="0.75"/>
+      <circle cx="312" cy="522" r="12" fill="#1A1228" stroke="#B388FF" stroke-width="1"/>
+      <text class="icon" x="306" y="527">⚙</text>
+      <text class="cardTitle" x="332" y="520">modes/ · proactive/</text>
+      <text class="modPath" x="304" y="552">manager.py</text>
+      <text class="modPath" x="304" y="570">engine.py</text>
+    </g>
+
+    <!-- pipelines -->
+    <g>
+      <rect x="504" y="496" width="220" height="88" rx="8" fill="#15202B" stroke="#4DA3FF" stroke-width="0.75"/>
+      <circle cx="528" cy="522" r="12" fill="#1A2838" stroke="#4DA3FF" stroke-width="1"/>
+      <text class="icon" x="522" y="527">⧉</text>
+      <text class="cardTitle" x="548" y="520">Pipelines</text>
+      <text class="modPath" x="520" y="552">asr/ · tts/ · llm/ · rag/</text>
+      <text class="modPath" x="520" y="570">adaptadores MiMo</text>
+    </g>
+  </g>
+
+  <!-- Arrow Python -> MiMo -->
+  <line x1="420" y1="606" x2="420" y2="648" stroke="#B388FF" stroke-width="1.5" marker-end="url(#arr)"/>
+  <text class="flowLabel" x="470" y="630">HTTPS · streaming</text>
+  <text class="cardSub" x="470" y="646">cognición + voz + clone</text>
+
+  <!-- Layer label: MIMO -->
+  <text class="layer" x="48" y="660">03 · MIMO CLOUD</text>
+
+  <!-- MiMo APIs band -->
+  <g>
+    <rect x="48" y="676" width="700" height="96" rx="12" fill="#15202B" stroke="#B388FF" stroke-width="1.5"/>
+    <rect x="48" y="676" width="700" height="4" rx="2" fill="#B388FF"/>
+    <text class="cardTitle" x="72" y="708">MiMo v2.5 API</text>
+    <text class="cardSub" x="72" y="726">Motor cognitivo y servicios de voz</text>
+
+    <rect x="280" y="694" width="140" height="56" rx="8" fill="#1A1228" stroke="#B388FF" stroke-width="0.75"/>
+    <text class="cardTitle" x="350" y="716" text-anchor="middle">Pro</text>
+    <text class="cardSub" x="350" y="734" text-anchor="middle">LLM · razonamiento</text>
+
+    <rect x="436" y="694" width="140" height="56" rx="8" fill="#0C2422" stroke="#64D8CB" stroke-width="0.75"/>
+    <text class="cardTitle" x="506" y="716" text-anchor="middle">TTS + Clone</text>
+    <text class="cardSub" x="506" y="734" text-anchor="middle">síntesis · clonación</text>
+
+    <rect x="592" y="694" width="140" height="56" rx="8" fill="#0C2422" stroke="#64D8CB" stroke-width="0.75"/>
+    <text class="cardTitle" x="662" y="716" text-anchor="middle">ASR</text>
+    <text class="cardSub" x="662" y="734" text-anchor="middle">speech-to-text</text>
+  </g>
+
+  <!-- Arrow back to Electron (response loop) — left corridor -->
+  <path d="M48 724 H28 V172 H280" fill="none" stroke="#4DA3FF" stroke-width="1.25" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+  <text class="flowLabel" x="22" y="450" transform="rotate(-90 22 450)" text-anchor="middle">respuesta · audio · visemes · estado</text>
+
+  <!-- ================= RIGHT PANELS: three pipelines ================= -->
+  <text class="layer" x="780" y="120">04 · SISTEMAS EN TIEMPO REAL</text>
+
+  <!-- Emotion system panel -->
+  <g>
+    <rect x="780" y="136" width="372" height="148" rx="12" fill="#121820" stroke="#FF8A80" stroke-width="1.25"/>
+    <rect x="780" y="136" width="372" height="4" rx="2" fill="#FF8A80"/>
+    <text class="panelTitle" x="800" y="164">Sistema de emociones</text>
+    <text class="panelBody" x="800" y="182">Análisis de texto en tiempo real → estado del avatar</text>
+
+    <!-- steps -->
+    <rect x="800" y="200" width="90" height="36" rx="8" fill="#1A1214" stroke="#FF8A80" stroke-width="0.75"/>
+    <circle cx="814" cy="218" r="9" fill="#FF8A80"/>
+    <text class="stepN" x="814" y="221" text-anchor="middle">1</text>
+    <text class="step" x="830" y="222">Texto</text>
+
+    <line x1="890" y1="218" x2="912" y2="218" stroke="#FF8A80" stroke-width="1.25" marker-end="url(#arrSoft)"/>
+
+    <rect x="916" y="200" width="100" height="36" rx="8" fill="#1A1214" stroke="#FF8A80" stroke-width="0.75"/>
+    <circle cx="930" cy="218" r="9" fill="#FF8A80"/>
+    <text class="stepN" x="930" y="221" text-anchor="middle">2</text>
+    <text class="step" x="946" y="222">Emotion</text>
+
+    <line x1="1016" y1="218" x2="1038" y2="218" stroke="#FF8A80" stroke-width="1.25" marker-end="url(#arrSoft)"/>
+
+    <rect x="1042" y="200" width="90" height="36" rx="8" fill="#1A1214" stroke="#FF8A80" stroke-width="0.75"/>
+    <circle cx="1056" cy="218" r="9" fill="#FF8A80"/>
+    <text class="stepN" x="1056" y="221" text-anchor="middle">3</text>
+    <text class="step" x="1072" y="222">Avatar</text>
+
+    <text class="cardSub" x="800" y="264">brain/emotion.py → WebSocket → Three.js morph targets</text>
+  </g>
+
+  <!-- Voice pipeline panel -->
+  <g>
+    <rect x="780" y="300" width="372" height="148" rx="12" fill="#121820" stroke="#64D8CB" stroke-width="1.25"/>
+    <rect x="780" y="300" width="372" height="4" rx="2" fill="#64D8CB"/>
+    <text class="panelTitle" x="800" y="328">Pipeline de voz</text>
+    <text class="panelBody" x="800" y="346">STT → Brain → TTS en streaming</text>
+
+    <rect x="800" y="364" width="90" height="36" rx="8" fill="#0C2422" stroke="#64D8CB" stroke-width="0.75"/>
+    <circle cx="814" cy="382" r="9" fill="#64D8CB"/>
+    <text class="stepN" x="814" y="385" text-anchor="middle">1</text>
+    <text class="step" x="830" y="386">ASR</text>
+
+    <line x1="890" y1="382" x2="912" y2="382" stroke="#64D8CB" stroke-width="1.25" marker-end="url(#arrSoft)"/>
+
+    <rect x="916" y="364" width="100" height="36" rx="8" fill="#0C2422" stroke="#64D8CB" stroke-width="0.75"/>
+    <circle cx="930" cy="382" r="9" fill="#64D8CB"/>
+    <text class="stepN" x="930" y="385" text-anchor="middle">2</text>
+    <text class="step" x="946" y="386">Brain</text>
+
+    <line x1="1016" y1="382" x2="1038" y2="382" stroke="#64D8CB" stroke-width="1.25" marker-end="url(#arrSoft)"/>
+
+    <rect x="1042" y="364" width="90" height="36" rx="8" fill="#0C2422" stroke="#64D8CB" stroke-width="0.75"/>
+    <circle cx="1056" cy="382" r="9" fill="#64D8CB"/>
+    <text class="stepN" x="1056" y="385" text-anchor="middle">3</text>
+    <text class="step" x="1072" y="386">TTS</text>
+
+    <text class="cardSub" x="800" y="428">voice_listener → mimo_client → speech/voice_clone</text>
+  </g>
+
+  <!-- Memory panel -->
+  <g>
+    <rect x="780" y="464" width="372" height="148" rx="12" fill="#121820" stroke="#FFD166" stroke-width="1.25"/>
+    <rect x="780" y="464" width="372" height="4" rx="2" fill="#FFD166"/>
+    <text class="panelTitle" x="800" y="492">Memoria persistente</text>
+    <text class="panelBody" x="800" y="510">Conversaciones + recuperación semántica RAG</text>
+
+    <rect x="800" y="528" width="160" height="56" rx="8" fill="#221C0B" stroke="#FFD166" stroke-width="0.75"/>
+    <text class="cardTitle" x="880" y="550" text-anchor="middle">Conversaciones</text>
+    <text class="modPath" x="880" y="568" text-anchor="middle">memory/conversation.py</text>
+
+    <line x1="960" y1="556" x2="982" y2="556" stroke="#FFD166" stroke-width="1.25" marker-end="url(#arrSoft)"/>
+
+    <rect x="986" y="528" width="146" height="56" rx="8" fill="#221C0B" stroke="#FFD166" stroke-width="0.75"/>
+    <text class="cardTitle" x="1059" y="550" text-anchor="middle">ChromaDB</text>
+    <text class="modPath" x="1059" y="568" text-anchor="middle">embeddings · RAG</text>
+
+    <text class="cardSub" x="800" y="602">sentence-transformers · rag_semantic.py · contexto largo</text>
+  </g>
+
+  <!-- Main data flow banner -->
+  <g>
+    <rect x="48" y="800" width="1104" height="140" rx="12" fill="#121820" stroke="#2A3544" stroke-width="1"/>
+    <text class="panelTitle" x="72" y="830">Flujo principal de datos</text>
+    <text class="panelBody" x="72" y="850">Ruta completa del ciclo conversacional (voz o texto)</text>
+
+    <!-- flow nodes -->
+    <g>
+      <rect x="72" y="868" width="150" height="48" rx="8" fill="#1A2432" stroke="#8B9BB4" stroke-width="0.75"/>
+      <text class="step" x="147" y="888" text-anchor="middle">Usuario</text>
+      <text class="cardSub" x="147" y="904" text-anchor="middle">mic · teclado</text>
+    </g>
+    <line x1="222" y1="892" x2="248" y2="892" stroke="#4DA3FF" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <g>
+      <rect x="250" y="868" width="150" height="48" rx="8" fill="#15202B" stroke="#4DA3FF" stroke-width="1"/>
+      <text class="step" x="325" y="888" text-anchor="middle">Electron</text>
+      <text class="cardSub" x="325" y="904" text-anchor="middle">Three.js UI</text>
+    </g>
+    <line x1="400" y1="892" x2="426" y2="892" stroke="#4DA3FF" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <g>
+      <rect x="428" y="868" width="150" height="48" rx="8" fill="#15202B" stroke="#4DA3FF" stroke-width="1"/>
+      <text class="step" x="503" y="888" text-anchor="middle">WebSocket</text>
+      <text class="cardSub" x="503" y="904" text-anchor="middle">:8765</text>
+    </g>
+    <line x1="578" y1="892" x2="604" y2="892" stroke="#3DDC97" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <g>
+      <rect x="606" y="868" width="170" height="48" rx="8" fill="#15202B" stroke="#3DDC97" stroke-width="1"/>
+      <text class="step" x="691" y="888" text-anchor="middle">Python Service</text>
+      <text class="cardSub" x="691" y="904" text-anchor="middle">FastAPI · brain/voice</text>
+    </g>
+    <line x1="776" y1="892" x2="802" y2="892" stroke="#B388FF" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <g>
+      <rect x="804" y="868" width="150" height="48" rx="8" fill="#15202B" stroke="#B388FF" stroke-width="1"/>
+      <text class="step" x="879" y="888" text-anchor="middle">MiMo API</text>
+      <text class="cardSub" x="879" y="904" text-anchor="middle">Pro · TTS · ASR</text>
+    </g>
+    <line x1="954" y1="892" x2="980" y2="892" stroke="#B388FF" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <g>
+      <rect x="982" y="868" width="146" height="48" rx="8" fill="#1A1228" stroke="#B388FF" stroke-width="1"/>
+      <text class="step" x="1055" y="888" text-anchor="middle">Respuesta</text>
+      <text class="cardSub" x="1055" y="904" text-anchor="middle">voz + avatar + texto</text>
+    </g>
+  </g>
+
+  <!-- Footer -->
+  <text class="cardSub" x="48" y="964">Luna AI · Architecture Overview · GitHub README</text>
+  <text class="cardSub" x="1152" y="964" text-anchor="end">Electron ↔ WS:8765 ↔ FastAPI ↔ MiMo v2.5</text>
+</svg>

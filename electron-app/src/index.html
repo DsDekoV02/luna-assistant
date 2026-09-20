@@ -492,6 +492,71 @@
             background: rgba(150, 50, 255, 0.2);
         }
 
+        /* ── Voice Level Meter ─────────────────────────────── */
+
+        #voice-level {
+            display: none;
+            align-items: center;
+            gap: 4px;
+            margin-top: 6px;
+            padding: 4px 10px;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+        }
+
+        #voice-level.active {
+            display: flex;
+        }
+
+        .level-bar {
+            flex: 1;
+            height: 4px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .level-bar .fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #4ade80, #fbbf24, #f87171);
+            border-radius: 2px;
+            transition: width 0.05s ease;
+        }
+
+        #voice-timer {
+            font-size: 10px;
+            color: #888;
+            min-width: 35px;
+            text-align: right;
+            font-variant-numeric: tabular-nums;
+        }
+
+        /* ── Typing Indicator ──────────────────────────────── */
+
+        .typing-indicator {
+            display: flex;
+            gap: 4px;
+            padding: 12px 18px;
+            align-items: center;
+        }
+
+        .typing-indicator .dot {
+            width: 6px;
+            height: 6px;
+            background: #cc99ff;
+            border-radius: 50%;
+            animation: typingBounce 1.4s ease-in-out infinite;
+        }
+
+        .typing-indicator .dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-indicator .dot:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes typingBounce {
+            0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+            30% { transform: translateY(-6px); opacity: 1; }
+        }
+
         /* ── Particles Background ───────────────────────────── */
 
         #particles {
@@ -573,6 +638,10 @@
                 <button class="action-btn" id="mic-btn" title="Grabar voz">🎤</button>
                 <button class="action-btn" id="send-btn" title="Enviar">➤</button>
             </div>
+            <div id="voice-level">
+                <div class="level-bar"><div class="fill" id="level-fill"></div></div>
+                <span id="voice-timer">0:00</span>
+            </div>
         </div>
     </div>
 
@@ -608,6 +677,9 @@
         const wsDot = document.getElementById('ws-dot');
         const wsStatus = document.getElementById('ws-status');
         const avatarState = document.getElementById('avatar-state');
+        const voiceLevel = document.getElementById('voice-level');
+        const levelFill = document.getElementById('level-fill');
+        const voiceTimer = document.getElementById('voice-timer');
 
         // ── Chat Functions ──────────────────────────────────────
 
@@ -683,7 +755,12 @@
 
         let mediaRecorder = null;
         let isRecording = false;
-        let useStreaming = true;  // Toggle between streaming and batch
+        let useStreaming = true;
+        let audioContext = null;
+        let analyser = null;
+        let animationFrameId = null;
+        let recordingStartTime = null;
+        let timerInterval = null;
 
         micBtn.addEventListener('click', async () => {
             if (isRecording) {
@@ -693,9 +770,61 @@
             }
         });
 
+        function startLevelMeter(stream) {
+            try {
+                audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const source = audioContext.createMediaStreamSource(stream);
+                analyser = audioContext.createAnalyser();
+                analyser.fftSize = 256;
+                source.connect(analyser);
+
+                const dataArray = new Uint8Array(analyser.frequencyBinCount);
+                voiceLevel.classList.add('active');
+
+                function updateLevel() {
+                    if (!isRecording) return;
+                    analyser.getByteFrequencyData(dataArray);
+                    let sum = 0;
+                    for (let i = 0; i < dataArray.length; i++) sum += dataArray[i];
+                    const avg = sum / dataArray.length;
+                    const pct = Math.min(100, (avg / 128) * 100);
+                    levelFill.style.width = pct + '%';
+                    animationFrameId = requestAnimationFrame(updateLevel);
+                }
+                updateLevel();
+            } catch (e) {
+                console.warn('Level meter error:', e);
+            }
+        }
+
+        function stopLevelMeter() {
+            if (animationFrameId) { cancelAnimationFrame(animationFrameId); animationFrameId = null; }
+            if (audioContext) { audioContext.close().catch(() => {}); audioContext = null; }
+            voiceLevel.classList.remove('active');
+            levelFill.style.width = '0%';
+        }
+
+        function startTimer() {
+            recordingStartTime = Date.now();
+            voiceTimer.textContent = '0:00';
+            timerInterval = setInterval(() => {
+                const elapsed = Math.floor((Date.now() - recordingStartTime) / 1000);
+                const min = Math.floor(elapsed / 60);
+                const sec = elapsed % 60;
+                voiceTimer.textContent = min + ':' + String(sec).padStart(2, '0');
+            }, 500);
+        }
+
+        function stopTimer() {
+            if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
+            recordingStartTime = null;
+        }
+
         async function startRecording() {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                startLevelMeter(stream);
+                startTimer();
                 
                 if (useStreaming && window.lunaAPI) {
                     // Streaming mode: send chunks in real-time
@@ -771,6 +900,8 @@
             if (mediaRecorder && mediaRecorder.state !== 'inactive') {
                 mediaRecorder.stop();
             }
+            stopLevelMeter();
+            stopTimer();
         }
 
         // ── WebSocket Message Handling ──────────────────────────
@@ -782,6 +913,7 @@
             window.lunaAPI.onMessage((msg) => {
                 switch (msg.type) {
                     case 'text':
+                        hideTypingIndicator();
                         if (msg.streaming === true) {
                             // Streaming: accumulate text
                             if (!streamingDiv) {
@@ -821,10 +953,14 @@
                     case 'status':
                         if (msg.state === 'thinking') {
                             setAvatarState('thinking');
+                            showTypingIndicator();
                         } else if (msg.state === 'listening') {
                             setAvatarState('listening');
                         } else if (msg.state === 'ready') {
                             setAvatarState('idle');
+                            hideTypingIndicator();
+                        } else if (msg.state === 'speaking') {
+                            setAvatarState('speaking');
                         }
                         break;
 
@@ -879,6 +1015,28 @@
             // Update Three.js avatar
             if (lunaAvatar) {
                 lunaAvatar.setState(state);
+            }
+        }
+
+        // ── Mode Tabs ───────────────────────────────────────────
+
+        // ── Typing Indicator ────────────────────────────────────
+
+        let typingDiv = null;
+
+        function showTypingIndicator() {
+            if (typingDiv) return;
+            typingDiv = document.createElement('div');
+            typingDiv.className = 'msg luna';
+            typingDiv.innerHTML = '<div class="bubble"><div class="typing-indicator"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div>';
+            chatArea.appendChild(typingDiv);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function hideTypingIndicator() {
+            if (typingDiv) {
+                typingDiv.remove();
+                typingDiv = null;
             }
         }
 

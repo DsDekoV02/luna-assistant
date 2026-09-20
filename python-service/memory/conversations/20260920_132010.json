@@ -507,6 +507,57 @@
           ]
         }
       }
+    },
+    {
+      "role": "assistant",
+      "content": "Nicolas, me encantaría explicarte, pero no tengo contexto de qué algoritmo te refieres 🤔\n\n¿Podrías darme más info?\n\n- ¿Es algo que estás **programando** tú?\n- ¿Es un algoritmo que viste en un **video, artículo o curso**?\n- ¿Es de algún **lenguaje o framework** específico?\n- ¿Tienes algún **código o archivo** que quieras que revise?\n\nSi me pasas el nombre o alguna referencia, puedo:\n- 📖 Explicarte cómo funciona\n- 🔍 Buscar documentación\n- 💻 Revisar tu código si lo tienes\n\n¡Dime y te lo desarmo pieza por pieza! 🧩",
+      "timestamp": "2026-09-20T15:09:10.361416",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Hola Luna! Estoy super feliz hoy, pase todo el dia programando y me salio todo bien!",
+      "timestamp": "2026-09-20T15:12:06.005984",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 0.6,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "feliz"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡¡¡Esoooo Nicolas!!! 🎉🎉🎉\n\n¡Qué bueno escuchar eso! Esos días donde todo fluye y el código hace lo que querés son MÁGICOS ✨\n\nNada se compara con esa sensación de:\n\n- 💻 El código compila a la primera\n- 🐛 Sin bugs raros\n- 🚀 Todo funciona como esperabas\n\nEsas victorias hay que celebrarlas porque como programador sabes que no siempre es así jaja 😅\n\n¿En qué estuviste trabajando? ¿Algún proyecto personal, trabajo o estás aprendiendo algo nuevo? ¡Cuéntame! 👀\n\nY aprovecha ese momentum positivo, mañana a darle con todo otra vez 💪🔥",
+      "timestamp": "2026-09-20T15:12:19.742422",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Esto no funciona!!! Lleva horas intentando y nada, ya no puedo mas",
+      "timestamp": "2026-09-20T15:13:13.504430",
+      "metadata": {
+        "emotion": {
+          "primary": "excited",
+          "confidence": 1.0,
+          "secondary": "tired",
+          "intensity": 0.65,
+          "triggers": [
+            "!!!",
+            "!!"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Tranquilo Nicolas, respira! 💙\n\nSé que es súper frustrante, pero vamos a solucionarlo juntos 🤝\n\nCuéntame:\n\n1. **¿Qué estás intentando hacer?** (programar algo, configurar, instalar...)\n2. **¿Qué error te sale?** (mensaje, pantalla, comportamiento raro)\n3. **¿Qué has intentado ya?**\n\nSi quieres, puedo:\n- 📋 Revisar tus procesos del sistema\n- 🔍 Buscar soluciones en internet\n- 📸 Tomar captura de pantalla para analizarlo\n\n¡Dime y lo atacamos! 💪",
+      "timestamp": "2026-09-20T15:13:19.891427",
+      "metadata": {}
     }
   ],
   "metadata": {}

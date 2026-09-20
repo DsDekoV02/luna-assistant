@@ -210,4 +210,37 @@ La estrategia optima es usar texto simple y natural.
 
 ---
 
+## 2026-09-20 — Sesión 24: ASR Encoding Fix + Electron UX
+
+### ASR Encoding Bug (Windows) ✅ FIX
+- **Problema:** `response.json()` + print a consola causaba `charmap codec error` con caracteres Unicode (acentos, ñ, ¿, ¡)
+- **Solución:** `response.encoding = 'utf-8'` en `_post()` + `io.TextIOWrapper` con encoding utf-8 en scripts de test
+- **Archivo:** `python-service/brain/mimo_client.py`
+
+### ASR Real Audio Test Results
+| Archivo | Tamaño | ASR Result | Calidad |
+|---------|--------|------------|----------|
+| luna_clone_test_1.wav | 184KB | "Hola, Nicholas, ¿cómo estás? En qué puedo ayudarte?" | ✅ **PERFECTO** |
+| luna_clone_test_2.wav | 345KB | Garbage | ❌ Voz clone mala |
+| luna_clone_test_3.wav | 245KB | Caracteres mixtos | ⚠️ Voz clone con artefactos |
+| luna_clone_test_4.wav | 268KB | Parcial | ⚠️ Voz clone inconsistente |
+| session23_voice_test_1.wav | 215KB | "Hola Nicholas, soy luna, estoy happy para ayudarte" | ⚠️ Aceptable |
+| session23_voice_test_2.wav | 99KB | Garbage | ❌ Voz clone mala |
+
+**Conclusión:** ASR funciona perfecto cuando la calidad del voice clone es buena. El bottleneck es la consistencia del voice clone, no el ASR.
+
+### Streaming Handler Fix ✅
+- **Problema:** `speak_response()` no enviaba audio al cliente via WebSocket
+- **Solución:** Agregado callback `on_complete` que envía audio via `send_callback`
+- **Archivo:** `python-service/voice/streaming.py`
+
+### Electron App UX Improvements ✅
+- **Voice Level Meter:** Barra de nivel de audio en tiempo real durante grabación
+- **Voice Timer:** Contador de tiempo de grabación (mm:ss)
+- **Typing Indicator:** Animación de puntos rebotando cuando Luna está pensando
+- **Avatar State:** Feedback visual mejorado (speaking state)
+- **Archivo:** `electron-app/src/index.html`
+
+---
+
 *"Cada experimento nos acerca más a la Luna."* 🌙

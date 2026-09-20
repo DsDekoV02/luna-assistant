@@ -185,19 +185,31 @@ class TestStreamingVoiceHandler:
 
     def test_speak_response(self, sample_wav_bytes):
         mock_client = MagicMock()
-        mock_tts = AsyncMock()
+        mock_tts = MagicMock()
         mock_tts.speak.return_value = sample_wav_bytes
         mock_stt = MagicMock()
+
+        # Mock speak_async to invoke on_complete with audio bytes
+        async def fake_speak_async(text, on_complete=None, use_clone=True):
+            audio = mock_tts.speak(text)
+            if on_complete and audio:
+                await on_complete(audio)
+            return audio
+
+        mock_tts.speak_async = fake_speak_async
+
         handler = StreamingVoiceHandler(mock_client, mock_tts, mock_stt)
         callback = AsyncMock()
 
         asyncio.run(handler.speak_response("hola mundo", callback))
-        # Should send status updates
+        # Should send status updates and audio
         calls = [c[0][0] for c in callback.call_args_list]
         types = [c["type"] for c in calls]
         assert "status" in types
         assert "speaking" in [c.get("state") for c in calls]
         assert "ready" in [c.get("state") for c in calls]
+        # Should also send audio data
+        assert "audio" in types
 
 
 # ── Singleton ────────────────────────────────────────────────────

@@ -294,8 +294,19 @@ class StreamingVoiceHandler:
             "state": "speaking"
         })
 
-        # Use async TTS to avoid blocking the event loop
-        await self.tts_engine.speak_async(text)
+        # Use async TTS with audio callback to send audio back to client
+        async def _send_audio(audio_bytes: bytes):
+            try:
+                import base64 as _b64
+                await send_callback({
+                    "type": "audio",
+                    "data": _b64.b64encode(audio_bytes).decode("utf-8"),
+                    "format": "wav"
+                })
+            except Exception as e:
+                logger.error(f"Audio send error: {e}")
+
+        await self.tts_engine.speak_async(text, on_complete=_send_audio)
 
         await send_callback({
             "type": "status",
