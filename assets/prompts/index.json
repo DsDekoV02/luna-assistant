@@ -1,0 +1,30 @@
+{
+  "generated_at": "2026-09-20T15:08:51.639418",
+  "prompts": [
+    {
+      "type": "architecture_diagram",
+      "filename": "diagrama-arquitectura.md",
+      "generated_at": "2026-09-20T15:08:51.630419"
+    },
+    {
+      "type": "feature_mockup",
+      "filename": "mockup-feature-actual.md",
+      "generated_at": "2026-09-20T15:08:51.630419"
+    },
+    {
+      "type": "changelog_banner",
+      "filename": "banner-release.md",
+      "generated_at": "2026-09-20T15:08:51.638420"
+    },
+    {
+      "type": "comparison_chart",
+      "filename": "comparativa-ai-assistants.md",
+      "generated_at": "2026-09-20T15:08:51.638420"
+    },
+    {
+      "type": "roadmap_visual",
+      "filename": "roadmap-visual.md",
+      "generated_at": "2026-09-20T15:08:51.638420"
+    }
+  ]
+}

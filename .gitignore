@@ -58,3 +58,10 @@ logs/
 test_output/
 experiments/
 *_results/
+
+# Assets - track prompts but not generated images
+assets/**/*.png
+assets/**/*.jpg
+assets/**/*.jpeg
+assets/**/*.gif
+assets/**/*.webp

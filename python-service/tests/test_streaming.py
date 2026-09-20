@@ -185,7 +185,7 @@ class TestStreamingVoiceHandler:
 
     def test_speak_response(self, sample_wav_bytes):
         mock_client = MagicMock()
-        mock_tts = MagicMock()
+        mock_tts = AsyncMock()
         mock_tts.speak.return_value = sample_wav_bytes
         mock_stt = MagicMock()
         handler = StreamingVoiceHandler(mock_client, mock_tts, mock_stt)
@@ -196,6 +196,8 @@ class TestStreamingVoiceHandler:
         calls = [c[0][0] for c in callback.call_args_list]
         types = [c["type"] for c in calls]
         assert "status" in types
+        assert "speaking" in [c.get("state") for c in calls]
+        assert "ready" in [c.get("state") for c in calls]
 
 
 # ── Singleton ────────────────────────────────────────────────────
