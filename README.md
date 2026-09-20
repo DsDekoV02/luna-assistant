@@ -152,6 +152,18 @@ Si te resulta útil o te parece interesante, considera dejar una ⭐ en el repo.
 
 [![Ko-fi](https://img.shields.io/badge/Ko--fi-Support_me-FF5E5B?style=flat&logo=ko-fi&logoColor=white)](https://ko-fi.com/dsdekov)
 
+## ⚠️ Estado del Proyecto
+
+Este proyecto está en **desarrollo activo** y puede tener problemas menores. Fue construido a lo largo de 22+ sesiones de desarrollo autónomo con AI, y recientemente migrado de disco por fallos de hardware.
+
+Si encontrás bugs, errores de documentación, o tenés sugerencias:
+
+- 🐛 **Issues:** [Abrí un issue](https://github.com/DsDekoV02/luna-assistant/issues) con la descripción del problema
+- 💡 **Mejoras:** Si querés proponer una mejora o feature, también por Issues con el tag `enhancement`
+- 💬 **Feedback general:** Dejá un comentario en la sección de Issues o contactame por Ko-fi
+
+Toda contribución, feedback o sugerencia es bienvenida. 🙏
+
 ## 📄 Licencia
 
 Proyecto personal — Nicolas @ DsDekoV02
