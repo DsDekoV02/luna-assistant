@@ -1,0 +1,1146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Luna JARVIS</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: transparent;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            color: #e0e0ff;
+            overflow: hidden;
+            user-select: none;
+        }
+
+        #app {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            background: rgba(10, 10, 20, 0.85);
+            border: 1px solid rgba(150, 50, 255, 0.2);
+            border-radius: 16px;
+            backdrop-filter: blur(20px);
+            -webkit-app-region: drag;
+        }
+
+        /* ── Title Bar ─────────────────────────────────────── */
+
+        #titlebar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: rgba(150, 50, 255, 0.08);
+            border-bottom: 1px solid rgba(150, 50, 255, 0.15);
+            border-radius: 16px 16px 0 0;
+            -webkit-app-region: drag;
+        }
+
+        #titlebar .title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #cc99ff;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        #titlebar .controls {
+            display: flex;
+            gap: 6px;
+            -webkit-app-region: no-drag;
+        }
+
+        .ctrl-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.1);
+            background: rgba(255,255,255,0.05);
+            color: #888;
+            font-size: 14px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+        }
+
+        .ctrl-btn:hover {
+            background: rgba(150, 50, 255, 0.3);
+            color: #e0e0ff;
+        }
+
+        .ctrl-btn.close:hover {
+            background: rgba(255, 50, 50, 0.5);
+        }
+
+        /* ── Status Bar ────────────────────────────────────── */
+
+        #status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 6px 12px;
+            background: rgba(0,0,0,0.2);
+            font-size: 11px;
+        }
+
+        .status-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #4ade80;
+            display: inline-block;
+        }
+
+        .status-dot.disconnected { background: #f87171; }
+        .status-dot.listening { background: #f87171; animation: pulse 1s infinite; }
+        .status-dot.thinking { background: #fbbf24; animation: pulse 0.5s infinite; }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        .mode-tabs {
+            display: flex;
+            gap: 4px;
+        }
+
+        .mode-tab {
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 10px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .mode-tab.active {
+            background: rgba(150, 50, 255, 0.2);
+            border-color: rgba(150, 50, 255, 0.4);
+            color: #cc99ff;
+        }
+
+        /* ── Chat Area ─────────────────────────────────────── */
+
+        #chat-area {
+            flex: 1;
+            overflow-y: auto;
+            padding: 12px;
+            -webkit-app-region: no-drag;
+        }
+
+        #chat-area::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        #chat-area::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        #chat-area::-webkit-scrollbar-thumb {
+            background: rgba(150, 50, 255, 0.3);
+            border-radius: 2px;
+        }
+
+        .msg {
+            margin-bottom: 10px;
+            animation: msgIn 0.3s ease;
+        }
+
+        @keyframes msgIn {
+            from { opacity: 0; transform: translateY(8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .msg .bubble {
+            padding: 10px 14px;
+            border-radius: 12px;
+            font-size: 13px;
+            line-height: 1.5;
+            max-width: 85%;
+            word-wrap: break-word;
+        }
+
+        .msg.user .bubble {
+            background: rgba(100, 100, 255, 0.12);
+            border: 1px solid rgba(100, 100, 255, 0.25);
+            margin-left: auto;
+        }
+
+        .msg.luna .bubble {
+            background: rgba(150, 50, 255, 0.12);
+            border: 1px solid rgba(150, 50, 255, 0.25);
+        }
+
+        .msg .meta {
+            font-size: 10px;
+            color: #666;
+            margin-top: 3px;
+        }
+
+        .msg.user .meta { text-align: right; }
+
+        .msg.system .bubble {
+            background: rgba(100,100,100,0.1);
+            border: 1px solid rgba(100,100,100,0.2);
+            text-align: center;
+            font-size: 11px;
+            color: #888;
+            max-width: 100%;
+        }
+
+        /* ── Input Area ────────────────────────────────────── */
+
+        #input-area {
+            padding: 10px 12px;
+            background: rgba(0,0,0,0.15);
+            border-top: 1px solid rgba(150, 50, 255, 0.1);
+            border-radius: 0 0 16px 16px;
+            -webkit-app-region: no-drag;
+        }
+
+        #input-row {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        #msg-input {
+            flex: 1;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(150, 50, 255, 0.2);
+            border-radius: 20px;
+            padding: 10px 16px;
+            color: #e0e0ff;
+            font-size: 13px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        #msg-input:focus {
+            border-color: rgba(150, 50, 255, 0.6);
+        }
+
+        #msg-input::placeholder {
+            color: #555;
+        }
+
+        .action-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid rgba(150, 50, 255, 0.3);
+            background: rgba(150, 50, 255, 0.1);
+            color: #cc99ff;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+
+        .action-btn:hover {
+            background: rgba(150, 50, 255, 0.3);
+            transform: scale(1.05);
+        }
+
+        .action-btn.recording {
+            background: rgba(255, 50, 50, 0.3);
+            border-color: rgba(255, 50, 50, 0.5);
+            animation: pulse 1s infinite;
+        }
+
+        /* ── Audio Player ──────────────────────────────────── */
+
+        .audio-player {
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .play-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(150, 50, 255, 0.2);
+            border: 1px solid rgba(150, 50, 255, 0.4);
+            color: #cc99ff;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .audio-wave {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            height: 20px;
+        }
+
+        .audio-wave .bar {
+            width: 3px;
+            background: rgba(150, 50, 255, 0.5);
+            border-radius: 2px;
+            animation: wave 1s ease-in-out infinite;
+        }
+
+        @keyframes wave {
+            0%, 100% { height: 4px; }
+            50% { height: 16px; }
+        }
+    
+        /* ── Suggestions ───────────────────────────────────── */
+
+        .suggestions {
+            margin: 8px 0;
+            padding: 8px 12px;
+            background: rgba(150, 50, 255, 0.06);
+            border: 1px solid rgba(150, 50, 255, 0.15);
+            border-radius: 10px;
+            font-size: 12px;
+        }
+
+        .suggestions .sugg-header {
+            color: #cc99ff;
+            font-size: 11px;
+            margin-bottom: 4px;
+            font-weight: 600;
+        }
+
+        .suggestions .sugg-item {
+            padding: 4px 0;
+            color: #aaa;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .suggestions .sugg-item:hover {
+            color: #e0e0ff;
+        }
+
+        .suggestions .sugg-item::before {
+            content: '\2022 ';
+            color: #cc99ff;
+        }
+
+        /* ── Streaming Text ─────────────────────────────────── */
+
+        .msg.streaming .bubble {
+            border-right: 2px solid rgba(150, 50, 255, 0.6);
+            animation: blink 1s step-end infinite;
+        }
+
+        @keyframes blink {
+            50% { border-color: transparent; }
+        }
+
+        /* ── Avatar ─────────────────────────────────────── */
+
+        #avatar-container {
+            position: relative;
+            overflow: hidden;
+            background: radial-gradient(ellipse at center, rgba(150, 50, 255, 0.08) 0%, rgba(10, 10, 20, 0.3) 50%, transparent 80%);
+            border-bottom: 1px solid rgba(150, 50, 255, 0.08);
+        }
+
+        #avatar-container canvas {
+            display: block;
+            margin: 0 auto;
+        }
+
+        /* ── Dashboard ──────────────────────────────────────── */
+
+        #dashboard-toggle {
+            padding: 2px 8px;
+            border-radius: 8px;
+            font-size: 10px;
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.08);
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        #dashboard-toggle:hover {
+            background: rgba(150, 50, 255, 0.15);
+            color: #cc99ff;
+        }
+
+        #dashboard-toggle.active {
+            background: rgba(150, 50, 255, 0.2);
+            border-color: rgba(150, 50, 255, 0.4);
+            color: #cc99ff;
+        }
+
+        #dashboard-panel {
+            display: none;
+            background: rgba(10, 10, 20, 0.95);
+            border: 1px solid rgba(150, 50, 255, 0.2);
+            border-radius: 0 0 12px 12px;
+            padding: 10px 12px;
+            font-size: 11px;
+            max-height: 200px;
+            overflow-y: auto;
+            animation: slideDown 0.2s ease;
+        }
+
+        #dashboard-panel.visible {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; max-height: 0; }
+            to { opacity: 1; max-height: 200px; }
+        }
+
+        .dash-section {
+            margin-bottom: 8px;
+        }
+
+        .dash-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .dash-section h4 {
+            color: #cc99ff;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .dash-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 0;
+            color: #aaa;
+        }
+
+        .dash-row .label {
+            color: #888;
+        }
+
+        .dash-row .value {
+            color: #e0e0ff;
+            font-weight: 500;
+        }
+
+        .dash-emotion-bar {
+            display: flex;
+            gap: 4px;
+            flex-wrap: wrap;
+            margin-top: 3px;
+        }
+
+        .dash-emotion-chip {
+            padding: 2px 6px;
+            border-radius: 6px;
+            font-size: 9px;
+            background: rgba(150, 50, 255, 0.1);
+            border: 1px solid rgba(150, 50, 255, 0.2);
+            color: #aaa;
+        }
+
+        .dash-session {
+            padding: 3px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            color: #aaa;
+        }
+
+        .dash-session:last-child {
+            border-bottom: none;
+        }
+
+        .dash-session .session-time {
+            color: #666;
+            font-size: 9px;
+        }
+
+        .dash-refresh {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 6px;
+            font-size: 9px;
+            background: rgba(150, 50, 255, 0.1);
+            border: 1px solid rgba(150, 50, 255, 0.2);
+            color: #cc99ff;
+            cursor: pointer;
+            margin-top: 4px;
+        }
+
+        .dash-refresh:hover {
+            background: rgba(150, 50, 255, 0.2);
+        }
+
+        /* ── Particles Background ───────────────────────────── */
+
+        #particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(150, 50, 255, 0.3);
+            border-radius: 50%;
+            animation: float 8s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0; }
+            25% { opacity: 0.6; }
+            50% { transform: translateY(-40px) translateX(20px); opacity: 0.3; }
+            75% { opacity: 0.5; }
+        }
+
+    </style>
+</head>
+<body>
+    <div id="app">
+        <div id="particles"></div>
+        <!-- Title Bar -->
+        <div id="titlebar">
+            <div class="title">🌙 Luna JARVIS</div>
+            <div class="controls">
+                <button class="ctrl-btn" id="btn-minimize" title="Minimizar">─</button>
+                <button class="ctrl-btn close" id="btn-close" title="Cerrar">✕</button>
+            </div>
+        </div>
+
+        <!-- Status Bar -->
+        <div id="status-bar">
+            <div class="status-left">
+                <span class="status-dot" id="ws-dot"></span>
+                <span id="ws-status">Conectando...</span>
+                <span id="avatar-state" style="color: #888;"></span>
+            </div>
+            <div class="mode-tabs">
+                <button class="mode-tab active" data-mode="casa">🏠</button>
+                <button class="mode-tab" data-mode="trabajo">💼</button>
+                <button class="mode-tab" data-mode="moto">🏍️</button>
+                <button class="mode-tab" data-mode="noche">🌙</button>
+                <button id="dashboard-toggle" title="Dashboard">📊</button>
+            </div>
+        </div>
+
+        <!-- Dashboard Panel (collapsible) -->
+        <div id="dashboard-panel">
+            <div id="dash-content">Cargando...</div>
+        </div>
+
+        <!-- Avatar Area -->
+        <div id="avatar-container" style="width: 100%; height: 180px; display: flex; align-items: center; justify-content: center; -webkit-app-region: no-drag;"></div>
+
+        <!-- Chat Area -->
+        <div id="chat-area">
+            <div class="msg system">
+                <div class="bubble">🌙 Luna JARVIS iniciada</div>
+            </div>
+        </div>
+
+        <!-- Input Area -->
+        <div id="input-area">
+            <div id="input-row">
+                <input type="text" id="msg-input" placeholder="Escribe un mensaje..." autocomplete="off">
+                <button class="action-btn" id="mic-btn" title="Grabar voz">🎤</button>
+                <button class="action-btn" id="send-btn" title="Enviar">➤</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="src/three.min.js"></script>
+    <script src="src/avatar.js"></script>
+    <script>
+        // ── Avatar ──────────────────────────────────────────────
+
+        let lunaAvatar = null;
+        try {
+            if (typeof THREE === 'undefined') {
+                throw new Error('Three.js no se cargó');
+            }
+            lunaAvatar = new LunaAvatar('avatar-container');
+            if (!lunaAvatar.container) {
+                throw new Error('Contenedor avatar no encontrado');
+            }
+            console.log('✅ Avatar Luna inicializado correctamente');
+        } catch (e) {
+            console.error('❌ Avatar init failed:', e.message);
+            const container = document.getElementById('avatar-container');
+            if (container) {
+                container.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;width:100%;height:100%;flex-direction:column;gap:8px;"><span style="font-size:48px;">🌙</span><span style="font-size:11px;color:#666;">Avatar no disponible</span></div>';
+            }
+        }
+
+        // ── Elements ────────────────────────────────────────────
+
+        const chatArea = document.getElementById('chat-area');
+        const msgInput = document.getElementById('msg-input');
+        const sendBtn = document.getElementById('send-btn');
+        const micBtn = document.getElementById('mic-btn');
+        const wsDot = document.getElementById('ws-dot');
+        const wsStatus = document.getElementById('ws-status');
+        const avatarState = document.getElementById('avatar-state');
+
+        // ── Chat Functions ──────────────────────────────────────
+
+        function addMessage(text, sender = 'user', extras = {}) {
+            const div = document.createElement('div');
+            div.className = `msg ${sender}`;
+
+            let html = `<div class="bubble">${escapeHtml(text)}</div>`;
+
+            if (extras.audio) {
+                html += `
+                    <div class="audio-player">
+                        <button class="play-btn" onclick="playAudio('${extras.audio}')">▶</button>
+                        <div class="audio-wave">
+                            <div class="bar" style="animation-delay: 0s"></div>
+                            <div class="bar" style="animation-delay: 0.1s"></div>
+                            <div class="bar" style="animation-delay: 0.2s"></div>
+                            <div class="bar" style="animation-delay: 0.3s"></div>
+                            <div class="bar" style="animation-delay: 0.4s"></div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            const time = new Date().toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' });
+            html += `<div class="meta">${time}</div>`;
+
+            div.innerHTML = html;
+            chatArea.appendChild(div);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function playAudio(base64Data) {
+            const audio = new Audio(`data:audio/wav;base64,${base64Data}`);
+            audio.play();
+        }
+
+        // ── Send Message ────────────────────────────────────────
+
+        function sendMessage() {
+            const text = msgInput.value.trim();
+            if (!text) return;
+
+            // Reset streaming state so the next Luna response gets its own bubble
+            if (streamingDiv) {
+                streamingDiv.classList.remove('streaming');
+                const t = new Date().toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' });
+                streamingDiv.querySelector('.meta').textContent = t;
+                streamingDiv = null;
+                streamingContent = '';
+            }
+
+            addMessage(text, 'user');
+            msgInput.value = '';
+
+            if (window.lunaAPI) {
+                window.lunaAPI.sendMessage(text);
+            }
+        }
+
+        sendBtn.addEventListener('click', sendMessage);
+        msgInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+
+        // ── Voice Recording (Streaming) ─────────────────────
+
+        let mediaRecorder = null;
+        let isRecording = false;
+        let useStreaming = true;  // Toggle between streaming and batch
+
+        micBtn.addEventListener('click', async () => {
+            if (isRecording) {
+                stopRecording();
+            } else {
+                startRecording();
+            }
+        });
+
+        async function startRecording() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                
+                if (useStreaming && window.lunaAPI) {
+                    // Streaming mode: send chunks in real-time
+                    window.lunaAPI.audioStart();
+                    
+                    mediaRecorder = new MediaRecorder(stream, {
+                        mimeType: 'audio/webm;codecs=opus'
+                    });
+                    
+                    mediaRecorder.ondataavailable = async (e) => {
+                        if (e.data.size > 0) {
+                            const reader = new FileReader();
+                            reader.onloadend = () => {
+                                const base64 = reader.result.split(',')[1];
+                                if (window.lunaAPI && isRecording) {
+                                    window.lunaAPI.audioChunk(base64, 'webm');
+                                }
+                            };
+                            reader.readAsDataURL(e.data);
+                        }
+                    };
+                    
+                    mediaRecorder.onstop = () => {
+                        if (window.lunaAPI) {
+                            window.lunaAPI.audioStop();
+                        }
+                        stream.getTracks().forEach(t => t.stop());
+                        micBtn.classList.remove('recording');
+                        isRecording = false;
+                    };
+                    
+                    // Request data every 250ms for low latency
+                    mediaRecorder.start(250);
+                    
+                } else {
+                    // Batch mode: collect all audio then send
+                    mediaRecorder = new MediaRecorder(stream);
+                    let audioChunks = [];
+                    
+                    mediaRecorder.ondataavailable = (e) => {
+                        audioChunks.push(e.data);
+                    };
+                    
+                    mediaRecorder.onstop = async () => {
+                        const blob = new Blob(audioChunks, { type: 'audio/wav' });
+                        const reader = new FileReader();
+                        reader.onloadend = () => {
+                            const base64 = reader.result.split(',')[1];
+                            if (window.lunaAPI) {
+                                window.lunaAPI.sendAudio(base64);
+                            }
+                        };
+                        reader.readAsDataURL(blob);
+                        stream.getTracks().forEach(t => t.stop());
+                        micBtn.classList.remove('recording');
+                        isRecording = false;
+                    };
+                    
+                    mediaRecorder.start();
+                }
+                
+                isRecording = true;
+                micBtn.classList.add('recording');
+                setAvatarState('listening');
+
+            } catch (e) {
+                console.error('Mic error:', e);
+                addMessage('No se pudo acceder al micrófono', 'system');
+            }
+        }
+
+        function stopRecording() {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') {
+                mediaRecorder.stop();
+            }
+        }
+
+        // ── WebSocket Message Handling ──────────────────────────
+
+        let streamingDiv = null;
+        let streamingContent = '';
+
+        if (window.lunaAPI) {
+            window.lunaAPI.onMessage((msg) => {
+                switch (msg.type) {
+                    case 'text':
+                        if (msg.streaming === true) {
+                            // Streaming: accumulate text
+                            if (!streamingDiv) {
+                                streamingDiv = document.createElement('div');
+                                streamingDiv.className = 'msg luna streaming';
+                                streamingDiv.innerHTML = '<div class="bubble"></div><div class="meta"></div>';
+                                chatArea.appendChild(streamingDiv);
+                            }
+                            streamingContent += msg.content;
+                            streamingDiv.querySelector('.bubble').textContent = streamingContent;
+                            chatArea.scrollTop = chatArea.scrollHeight;
+                            resetStreamingTimer();
+                        } else if (msg.streaming === false) {
+                            // Final message
+                            if (streamingTimer) { clearTimeout(streamingTimer); streamingTimer = null; }
+                            if (streamingDiv) {
+                                streamingDiv.classList.remove('streaming');
+                                const time = new Date().toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' });
+                                streamingDiv.querySelector('.meta').textContent = time;
+                                streamingDiv = null;
+                                streamingContent = '';
+                            } else {
+                                addMessage(msg.content, 'luna');
+                            }
+                        } else {
+                            // Non-streaming message
+                            addMessage(msg.content, 'luna');
+                        }
+                        break;
+
+                    case 'audio':
+                        if (msg.data) {
+                            playAudio(msg.data);
+                        }
+                        break;
+
+                    case 'status':
+                        if (msg.state === 'thinking') {
+                            setAvatarState('thinking');
+                        } else if (msg.state === 'listening') {
+                            setAvatarState('listening');
+                        } else if (msg.state === 'ready') {
+                            setAvatarState('idle');
+                        }
+                        break;
+
+                    case 'suggestions':
+                        showSuggestions(msg.items || []);
+                        break;
+
+                    case 'emotion':
+                        if (msg.emotion) {
+                            updateEmotionDisplay(msg.emotion);
+                        }
+                        break;
+
+                    case 'transcript':
+                        addMessage(`🎤 ${msg.content}`, 'system');
+                        break;
+
+                    case 'error':
+                        addMessage(`⚠️ ${msg.message}`, 'system');
+                        break;
+
+                    case 'system':
+                        if (msg.action === 'mode_changed') {
+                            addMessage(`Modo: ${msg.mode.mode}`, 'system');
+                        }
+                        break;
+                }
+            });
+
+            window.lunaAPI.onStatusChange((status) => {
+                if (status.connected) {
+                    wsDot.className = 'status-dot';
+                    wsStatus.textContent = 'Conectada';
+                } else {
+                    wsDot.className = 'status-dot disconnected';
+                    wsStatus.textContent = 'Desconectada';
+                }
+            });
+        }
+
+        // ── Avatar State ────────────────────────────────────────
+
+        function setAvatarState(state) {
+            const stateMap = {
+                'idle': '',
+                'listening': '🔴 Escuchando...',
+                'thinking': '🟡 Pensando...',
+                'speaking': '🟣 Hablando...',
+            };
+            avatarState.textContent = stateMap[state] || '';
+
+            // Update Three.js avatar
+            if (lunaAvatar) {
+                lunaAvatar.setState(state);
+            }
+        }
+
+        // ── Mode Tabs ───────────────────────────────────────────
+
+        document.querySelectorAll('.mode-tab').forEach(tab => {
+            tab.addEventListener('click', () => {
+                document.querySelectorAll('.mode-tab').forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                if (window.lunaAPI) {
+                    window.lunaAPI.setMode(tab.dataset.mode);
+                }
+            });
+        });
+
+        // ── Window Controls ─────────────────────────────────────
+
+        document.getElementById('btn-minimize')?.addEventListener('click', () => {
+            if (window.lunaAPI) window.lunaAPI.minimize();
+        });
+
+        document.getElementById('btn-close')?.addEventListener('click', () => {
+            if (window.lunaAPI) window.lunaAPI.close();
+        });
+
+        // ── Keyboard Shortcuts ──────────────────────────────────
+
+        document.addEventListener('keydown', (e) => {
+            // Ctrl+M to toggle mic
+            if (e.ctrlKey && e.key === 'm') {
+                micBtn.click();
+            }
+            // Escape to focus input
+            if (e.key === 'Escape') {
+                msgInput.focus();
+            }
+        });
+
+
+        // ── Suggestions ─────────────────────────────────────
+
+        function showSuggestions(items) {
+            const div = document.createElement('div');
+            div.className = 'suggestions';
+            let html = '<div class="sugg-header">💡 Sugerencias</div>';
+            items.forEach(item => {
+                html += `<div class="sugg-item" onclick="this.parentElement.remove()">${escapeHtml(item.text)}</div>`;
+            });
+            div.innerHTML = html;
+            chatArea.appendChild(div);
+            chatArea.scrollTop = chatArea.scrollHeight;
+
+            // Auto-dismiss after 15 seconds
+            setTimeout(() => { if (div.parentElement) div.remove(); }, 15000);
+        }
+
+        // ── Emotion Display ─────────────────────────────────────
+
+        const emotionEmojis = {
+            'happy': '😊', 'excited': '🤩', 'sad': '😢', 'frustrated': '😤',
+            'angry': '😠', 'anxious': '😰', 'tired': '😴', 'curious': '🤔',
+            'confused': '😕', 'grateful': '🥰', 'sarcastic': '😏', 'neutral': '😐',
+        };
+
+        let currentEmotion = 'neutral';
+        let emotionTimeout = null;
+
+        function updateEmotionDisplay(emotion) {
+            const emoji = emotionEmojis[emotion.primary] || '😐';
+            const intensity = Math.round(emotion.intensity * 100);
+            const conf = Math.round(emotion.confidence * 100);
+
+            // Track current emotion for mood persistence
+            currentEmotion = emotion.primary || 'neutral';
+
+            // Show emotion indicator in status bar with intensity bar
+            const intensityBar = '█'.repeat(Math.round(intensity / 10)) + '░'.repeat(10 - Math.round(intensity / 10));
+            avatarState.textContent = `${emoji} ${emotion.primary} ${intensityBar}`;
+            avatarState.style.opacity = Math.max(0.6, emotion.intensity);
+
+            // Update Three.js avatar colors and shape based on emotion
+            if (lunaAvatar) {
+                lunaAvatar.setEmotion(emotion.primary, emotion.intensity);
+            }
+
+            // Log for debugging
+            console.log(`Emotion: ${emotion.primary} (${conf}% conf, ${intensity}% intensity)`);
+
+            // Reset auto-clear timer — keeps mood until new emotion arrives
+            if (emotionTimeout) clearTimeout(emotionTimeout);
+            if (emotion.primary !== 'neutral') {
+                emotionTimeout = setTimeout(() => {
+                    // Fade status text but keep avatar colors (mood persistence)
+                    if (avatarState.textContent.includes(emotion.primary)) {
+                        avatarState.textContent = `${emoji} ${emotion.primary}`;
+                        avatarState.style.opacity = 0.4;
+                    }
+                }, 15000);
+            } else {
+                // Neutral: clear status text and reset avatar
+                avatarState.textContent = '';
+                avatarState.style.opacity = 1;
+            }
+        }
+
+        // ── Streaming Safety Net ────────────────────────────────
+        // Finalize stale streaming divs after 30 seconds of inactivity
+        let streamingTimer = null;
+
+        function resetStreamingTimer() {
+            if (streamingTimer) clearTimeout(streamingTimer);
+            if (streamingDiv) {
+                streamingTimer = setTimeout(() => {
+                    if (streamingDiv) {
+                        console.warn('⚠️ Streaming timeout — finalizando bubble stale');
+                        streamingDiv.classList.remove('streaming');
+                        const t = new Date().toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit' });
+                        streamingDiv.querySelector('.meta').textContent = t;
+                        streamingDiv = null;
+                        streamingContent = '';
+                    }
+                }, 30000);
+            }
+        }
+
+        // ── Particles ────────────────────────────────────────
+
+        function createParticles() {
+            const container = document.getElementById('particles');
+            if (!container) return;
+            for (let i = 0; i < 12; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.top = Math.random() * 100 + '%';
+                p.style.animationDelay = Math.random() * 8 + 's';
+                p.style.animationDuration = (6 + Math.random() * 6) + 's';
+                container.appendChild(p);
+            }
+        }
+        createParticles();
+
+        // ── Dashboard ────────────────────────────────────────
+
+        const dashToggle = document.getElementById('dashboard-toggle');
+        const dashPanel = document.getElementById('dashboard-panel');
+        const dashContent = document.getElementById('dash-content');
+        let dashVisible = false;
+
+        dashToggle.addEventListener('click', () => {
+            dashVisible = !dashVisible;
+            dashPanel.classList.toggle('visible', dashVisible);
+            dashToggle.classList.toggle('active', dashVisible);
+            if (dashVisible) refreshDashboard();
+        });
+
+        async function refreshDashboard() {
+            try {
+                const [convStats, emotionStats, sessions] = await Promise.all([
+                    fetch('http://127.0.0.1:8765/conversations/stats').then(r => r.json()).catch(() => null),
+                    fetch('http://127.0.0.1:8765/emotion/stats').then(r => r.json()).catch(() => null),
+                    fetch('http://127.0.0.1:8765/conversations?limit=5').then(r => r.json()).catch(() => null),
+                ]);
+
+                let html = '';
+
+                // Conversation stats
+                if (convStats && convStats.total_messages !== undefined) {
+                    html += `<div class="dash-section">
+                        <h4>💬 Conversaciones</h4>
+                        <div class="dash-row"><span class="label">Mensajes totales</span><span class="value">${convStats.total_messages || 0}</span></div>
+                        <div class="dash-row"><span class="label">Sesiones</span><span class="value">${convStats.total_sessions || 0}</span></div>
+                        <div class="dash-row"><span class="label">Mensajes sesion actual</span><span class="value">${convStats.current_session_messages || 0}</span></div>
+                    </div>`;
+                }
+
+                // Emotion stats
+                if (emotionStats && emotionStats.total_analyzed > 0) {
+                    const dist = emotionStats.emotion_distribution || {};
+                    const sorted = Object.entries(dist).sort((a, b) => b[1] - a[1]);
+                    let chips = sorted.map(([emo, count]) => {
+                        const emoji = emotionEmojis[emo] || '😐';
+                        return `<span class="dash-emotion-chip">${emoji} ${emo} (${count})</span>`;
+                    }).join('');
+                    html += `<div class="dash-section">
+                        <h4>🎭 Emociones</h4>
+                        <div class="dash-row"><span class="label">Analizados</span><span class="value">${emotionStats.total_analyzed}</span></div>
+                        <div class="dash-row"><span class="label">Confianza prom.</span><span class="value">${Math.round((emotionStats.avg_confidence || 0) * 100)}%</span></div>
+                        ${emotionStats.mood_trend ? `<div class="dash-row"><span class="label">Tendencia</span><span class="value">${emotionEmojis[emotionStats.mood_trend] || ''} ${emotionStats.mood_trend}</span></div>` : ''}
+                        <div class="dash-emotion-bar">${chips}</div>
+                    </div>`;
+                } else if (emotionStats) {
+                    html += `<div class="dash-section">
+                        <h4>🎭 Emociones</h4>
+                        <div class="dash-row"><span class="label">Analizados</span><span class="value">0</span></div>
+                    </div>`;
+                }
+
+                // Recent sessions
+                if (sessions && sessions.sessions && sessions.sessions.length > 0) {
+                    html += `<div class="dash-section">
+                        <h4>📋 Sesiones recientes</h4>`;
+                    sessions.sessions.forEach(s => {
+                        const time = s.started_at ? new Date(s.started_at).toLocaleString('es-CL', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit' }) : '?';
+                        html += `<div class="dash-session">
+                            <span>${s.message_count || 0} msgs</span>
+                            <span class="session-time">${time}</span>
+                            ${s.summary ? `<div style="color:#666;font-size:9px;margin-top:1px;">${escapeHtml(s.summary)}</div>` : ''}
+                        </div>`;
+                    });
+                    html += `</div>`;
+                }
+
+                // Conversation search
+                html += `<div class="dash-section">
+                    <h4>🔍 Buscar conversaciones</h4>
+                    <div style="display:flex;gap:4px;margin-bottom:4px;">
+                        <input type="text" id="dash-search-input" placeholder="Buscar..." style="flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(150,50,255,0.2);border-radius:6px;padding:4px 8px;color:#e0e0ff;font-size:10px;outline:none;">
+                        <button class="dash-refresh" onclick="searchConversations()" style="margin:0;">🔍</button>
+                    </div>
+                    <div id="dash-search-results"></div>
+                </div>`;
+
+                html += `<button class="dash-refresh" onclick="refreshDashboard()">↻ Actualizar</button>`;
+                dashContent.innerHTML = html || '<div style="color:#666">No hay datos disponibles. ¿El servicio está corriendo?</div>';
+            } catch (e) {
+                dashContent.innerHTML = '<div style="color:#666">Error al cargar dashboard. Verifica conexion.</div>';
+            }
+        }
+
+        async function searchConversations() {
+            const input = document.getElementById('dash-search-input');
+            const resultsDiv = document.getElementById('dash-search-results');
+            if (!input || !resultsDiv) return;
+            const query = input.value.trim();
+            if (!query) { resultsDiv.innerHTML = ''; return; }
+
+            try {
+                const resp = await fetch(`http://127.0.0.1:8765/conversations/search?q=${encodeURIComponent(query)}&limit=5`);
+                const data = await resp.json();
+                const results = data.results || [];
+
+                if (results.length === 0) {
+                    resultsDiv.innerHTML = '<div style="color:#666;font-size:10px;padding:4px 0;">Sin resultados</div>';
+                } else {
+                    let html = '';
+                    results.forEach(r => {
+                        const time = r.timestamp ? new Date(r.timestamp).toLocaleString('es-CL', { hour: '2-digit', minute: '2-digit' }) : '';
+                        const role = r.role === 'user' ? '👤' : '🌙';
+                        html += `<div style="padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:10px;">
+                            <span style="color:#666;">${role} ${time}</span>
+                            <div style="color:#aaa;margin-top:1px;">${escapeHtml((r.content || '').substring(0, 100))}</div>
+                        </div>`;
+                    });
+                    resultsDiv.innerHTML = html;
+                }
+            } catch (e) {
+                resultsDiv.innerHTML = '<div style="color:#666;font-size:10px;">Error en búsqueda</div>';
+            }
+        }
+
+        console.log('🌙 Luna JARVIS overlay loaded');
+    </script>
+</body>
+</html>

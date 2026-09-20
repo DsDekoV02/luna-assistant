@@ -1,0 +1,17 @@
+{
+  "name": "luna-jarvis-overlay",
+  "version": "0.1.0",
+  "description": "Luna JARVIS - Floating overlay assistant",
+  "main": "src/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev"
+  },
+  "dependencies": {
+    "electron": "^28.0.0",
+    "ws": "^8.14.0"
+  },
+  "devDependencies": {
+    "electron": "^28.0.0"
+  }
+}

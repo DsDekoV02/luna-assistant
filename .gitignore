@@ -1,0 +1,60 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+venv/
+.venv/
+env/
+
+# Node
+node_modules/
+package-lock.json
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment / Secrets
+.env
+config.yaml
+*.key
+*.pem
+
+# Audio files (personal voice data)
+*.wav
+*.mp3
+*.ogg
+
+# Database / Cache
+chroma_db/
+cache/
+*.db
+*.sqlite
+*.cache
+
+# Gradle
+.gradle/
+build/
+local.properties
+
+# OS
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs
+*.log
+logs/
+
+# Test output
+test_output/
+experiments/
+*_results/

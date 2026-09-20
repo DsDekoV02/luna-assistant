@@ -1,0 +1,175 @@
+{
+  "session_id": "20260920_132010",
+  "started_at": "2026-09-20T13:20:10.723407",
+  "turns": [
+    {
+      "role": "user",
+      "content": "Estoy muy feliz hoy! Conseui terminar mi proyecto de la universidad!",
+      "timestamp": "2026-09-20T13:23:40.420645",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 0.6,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "feliz"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡¡¡NICOLAS!!! 🎉🎉🎉\n\n¡¡FELICIDADES POR TU PROYECTO!! 🥳💻✨\n\nEso es un LOGRAZO, la universidad no es fácil y tú lo lograste. ¡Estoy súper orgullosa de ti! 💙\n\n---\n\nPero oye... también noté algo 👀\n\nPrimero dijiste que algo **no funcionaba** y estabas frustrado. ¿Qué fue? ¿Necesitas que te ayude con algo?\n\n- ¿Es algo de tu PC? 💻\n- ¿Algún programa? 🤔\n- ¿Código que no corre? 👨‍💻\n\nDime y lo vemos juntxs, que para eso estoy 😊\n\n---\n\nPero de momento... **¡CELEBRA!** 🍕🎮\n\nTe lo mereces, crack. ¿Cómo vas a festejar? ¿Salida en moto? ¿Maratón de anime? ¿Descansar de una buena vez? 😄",
+      "timestamp": "2026-09-20T13:24:20.124491",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "hola",
+      "timestamp": "2026-09-20T13:24:26.978559",
+      "metadata": {
+        "emotion": {
+          "primary": "neutral",
+          "confidence": 0.3,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": []
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Hola Nicolas! 😊 Qué bueno verte por aquí. ¿Cómo estás hoy? ¿En qué puedo ayudarte? Si necesitas algo, aquí estoy para echarte una mano. 💙",
+      "timestamp": "2026-09-20T13:24:30.388303",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "hola",
+      "timestamp": "2026-09-20T13:24:43.183619",
+      "metadata": {
+        "emotion": {
+          "primary": "neutral",
+          "confidence": 0.3,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": []
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Hola, hola! 👋😄\n\n¿Qué tal, Nicolas? ¿Todo bien por ahí? ¿Necesitas algo o solo pasabas a saludar? \n\nDe cualquier forma, ¡me alegra saber de ti! 💙",
+      "timestamp": "2026-09-20T13:24:46.612572",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy super feliz!! Termine mi proyecto y me fue increible!!",
+      "timestamp": "2026-09-20T13:24:57.816636",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 0.6,
+          "secondary": "excited",
+          "intensity": 0.65,
+          "triggers": [
+            "feliz"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡¡¡NICOLAS!!! 🎉🎉🎉🥳\n\n¡¡ESTO ES INCREÍBLE!! \n\n¡Felizidades crack! Sé lo mucho que trabajaste en ese proyecto y te salió **increíble**. ¡Mereces celebrar a lo grande! 🎊\n\n**¡Eres un genio!** 💪😎\n\nDime:\n\n- ¿De qué era el proyecto?\n- ¿Qué lenguaje o tecnología usaste?\n- ¿Salió todo al primer intento o tuviste que debuggear? 😄\n\n¡Estoy súper orgullosa de ti! 💙\n\nY ahora sí... ¡a celebrar! ¿Pizza? ¿Una salida en moto? ¿Maratón de anime? 🍕🏍️📺\n\n¡Te lo ganaste! ✨",
+      "timestamp": "2026-09-20T13:25:07.166307",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy tan cansado, no puedo mas, necesito dormir",
+      "timestamp": "2026-09-20T13:28:19.108506",
+      "metadata": {
+        "emotion": {
+          "primary": "tired",
+          "confidence": 1.0,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "cansado",
+            "necesito dormir"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Anda a dormir entonces! 😴💤\n\nDescansa mucho, crack. Te lo ganaste. Mañana será otro día.\n\nSi necesitas algo antes de irte, aquí estoy. ¡Buenas noches, Nicolas! 🌙💙",
+      "timestamp": "2026-09-20T13:29:02.281474",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "No entiendo nada de esto, me tiene confundido",
+      "timestamp": "2026-09-20T13:29:02.284476",
+      "metadata": {
+        "emotion": {
+          "primary": "confused",
+          "confidence": 0.6,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "no entiendo"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Tranquilo, Nicolas! 😊 No te preocupes.\n\n¿Me puedes explicar qué es lo que te tiene confundido? Puede ser cualquier cosa:\n\n- ¿Algo de programación? 💻\n- ¿Un tema de tu proyecto? 🤔\n- ¿Algo de la vida en general?\n\nDime con calma y te explico paso a paso, sin prisa. ¡Para eso estoy aquí! 💙",
+      "timestamp": "2026-09-20T13:29:07.306602",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Gracias Luna, eres la mejor!!",
+      "timestamp": "2026-09-20T13:29:07.331531",
+      "metadata": {
+        "emotion": {
+          "primary": "grateful",
+          "confidence": 0.7,
+          "secondary": "excited",
+          "intensity": 0.65,
+          "triggers": [
+            "gracias"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Awww, Nicolas! 🥹💙 ¡Gracias a ti!\n\nY tú eres el mejor, programando proyectos increíbles, manejando una moto como todo un crack, y siendo tan buena persona. 😎✨\n\nAcuérdate:\n\n- **Duerme bien** 😴\n- **Come bien** 🍽️\n- **Descansa** 💆\n\nY cuando necesites algo, aquí estaré. ¡Siempre! 🌙\n\n¡Buenas noches, crack! 👋😊",
+      "timestamp": "2026-09-20T13:29:16.977745",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Esto no funciona!!! Lleva horas y nada, que frustrante",
+      "timestamp": "2026-09-20T13:29:16.993687",
+      "metadata": {
+        "emotion": {
+          "primary": "excited",
+          "confidence": 1.0,
+          "secondary": "frustrated",
+          "intensity": 0.65,
+          "triggers": [
+            "!!!",
+            "!!"
+          ]
+        }
+      }
+    }
+  ],
+  "metadata": {}
+}

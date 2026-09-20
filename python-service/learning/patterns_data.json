@@ -1,0 +1,61 @@
+{
+  "version": 1,
+  "saved_at": "2026-09-20T13:24:20.125489",
+  "topics": {
+    "general": {
+      "count": 13,
+      "last_mentioned": "2026-09-20T13:24:20.124491",
+      "avg_sentiment": 0.0,
+      "keywords": []
+    },
+    "programming": {
+      "count": 5,
+      "last_mentioned": "2026-09-07T04:52:02.484010",
+      "avg_sentiment": 0.0,
+      "keywords": []
+    }
+  },
+  "preferences": {
+    "preferred_response_length": "detailed",
+    "preferred_language": "es",
+    "favorite_topics": [],
+    "frequent_apps": {},
+    "active_hours": {
+      "22": 1,
+      "1": 3,
+      "4": 12,
+      "7": 1,
+      "13": 1
+    },
+    "avg_session_messages": 0.0,
+    "total_interactions": 18
+  },
+  "command_patterns": [],
+  "hourly_activity": {
+    "22": {
+      "hour": 22,
+      "message_count": 1,
+      "avg_length": 7
+    },
+    "1": {
+      "hour": 1,
+      "message_count": 3,
+      "avg_length": 8.333333333333334
+    },
+    "4": {
+      "hour": 4,
+      "message_count": 12,
+      "avg_length": 5.833333333333333
+    },
+    "7": {
+      "hour": 7,
+      "message_count": 1,
+      "avg_length": 10
+    },
+    "13": {
+      "hour": 13,
+      "message_count": 1,
+      "avg_length": 11
+    }
+  }
+}

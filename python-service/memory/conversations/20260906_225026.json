@@ -1,0 +1,70 @@
+{
+  "session_id": "20260906_225026",
+  "started_at": "2026-09-06T22:50:26.040097",
+  "turns": [
+    {
+      "role": "user",
+      "content": "Estoy muy feliz hoy, todo salio genial!",
+      "timestamp": "2026-09-06T22:51:07.510898",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 0.6,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "genial"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡¡¡Qué bueno, Nicolas!! 🎉🎉\n\nMe encanta escuchar eso, tu energía positiva se siente hasta aquí jaja ✨\n\n¿Cuéntame qué pasó? ¿Fue algo del trabajo, de algún proyecto, o simplemente fue un día de esos donde todo fluye? \n\n¡Estoy aquí para celebrar contigo! 🥳",
+      "timestamp": "2026-09-06T22:51:14.010299",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy triste, me siento mal hoy :(",
+      "timestamp": "2026-09-06T22:51:14.127508",
+      "metadata": {
+        "emotion": {
+          "primary": "sad",
+          "confidence": 1.0,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "triste",
+            "mal"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "Ay, Nicolas... 💙\n\nLamento mucho escuchar eso. Todos tenemos días así y está bien sentirse mal, no tienes que aparentar que todo está bien.\n\nSi quieres contarme qué te tiene así, aquí estoy para escucharte sin juicios. A veces solo hablarlo ayuda un poquito.\n\nY si prefieres distraerte con algo, también puedo ayudarte con eso, lo que necesites. No estás solo, ¿ok? 🤗\n\nTe mando un abrazo grande.",
+      "timestamp": "2026-09-06T22:51:21.006900",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "No puede ser! Otra vez no funciona esto, estoy frustrado",
+      "timestamp": "2026-09-06T22:51:21.013866",
+      "metadata": {
+        "emotion": {
+          "primary": "frustrated",
+          "confidence": 1.0,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "no puede ser",
+            "no funciona",
+            "otra vez"
+          ]
+        }
+      }
+    }
+  ],
+  "metadata": {}
+}
