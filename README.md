@@ -164,10 +164,6 @@ Si encontrás bugs, errores de documentación, o tenés sugerencias:
 
 Toda contribución, feedback o sugerencia es bienvenida. 🙏
 
-## 📄 Licencia
-
-Proyecto personal — Nicolas @ DsDekoV02
-
 ---
 
 *"No importa cuán oscura sea la noche, la luna siempre va a estar ahí."* 🌙
