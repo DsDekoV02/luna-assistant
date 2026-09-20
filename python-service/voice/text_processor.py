@@ -203,17 +203,17 @@ CONTEXT_RULES = {
 # V5: Common phrases that sound better as single units
 # These are multi-word expressions that TTS handles better together
 NATURAL_PHRASES = {
-    'buenos dias': 'buenos dias.',
-    'buenas tardes': 'buenas tardes.',
-    'buenas noches': 'buenas noches.',
-    'de nada': 'de nada.',
-    'por favor': 'por favor.',
-    'muchas gracias': 'muchas gracias.',
-    'lo siento': 'lo siento.',
-    'no te preocupes': 'no te preocupes.',
-    'esta bien': 'esta bien.',
-    'como estas': 'como estas.',
-    'que tal': 'que tal.',
+    'buenos dias': 'buenos dias',
+    'buenas tardes': 'buenas tardes',
+    'buenas noches': 'buenas noches',
+    'de nada': 'de nada',
+    'por favor': 'por favor',
+    'muchas gracias': 'muchas gracias',
+    'lo siento': 'lo siento',
+    'no te preocupes': 'no te preocupes',
+    'esta bien': 'esta bien',
+    'como estas': 'como estas',
+    'que tal': 'que tal',
 }
 
 # V5: Speed hint markers for different content types
@@ -1007,36 +1007,34 @@ def clean_for_tts(text: str) -> str:
 
 
 def add_emphasis_markers(text: str) -> str:
-    """V5: Add subtle emphasis hints for important words."""
-    words = text.split()
-    result = []
-    for i, word in enumerate(words):
-        clean = word.strip('.,;:!?()[]{}\"\'-').lower()
-        if clean in EMPHASIS_WORDS:
-            if i > 0 and not result[-1].endswith('.'):
-                result.append(f'. {word}')
-            else:
-                result.append(word)
-        else:
-            result.append(word)
-    return ' '.join(result)
+    """V5: Add subtle emphasis hints for important words.
+    
+    NOTE: Disabled adding periods before emphasis words as they
+    break mid-sentence flow and cause garbage voice clone output.
+    The TTS engine handles emphasis naturally from context.
+    """
+    return text
 
 def apply_sentence_prosody(text: str) -> str:
-    """V5: Apply prosody hints based on sentence type."""
+    """V5: Apply prosody hints based on sentence type.
+    
+    Only applies prosody markers at the START of sentences to avoid
+    breaking mid-sentence flow.
+    """
     sentences = re.split(r'(?<=[.!?])\s+', text)
     result = []
     for sentence in sentences:
         sentence = sentence.strip()
         if not sentence:
             continue
-        is_question = sentence.endswith('?') or any(
-            sentence.lower().startswith(q) for q in
-            ['que ', 'quien ', 'como ', 'cuando ', 'donde ', 'por que ', 'cual ']
-        )
+        # Only mark questions if the sentence STARTS with a question word
+        # and we haven't already added punctuation before it
+        is_question = sentence.endswith('?')
         if is_question:
+            # Add a subtle pause before the question word only at the very start
             for qword in ['quien', 'como', 'cuando', 'donde', 'por que', 'cual']:
-                pattern = re.compile(r'\b(' + qword + r')\b', re.IGNORECASE)
-                sentence = pattern.sub(r'. \1', sentence, count=1)
+                pattern = re.compile(r'^(' + qword + r')\b', re.IGNORECASE)
+                sentence = pattern.sub(r'\1', sentence, count=1)
         result.append(sentence)
     return ' '.join(result)
 
@@ -1050,19 +1048,12 @@ def improve_natural_phrases(text: str) -> str:
     return text
 
 def add_prosody_pauses(text: str) -> str:
-    """V5: Add intelligent pauses based on content analysis."""
-    tech_indicators = ['cpu', 'ram', 'gpu', 'ssd', 'api', 'url', 'http', 'error', 'bug']
-    warning_indicators = ['cuidado', 'atencion', 'urgente', 'error', 'peligro', 'importante']
-    text_lower = text.lower()
-    is_technical = any(ind in text_lower for ind in tech_indicators)
-    is_warning = any(ind in text_lower for ind in warning_indicators)
-    if is_warning:
-        for word in warning_indicators:
-            if word in text_lower:
-                pattern = re.compile(r'\b(' + re.escape(word) + r')\b', re.IGNORECASE)
-                text = pattern.sub(r'\1.', text, count=1)
-    elif is_technical:
-        text = re.sub(r'(,\s+)(?=\w+\s+\w+\s+\w+)', '. ', text)
+    """V5: Add intelligent pauses based on content analysis.
+    
+    NOTE: Disabled adding periods after warning/technical words
+    as they break mid-sentence flow. The TTS engine handles
+    emphasis naturally from context and punctuation.
+    """
     return text
 
 def optimize_for_voice_clone(

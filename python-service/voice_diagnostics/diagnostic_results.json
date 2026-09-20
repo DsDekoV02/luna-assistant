@@ -1,0 +1,77 @@
+{
+  "reference": null,
+  "consistency": [
+    {
+      "run": 1,
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\voice\\\\luna_voz_v5b_kohana_fina.wav'"
+    },
+    {
+      "run": 2,
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\voice\\\\luna_voz_v5b_kohana_fina.wav'"
+    },
+    {
+      "run": 3,
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\voice\\\\luna_voz_v5b_kohana_fina.wav'"
+    }
+  ],
+  "processor": {
+    "original_size_kb": 0,
+    "processed_size_kb": 0
+  },
+  "length": [
+    {
+      "label": "short",
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\voice\\\\luna_voz_v5b_kohana_fina.wav'"
+    },
+    {
+      "label": "medium",
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\voice\\\\luna_voz_v5b_kohana_fina.wav'"
+    },
+    {
+      "label": "long",
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\voice\\\\luna_voz_v5b_kohana_fina.wav'"
+    },
+    {
+      "label": "very_long",
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\voice\\\\luna_voz_v5b_kohana_fina.wav'"
+    }
+  ],
+  "special_chars": [
+    {
+      "label": "clean",
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\voice\\\\luna_voz_v5b_kohana_fina.wav'"
+    },
+    {
+      "label": "exclamation",
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\voice\\\\luna_voz_v5b_kohana_fina.wav'"
+    },
+    {
+      "label": "multi_exclamation",
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\voice\\\\luna_voz_v5b_kohana_fina.wav'"
+    },
+    {
+      "label": "ellipsis",
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\voice\\\\luna_voz_v5b_kohana_fina.wav'"
+    },
+    {
+      "label": "dash",
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\voice\\\\luna_voz_v5b_kohana_fina.wav'"
+    },
+    {
+      "label": "question_marks",
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\voice\\\\luna_voz_v5b_kohana_fina.wav'"
+    },
+    {
+      "label": "parentheses",
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\voice\\\\luna_voz_v5b_kohana_fina.wav'"
+    },
+    {
+      "label": "colon",
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\voice\\\\luna_voz_v5b_kohana_fina.wav'"
+    },
+    {
+      "label": "semicolon",
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\voice\\\\luna_voz_v5b_kohana_fina.wav'"
+    }
+  ]
+}
