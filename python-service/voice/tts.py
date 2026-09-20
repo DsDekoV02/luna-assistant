@@ -15,7 +15,21 @@ logger = logging.getLogger("luna.voice.tts")
 
 
 class TTSEngine:
-    """Handles text-to-speech conversion using MiMo TTS."""
+    """Handles text-to-speech conversion using MiMo TTS.
+    
+    Voice Clone Quality Optimizer Settings (tested 2026-09-20):
+    - Best reference: session23_voice_test_1.wav (4.5s clean clone)
+    - Optimal text length: 9-19 words
+    - Best punctuation: natural pauses with '...'
+    - Best style: conversational/mixed
+    """
+
+    # Reference audio priority (best quality first)
+    REFERENCE_PRIORITY = [
+        "session23_voice_test_1.wav",  # Best quality (clean clone)
+        "luna_voz_v5b_kohana_fina.wav",  # Original reference
+        "luna_clone_v6_test1.wav",  # V6 test
+    ]
 
     def __init__(self, mimo_client, cache=None, voice_ref_path: Optional[str] = None):
         self.client = mimo_client

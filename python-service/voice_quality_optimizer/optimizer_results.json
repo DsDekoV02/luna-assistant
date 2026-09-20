@@ -1,0 +1,36 @@
+{
+  "timestamp": "2026-09-20T15:56:52.424332",
+  "style_tests": [
+    {
+      "style": "simple",
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\luna_voz_v5b_kohana_fina.wav'"
+    },
+    {
+      "style": "conversational",
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\luna_voz_v5b_kohana_fina.wav'"
+    },
+    {
+      "style": "happy",
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\luna_voz_v5b_kohana_fina.wav'"
+    },
+    {
+      "style": "calm",
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\luna_voz_v5b_kohana_fina.wav'"
+    },
+    {
+      "style": "technical",
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\luna_voz_v5b_kohana_fina.wav'"
+    },
+    {
+      "style": "storytelling",
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\luna_voz_v5b_kohana_fina.wav'"
+    },
+    {
+      "style": "mixed",
+      "error": "[Errno 2] No such file or directory: 'D:\\\\LunaDrive\\\\LunaLab\\\\projects\\\\luna-jarvis\\\\python-service\\\\luna_voz_v5b_kohana_fina.wav'"
+    }
+  ],
+  "reference_tests": [],
+  "punctuation_tests": [],
+  "length_tests": []
+}

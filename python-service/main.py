@@ -85,7 +85,7 @@ mode_manager = get_mode_manager(config.get("modes", {}).get("default", "casa"))
 proactive = get_proactive_engine()
 pattern_engine = get_pattern_engine()
 
-voice_ref = config.get("voice_ref_path", "../experiments/luna_voz_v5b_kohana_fina.wav")
+voice_ref = config.get("voice_ref_path", "../experiments/session23_voice_test_1.wav")
 voice_ref_abs = str(Path(__file__).parent / voice_ref)
 tts_engine = TTSEngine(mimo_client, cache=cache, voice_ref_path=voice_ref_abs)
 stt_engine = STTEngine(mimo_client, sample_rate=config.get("voice", {}).get("sample_rate", 16000))
