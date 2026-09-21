@@ -131,14 +131,14 @@ Integración con Microsoft Edge TTS como backend TTS principal:
 
 - **Alta calidad** — Voces neuronales naturales en español
 - **Gratis** — Sin API key, sin límites de uso
-- **Voz chilena** — `es-CL-CatalinaNeural` como default (pronuncia "Dekov" correctamente)
+- **Voz chilena** — `es-CL-CatalinaNeural` como default
 - **Fallback** — MiMo TTS (clone/design) como alternativa
 - **Configurable** — Cambia la voz en `config.yaml` → `voice.edge_voice`
 
 **Voces disponibles:**
 | Voz | País | Notas |
 |---|---|---|
-| es-CL-CatalinaNeural | 🇨🇱 Chile | **Default** — Mejor para Nicolas |
+| es-CL-CatalinaNeural | 🇨🇱 Chile | **Default** — Mejor para español chileno |
 | es-MX-DaliaNeural | 🇖🇽 México | Cálida y expresiva |
 | es-ES-ElviraNeural | 🇪🇸 España | Elegante y clara |
 | es-AR-ElenaNeural | 🇦🇷 Argentina | Cercana |
