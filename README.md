@@ -13,7 +13,7 @@ Asistente personal AI con avatar interactivo en Three.js, voz clonada, detecció
 - **🎤 Voz Clonada** — TTS con voice cloning (mimo-v2.5-tts-voiceclone) y text processor optimizado + **Edge TTS** (Microsoft, alta calidad, gratis)
 - **👂 STT Offline** — Reconocimiento de voz con mimo-v2.5-asr
 - **😊 Detección de Emociones** — Análisis en tiempo real del texto (happy, sad, angry, curious, frustrated)
-- **🎨 Avatar Three.js** — Luna visual con morphing por emoción, partículas y colores dinámicos
+- **🎨 Avatar Three.js** — Luna visual con morphing por emoción, partículas, colores dinámicos, **eye tracking con cursor** y **mouth sync con TTS**
 - **🖥️ Overlay Electron** — Interfaz flotante transparente sobre el desktop
 - **📊 Dashboard** — Historial de conversaciones, distribución de emociones y sesiones
 - **🧠 Memoria** — Conversaciones persistentes con RAG semántico (ChromaDB)
@@ -176,7 +176,7 @@ Si te resulta útil o te parece interesante, considera dejar una ⭐ en el repo.
 Este proyecto está en **desarrollo activo** y puede tener problemas menores. Fue construido a lo largo de 24+ sesiones de desarrollo autónomo con AI, y recientemente migrado de disco por fallos de hardware.
 
 **Tests:** 538/538 pasando ✅
-**Última sesión:** 2026-09-21 (Session 33 — Edge TTS Integration + Chilean Voice + TTS Quality Breakthrough)
+**Última sesión:** 2026-09-21 (Session 37 — TTS Mouth Sync Integration + New Emotions + Dashboard Heatmap)
 
 Si encontrás bugs, errores de documentación, o tenés sugerencias:
 

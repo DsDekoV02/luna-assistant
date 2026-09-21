@@ -29,6 +29,18 @@ class LunaAvatar {
         this._targetMoonTilt = 0;
         this._lastBurstEmotion = null;
 
+        // Cursor eye tracking (session 36)
+        this._mouseX = 0;
+        this._mouseY = 0;
+        this._eyeTrackingEnabled = true;
+        this._eyeTrackSmoothX = 0;
+        this._eyeTrackSmoothY = 0;
+
+        // TTS mouth sync (session 36)
+        this._mouthSyncActive = false;
+        this._mouthSyncAmplitude = 0;
+        this._mouthSyncTarget = 0;
+
         this._initScene();
         this._createStarField();
         this._createMoon();
@@ -36,6 +48,7 @@ class LunaAvatar {
         this._createOrbitalRings();
         this._createAuraGlow();
         this._createParticleTrails();
+        this._setupCursorTracking();
         this._animate();
     }
 
@@ -373,6 +386,8 @@ class LunaAvatar {
         'confused':  { moon: 0xe8e0f0, glow: 0x8866cc, eye: 0xaa88dd, mouth: 0.1, blush: 0    },
         'grateful':  { moon: 0xfff0e8, glow: 0xff8866, eye: 0xffaa88, mouth: 0.4, blush: 0.3  },
         'sarcastic': { moon: 0xf0e8f0, glow: 0xcc66ff, eye: 0xdd88ff, mouth: 0.3, blush: 0.15 },
+        'surprised': { moon: 0xf0e8ff, glow: 0xee88ff, eye: 0xdd99ff, mouth: 0.9, blush: 0.1 },
+        'embarrassed':{ moon: 0xf0dde8, glow: 0xff6699, eye: 0xff88aa, mouth: 0.15, blush: 0.4 },
         'neutral':   null, // falls back to state-based colors
     };
 
@@ -448,6 +463,16 @@ class LunaAvatar {
                 // Slightly tilted
                 this._targetMoonScale = { x: 1.0, y: 1.0, z: 1.0 };
                 this._targetMoonTilt = 0.1 * t;
+                break;
+            case 'surprised':
+                // Eyes wide, bigger
+                this._targetMoonScale = { x: 1 + 0.06 * t, y: 1 + 0.06 * t, z: 1.0 };
+                this._targetMoonTilt = 0;
+                break;
+            case 'embarrassed':
+                // Slightly smaller, tilted down
+                this._targetMoonScale = { x: 1 - 0.02 * t, y: 1 - 0.02 * t, z: 1.0 };
+                this._targetMoonTilt = -0.08 * t;
                 break;
             default:
                 this._targetMoonScale = { x: 1.0, y: 1.0, z: 1.0 };
@@ -537,16 +562,43 @@ class LunaAvatar {
             this.moon.rotation.x = this._lerp(this.moon.rotation.x, Math.cos(this.time * 0.3) * 0.04 + targetTilt, scaleSpeed);
         }
 
-        // ── Eye tracking (subtle look-around) ──
-        const lookX = Math.sin(this.time * 0.7) * 0.02;
-        const lookY = Math.cos(this.time * 0.5) * 0.015;
-        if (this.leftPupil) {
-            this.leftPupil.position.x = -0.18 + lookX;
-            this.leftPupil.position.y = 0.12 + lookY;
-        }
-        if (this.rightPupil) {
-            this.rightPupil.position.x = 0.12 + lookX;
-            this.rightPupil.position.y = 0.12 + lookY;
+        // ── Eye tracking (cursor follow or idle look-around) ──
+        if (this._eyeTrackingEnabled && (this._mouseX !== 0 || this._mouseY !== 0)) {
+            // Smooth cursor following
+            const trackSpeed = 0.08;
+            this._eyeTrackSmoothX = this._lerp(this._eyeTrackSmoothX, this._mouseX, trackSpeed);
+            this._eyeTrackSmoothY = this._lerp(this._eyeTrackSmoothY, this._mouseY, trackSpeed);
+            const lookX = this._eyeTrackSmoothX * 0.035; // Max pupil displacement
+            const lookY = this._eyeTrackSmoothY * 0.025;
+            if (this.leftPupil) {
+                this.leftPupil.position.x = -0.18 + lookX;
+                this.leftPupil.position.y = 0.12 + lookY;
+            }
+            if (this.rightPupil) {
+                this.rightPupil.position.x = 0.12 + lookX;
+                this.rightPupil.position.y = 0.12 + lookY;
+            }
+            // Also subtly move the highlight
+            if (this.leftHighlight) {
+                this.leftHighlight.position.x = -0.16 + lookX * 0.5;
+                this.leftHighlight.position.y = 0.14 + lookY * 0.5;
+            }
+            if (this.rightHighlight) {
+                this.rightHighlight.position.x = 0.14 + lookX * 0.5;
+                this.rightHighlight.position.y = 0.14 + lookY * 0.5;
+            }
+        } else {
+            // Default idle look-around
+            const lookX = Math.sin(this.time * 0.7) * 0.02;
+            const lookY = Math.cos(this.time * 0.5) * 0.015;
+            if (this.leftPupil) {
+                this.leftPupil.position.x = -0.18 + lookX;
+                this.leftPupil.position.y = 0.12 + lookY;
+            }
+            if (this.rightPupil) {
+                this.rightPupil.position.x = 0.12 + lookX;
+                this.rightPupil.position.y = 0.12 + lookY;
+            }
         }
 
         // ── Blinking ──
@@ -558,10 +610,24 @@ class LunaAvatar {
         if (this.leftLid) this.leftLid.material.opacity = blinkAmount * 0.95;
         if (this.rightLid) this.rightLid.material.opacity = blinkAmount * 0.95;
 
-        // ── Mouth animation ──
+        // ── Mouth animation (TTS sync or state-based) ──
         if (this.mouth) {
-            this.mouth.scale.y = 1 + this.mouthOpen * 2;
-            this.mouth.material.opacity = 0.5 + this.mouthOpen * 0.3;
+            if (this._mouthSyncActive) {
+                // Smooth amplitude following for TTS sync
+                const syncSpeed = 0.15;
+                this._mouthSyncAmplitude = this._lerp(
+                    this._mouthSyncAmplitude, this._mouthSyncTarget, syncSpeed
+                );
+                // Map amplitude to mouth scale: 0 = closed, 1 = wide open
+                this.mouthOpen = this._mouthSyncAmplitude;
+                this.mouth.scale.y = 1 + this.mouthOpen * 2.5;
+                this.mouth.material.opacity = 0.5 + this.mouthOpen * 0.4;
+            } else {
+                // Normal emotion/state-based mouth
+                this.mouthOpen = this._lerp(this.mouthOpen, this.mouthTarget, speed);
+                this.mouth.scale.y = 1 + this.mouthOpen * 2;
+                this.mouth.material.opacity = 0.5 + this.mouthOpen * 0.3;
+            }
         }
 
         // ── Blush ──
@@ -632,15 +698,41 @@ class LunaAvatar {
             }
         }
 
-        // ── Particle trails (emotion-reactive colors) ──
+        // ── Particle trails (emotion-reactive colors + shapes) ──
         if (this.trailSystem) {
             const positions = this.trailSystem.geometry.attributes.position.array;
+            // Emotion-specific trail behavior (session 34)
+            let trailSpeedMul = 1.0;
+            let trailWobbleMul = 1.0;
+            let trailRadiusDrift = 0;
+            if (this.emotionOverride && this._emotionIntensity) {
+                const t = this._emotionIntensity;
+                if (this._lastBurstEmotion === 'happy' || this._lastBurstEmotion === 'grateful') {
+                    trailSpeedMul = 1.0 + 0.3 * t;  // faster sparkle
+                    trailWobbleMul = 1.0 + 0.5 * t;  // more wobble
+                } else if (this._lastBurstEmotion === 'sad' || this._lastBurstEmotion === 'tired') {
+                    trailSpeedMul = 1.0 - 0.4 * t;  // slower
+                    trailWobbleMul = 1.0 - 0.3 * t;  // calmer
+                    trailRadiusDrift = -0.01 * t;     // drift inward
+                } else if (this._lastBurstEmotion === 'angry' || this._lastBurstEmotion === 'frustrated') {
+                    trailSpeedMul = 1.0 + 0.5 * t;  // faster, erratic
+                    trailWobbleMul = 1.0 + 0.8 * t;  // much more wobble
+                } else if (this._lastBurstEmotion === 'curious') {
+                    trailSpeedMul = 1.0 + 0.15 * t; // slightly faster
+                    trailWobbleMul = 1.0 + 0.4 * t;  // exploring
+                    trailRadiusDrift = 0.02 * t;      // drift outward
+                } else if (this._lastBurstEmotion === 'excited') {
+                    trailSpeedMul = 1.0 + 0.6 * t;  // very fast
+                    trailWobbleMul = 1.0 + 0.6 * t;  // energetic
+                }
+            }
             for (let i = 0; i < this.trailVelocities.length; i++) {
                 const v = this.trailVelocities[i];
-                v.angle += v.speed;
-                const wobble = Math.sin(this.time * 2 + v.yOffset) * 0.05;
-                positions[i * 3] = Math.cos(v.angle) * (v.radius + wobble);
-                positions[i * 3 + 1] = Math.sin(v.angle) * (v.radius + wobble);
+                v.angle += v.speed * trailSpeedMul;
+                const wobble = Math.sin(this.time * 2 + v.yOffset) * 0.05 * trailWobbleMul;
+                const r = v.radius + trailRadiusDrift;
+                positions[i * 3] = Math.cos(v.angle) * (r + wobble);
+                positions[i * 3 + 1] = Math.sin(v.angle) * (r + wobble);
                 positions[i * 3 + 2] = v.zOffset + Math.sin(this.time + i) * 0.05;
             }
             this.trailSystem.geometry.attributes.position.needsUpdate = true;
@@ -691,8 +783,9 @@ class LunaAvatar {
                 break;
 
             case 'speaking':
-                // Mouth opens/closes rhythmically
-                if (this.mouth) {
+                // If TTS sync is active, let it drive the mouth
+                // Otherwise, use rhythmic animation
+                if (!this._mouthSyncActive && this.mouth) {
                     this.mouth.scale.y = 1 + Math.abs(Math.sin(this.time * 8)) * 1.5;
                 }
                 // Gentle bounce
@@ -788,6 +881,30 @@ class LunaAvatar {
                 this.rightEye.scale.setScalar(pulse);
             }
         }
+        // Surprised: Very wide eyes, pupils shrink
+        else if (this.emotionOverride === LunaAvatar.EMOTION_COLORS['surprised']) {
+            if (this.leftEye) {
+                this.leftEye.scale.setScalar(1.15 * t + 0.85);
+                this.rightEye.scale.setScalar(1.15 * t + 0.85);
+            }
+            if (this.leftPupil) {
+                this.leftPupil.scale.setScalar(1 - 0.15 * t);
+                this.rightPupil.scale.setScalar(1 - 0.15 * t);
+            }
+        }
+        // Embarrassed: Eyes slightly averted, droopy
+        else if (this.emotionOverride === LunaAvatar.EMOTION_COLORS['embarrassed']) {
+            if (this.leftPupil) {
+                this.leftPupil.position.x = -0.18 - 0.02 * t;
+                this.leftPupil.position.y = 0.12 - 0.01 * t;
+                this.rightPupil.position.x = 0.12 - 0.02 * t;
+                this.rightPupil.position.y = 0.12 - 0.01 * t;
+            }
+            if (this.leftEye) {
+                this.leftEye.scale.y = 1 - 0.1 * t;
+                this.rightEye.scale.y = 1 - 0.1 * t;
+            }
+        }
     }
 
     // ── Emotion Particle Burst ───────────────────────────────────
@@ -795,27 +912,74 @@ class LunaAvatar {
     /**
      * Trigger a burst of particles in the emotion's color.
      * Called when intensity > 0.7 for a visual 'sparkle' effect.
+     * 
+     * Session 34: Emotion-specific particle shapes and behaviors:
+     * - happy/grateful: Star sparkles — spiral outward with twinkling
+     * - sad/tired: Rain drops — fall downward with gentle drift
+     * - angry/frustrated: Fire sparks — shoot out fast and erratically
+     * - curious: Floating orbs — drift upward slowly
+     * - excited: Firework burst — explode outward with high energy
+     * - default: Radial burst (original behavior)
      */
     triggerEmotionBurst(emotionName) {
         const colors = LunaAvatar.EMOTION_COLORS[emotionName];
         if (!colors) return;
 
-        const burstCount = 12;
+        // Emotion-specific burst configuration
+        const burstProfiles = {
+            happy:     { count: 16, size: 0.035, speed: 0.025, decay: 0.012, gravity: 0, spiral: true,  spread: 0.04 },
+            grateful:  { count: 14, size: 0.035, speed: 0.02,  decay: 0.013, gravity: 0, spiral: true,  spread: 0.03 },
+            sad:       { count: 10, size: 0.025, speed: 0.01,  decay: 0.018, gravity: -0.002, spiral: false, spread: 0.015 },
+            tired:     { count: 8,  size: 0.02,  speed: 0.008, decay: 0.02,  gravity: -0.0015, spiral: false, spread: 0.01 },
+            angry:     { count: 18, size: 0.04,  speed: 0.04,  decay: 0.02,  gravity: 0, spiral: false, spread: 0.06 },
+            frustrated:{ count: 15, size: 0.035, speed: 0.035, decay: 0.018, gravity: 0.001, spiral: false, spread: 0.05 },
+            curious:   { count: 10, size: 0.03,  speed: 0.012, decay: 0.01,  gravity: 0.001, spiral: true,  spread: 0.02 },
+            excited:   { count: 20, size: 0.045, speed: 0.05,  decay: 0.015, gravity: -0.001, spiral: true, spread: 0.07 },
+            surprised: { count: 14, size: 0.04,  speed: 0.035, decay: 0.012, gravity: -0.002, spiral: true, spread: 0.05 },
+            embarrassed:{ count: 8,  size: 0.025, speed: 0.012, decay: 0.015, gravity: 0.001,  spiral: false, spread: 0.02 },
+        };
+
+        const profile = burstProfiles[emotionName] || { count: 12, size: 0.04, speed: 0.025, decay: 0.015, gravity: 0, spiral: false, spread: 0.03 };
+        const burstCount = profile.count;
+
         const geo = new THREE.BufferGeometry();
         const positions = new Float32Array(burstCount * 3);
         const velocities = [];
 
         for (let i = 0; i < burstCount; i++) {
             const angle = (i / burstCount) * Math.PI * 2;
+            // Add randomness to angle for more natural feel
+            const jitter = (Math.random() - 0.5) * 0.5;
+            const a = angle + jitter;
+
             positions[i * 3] = 0;
             positions[i * 3 + 1] = 0;
             positions[i * 3 + 2] = 0.65;
+
+            const baseSpeed = profile.speed * (0.8 + Math.random() * 0.4);
+            let vx, vy;
+
+            if (profile.spiral) {
+                // Spiral: tangential + radial velocity
+                const tangentSpeed = baseSpeed * 0.6;
+                const radialSpeed = baseSpeed * 0.4;
+                vx = Math.cos(a) * radialSpeed - Math.sin(a) * tangentSpeed;
+                vy = Math.sin(a) * radialSpeed + Math.cos(a) * tangentSpeed;
+            } else {
+                // Radial: straight outward
+                vx = Math.cos(a) * baseSpeed;
+                vy = Math.sin(a) * baseSpeed;
+            }
+
             velocities.push({
-                x: Math.cos(angle) * (0.02 + Math.random() * 0.03),
-                y: Math.sin(angle) * (0.02 + Math.random() * 0.03),
+                x: vx + (Math.random() - 0.5) * profile.spread * 0.5,
+                y: vy + (Math.random() - 0.5) * profile.spread * 0.5,
                 z: (Math.random() - 0.5) * 0.02,
                 life: 1.0,
-                decay: 0.015 + Math.random() * 0.01,
+                decay: profile.decay * (0.8 + Math.random() * 0.4),
+                gravity: profile.gravity,
+                angle: a,          // for spiral animation
+                spiralSpeed: profile.spiral ? 0.05 + Math.random() * 0.03 : 0,
             });
         }
 
@@ -823,7 +987,7 @@ class LunaAvatar {
 
         const mat = new THREE.PointsMaterial({
             color: colors.glow,
-            size: 0.04,
+            size: profile.size,
             transparent: true,
             opacity: 0.9,
             sizeAttenuation: true,
@@ -832,7 +996,7 @@ class LunaAvatar {
         const burst = new THREE.Points(geo, mat);
         this.scene.add(burst);
 
-        // Animate burst
+        // Animate burst with emotion-specific physics
         const animateBurst = () => {
             const pos = burst.geometry.attributes.position.array;
             let alive = false;
@@ -841,9 +1005,23 @@ class LunaAvatar {
                 if (v.life <= 0) continue;
                 alive = true;
                 v.life -= v.decay;
+
+                // Apply gravity (positive = float up, negative = fall down)
+                v.y += v.gravity;
+
+                // Spiral motion for happy/curious/excited
+                if (v.spiralSpeed) {
+                    v.angle += v.spiralSpeed;
+                    const spiralForce = 0.001;
+                    v.x += Math.cos(v.angle) * spiralForce;
+                    v.y += Math.sin(v.angle) * spiralForce;
+                }
+
                 pos[i * 3] += v.x;
                 pos[i * 3 + 1] += v.y;
                 pos[i * 3 + 2] += v.z;
+
+                // Friction
                 v.x *= 0.96;
                 v.y *= 0.96;
                 v.z *= 0.96;
@@ -857,9 +1035,83 @@ class LunaAvatar {
                 this.scene.remove(burst);
                 burst.geometry.dispose();
                 burst.material.dispose();
-            }
+            };
         };
         animateBurst();
+    }
+
+    // ── Cursor Eye Tracking (Session 36) ──────────────────────
+
+    /**
+     * Set up mouse/touch tracking for eye following.
+     * Eyes smoothly follow the cursor position relative to the avatar.
+     */
+    _setupCursorTracking() {
+        // Track mouse movement on the container and parent page
+        const trackMouse = (e) => {
+            if (!this._eyeTrackingEnabled || !this.container) return;
+            const rect = this.container.getBoundingClientRect();
+            // Normalize mouse position to -1..1 relative to container center
+            const centerX = rect.left + rect.width / 2;
+            const centerY = rect.top + rect.height / 2;
+            const maxDist = Math.max(rect.width, rect.height);
+            this._mouseX = Math.max(-1, Math.min(1, (e.clientX - centerX) / (maxDist * 0.5)));
+            this._mouseY = Math.max(-1, Math.min(1, -(e.clientY - centerY) / (maxDist * 0.5)));
+        };
+
+        // Listen on document for broader tracking range
+        document.addEventListener('mousemove', trackMouse, { passive: true });
+        document.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) {
+                trackMouse(e.touches[0]);
+            }
+        }, { passive: true });
+
+        // Reset on mouse leave (look center)
+        document.addEventListener('mouseleave', () => {
+            this._mouseX = 0;
+            this._mouseY = 0;
+        });
+    }
+
+    /**
+     * Enable or disable cursor eye tracking.
+     * When disabled, eyes use the default idle look-around animation.
+     */
+    setEyeTracking(enabled) {
+        this._eyeTrackingEnabled = enabled;
+        if (!enabled) {
+            this._mouseX = 0;
+            this._mouseY = 0;
+        }
+    }
+
+    // ── TTS Mouth Sync (Session 36) ────────────────────────────
+
+    /**
+     * Feed real-time audio amplitude to sync mouth animation.
+     * Call this from the audio playback system with amplitude values 0-1.
+     *
+     * @param {number} amplitude - Audio amplitude (0 = silence, 1 = loud)
+     */
+    setMouthAmplitude(amplitude) {
+        this._mouthSyncActive = true;
+        this._mouthSyncTarget = Math.max(0, Math.min(1, amplitude));
+    }
+
+    /**
+     * Stop TTS mouth sync. Mouth returns to emotion/state-based animation.
+     */
+    stopMouthSync() {
+        this._mouthSyncActive = false;
+        this._mouthSyncTarget = 0;
+    }
+
+    /**
+     * Get the current mouth open amount (0-1) for external visualization.
+     */
+    getMouthOpen() {
+        return this.mouthOpen;
     }
 
     // ── Cleanup ─────────────────────────────────────────────────

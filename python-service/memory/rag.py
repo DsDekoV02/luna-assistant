@@ -83,6 +83,59 @@ class RAGEngine:
         if user_file.exists():
             self._process_file(user_file, source="user")
 
+        # Load README.md from project root (session 36)
+        readme_file = self.memory_path / "README.md"
+        if readme_file.exists():
+            self._process_file(readme_file, source="docs")
+
+        # Load project config summary (session 36)
+        config_file = self.memory_path / "python-service" / "config.yaml"
+        if config_file.exists():
+            try:
+                config_content = config_file.read_text(encoding="utf-8")
+                # Create a markdown summary of config for RAG
+                config_md = "# Configuracion del Proyecto\n\n" + config_content
+                self.chunks.append({
+                    "text": config_md,
+                    "source": "docs",
+                    "file": str(config_file),
+                    "chunk_index": 0,
+                    "heading": "Configuracion del Proyecto",
+                    "keywords": extract_keywords(config_md),
+                    "keyword_set": set(extract_keywords(config_md)),
+                })
+            except Exception as e:
+                logger.error(f"Error processing config: {e}")
+
+        # Load key Python source files as code context (session 37)
+        code_files = [
+            "python-service/main.py",
+            "python-service/brain/emotion.py",
+            "python-service/tools/registry.py",
+            "python-service/voice/tts.py",
+            "python-service/voice/stt.py",
+        ]
+        for code_rel in code_files:
+            code_file = self.memory_path / code_rel
+            if code_file.exists():
+                try:
+                    content = code_file.read_text(encoding="utf-8")
+                    # Create a markdown wrapper for code context
+                    code_md = f"# Código fuente: {code_rel}\n\n```python\n{content}\n```"
+                    # Only chunk if not too large
+                    if len(code_md) < 8000:
+                        self.chunks.append({
+                            "text": code_md[:2000],  # Truncate large files
+                            "source": "code",
+                            "file": str(code_file),
+                            "chunk_index": 0,
+                            "heading": f"Código: {code_rel}",
+                            "keywords": extract_keywords(code_md),
+                            "keyword_set": set(extract_keywords(code_md)),
+                        })
+                except Exception as e:
+                    logger.debug(f"Skipping code file {code_rel}: {e}")
+
         # Build IDF cache
         self._build_idf_cache()
 

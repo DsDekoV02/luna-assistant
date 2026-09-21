@@ -29,6 +29,8 @@ class Emotion(Enum):
     CONFUSED = "confused"
     GRATEFUL = "grateful"
     SARCASTIC = "sarcastic"
+    SURPRISED = "surprised"
+    EMBARRASSED = "embarrassed"
 
 
 @dataclass
@@ -123,6 +125,18 @@ EMOTION_PATTERNS: List[Tuple[List[str], Emotion, float]] = [
     (["claro", "obvio", "ya claro", "aja", "ajá",
       "seguro", "dale, claro", "mm-hmm"],
      Emotion.SARCASTIC, 0.4),  # Lower confidence, context-dependent
+
+    # Surprised
+    (["qué", "no puede ser", "en serio", "de verdad", "wtf", "omg",
+      "no me digas", "sorprendido", "increíble", "😮", "😲", "🫢",
+      "wait what", "cómo así", "eh", "cómo", "posta"],
+     Emotion.SURPRISED, 0.6),
+
+    # Embarrassed
+    (["uy", "oops", "ups", "vergüenza", "pena", "qué vergüenza",
+      "me equivoqué", "error mío", "disculpa", "perdón",
+      "😳", "🫣", "embarrassed", "awkward"],
+     Emotion.EMBARRASSED, 0.6),
 ]
 
 
@@ -219,6 +233,14 @@ def get_response_style(emotion: EmotionState) -> ResponseStyle:
         Emotion.SARCASTIC: ResponseStyle(
             tone="playful", emoji_frequency="moderate",
             include_humor=True,
+        ),
+        Emotion.SURPRISED: ResponseStyle(
+            tone="energetic", emoji_frequency="moderate",
+            extra_enthusiasm=True,
+        ),
+        Emotion.EMBARRASSED: ResponseStyle(
+            tone="gentle", emoji_frequency="minimal",
+            include_comfort=True, include_humor=True,
         ),
         Emotion.NEUTRAL: ResponseStyle(),
     }
