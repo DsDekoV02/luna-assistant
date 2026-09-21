@@ -176,7 +176,7 @@ Si te resulta útil o te parece interesante, considera dejar una ⭐ en el repo.
 Este proyecto está en **desarrollo activo** y puede tener problemas menores. Fue construido a lo largo de 24+ sesiones de desarrollo autónomo con AI, y recientemente migrado de disco por fallos de hardware.
 
 **Tests:** 538/538 pasando ✅
-**Última sesión:** 2026-09-21 (Session 38 — Interactive Emotion Timeline + Compound Expressions + Dashboard Quick Actions)
+**Última sesión:** 2026-09-21 (Session 40 — Backend Compound Emotions + Emotion History API + Sparkline Chart)
 
 Si encontrás bugs, errores de documentación, o tenés sugerencias:
 

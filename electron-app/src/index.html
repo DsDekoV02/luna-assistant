@@ -1214,9 +1214,16 @@
             // Track current emotion for mood persistence
             currentEmotion = emotion.primary || 'neutral';
 
-            // Detect compound emotion (blended)
-            const compound = detectCompoundEmotion(currentEmotion, previousEmotion);
-            if (compound && emotion.intensity > 0.5) {
+            // Use backend compound if available, else detect on frontend (Session 40)
+            let compound = emotion.compound || null;
+            if (!compound) {
+                compound = detectCompoundEmotion(currentEmotion, previousEmotion);
+                if (compound && emotion.intensity > 0.5) {
+                    emotion._compound = compound;
+                } else {
+                    compound = null;
+                }
+            } else {
                 emotion._compound = compound;
             }
             previousEmotion = currentEmotion;
@@ -1232,6 +1239,7 @@
             });
             if (emotionHistory.length > 20) emotionHistory.shift();
             renderEmotionTimeline();
+            renderEmotionSparkline();  // Session 40: live sparkline update
 
             // Show emotion indicator in status bar with intensity bar
             const intensityBar = '█'.repeat(Math.round(intensity / 10)) + '░'.repeat(10 - Math.round(intensity / 10));
@@ -1382,6 +1390,80 @@
             }
         }
 
+        // ── Emotion Evolution Sparkline (Session 40) ──────────────
+        function renderEmotionSparkline() {
+            const canvas = document.getElementById('emotion-sparkline');
+            if (!canvas || emotionHistory.length < 2) return;
+
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            const w = canvas.clientWidth;
+            const h = canvas.clientHeight;
+            canvas.width = w * dpr;
+            canvas.height = h * dpr;
+            ctx.scale(dpr, dpr);
+            ctx.clearRect(0, 0, w, h);
+
+            const data = emotionHistory;
+            const n = data.length;
+            const padX = 4;
+            const padY = 6;
+            const chartW = w - padX * 2;
+            const chartH = h - padY * 2;
+
+            // Draw intensity line
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba(150, 50, 255, 0.6)';
+            ctx.lineWidth = 1.5;
+            ctx.lineJoin = 'round';
+
+            for (let i = 0; i < n; i++) {
+                const x = padX + (i / (n - 1)) * chartW;
+                const y = padY + chartH - (data[i].intensity * chartH);
+                if (i === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // Gradient fill under line
+            const grad = ctx.createLinearGradient(0, padY, 0, padY + chartH);
+            grad.addColorStop(0, 'rgba(150, 50, 255, 0.25)');
+            grad.addColorStop(1, 'rgba(150, 50, 255, 0.02)');
+            ctx.lineTo(padX + chartW, padY + chartH);
+            ctx.lineTo(padX, padY + chartH);
+            ctx.closePath();
+            ctx.fillStyle = grad;
+            ctx.fill();
+
+            // Draw dots for each emotion
+            for (let i = 0; i < n; i++) {
+                const x = padX + (i / (n - 1)) * chartW;
+                const y = padY + chartH - (data[i].intensity * chartH);
+                const color = data[i].compound
+                    ? data[i].compound.color
+                    : (emotionColors[data[i].emotion] || '#666688');
+                ctx.beginPath();
+                ctx.arc(x, y, 3, 0, Math.PI * 2);
+                ctx.fillStyle = color;
+                ctx.fill();
+                // Glow for high intensity
+                if (data[i].intensity > 0.7) {
+                    ctx.beginPath();
+                    ctx.arc(x, y, 5, 0, Math.PI * 2);
+                    ctx.fillStyle = color + '33';
+                    ctx.fill();
+                }
+            }
+
+            // Draw baseline
+            ctx.beginPath();
+            ctx.strokeStyle = 'rgba(255,255,255,0.06)';
+            ctx.lineWidth = 0.5;
+            ctx.moveTo(padX, padY + chartH);
+            ctx.lineTo(padX + chartW, padY + chartH);
+            ctx.stroke();
+        }
+
         // ── Quick Actions (Session 38) ─────────────────────────
         async function quickAction(action) {
             const resultDiv = document.getElementById('quick-action-result');
@@ -1520,11 +1602,15 @@
                         <h4>🎭 Emociones</h4>
                         <div class="dash-row"><span class="label">Analizados</span><span class="value">${emotionStats.total_analyzed}</span></div>
                         <div class="dash-row"><span class="label">Confianza prom.</span><span class="value">${Math.round((emotionStats.avg_confidence || 0) * 100)}%</span></div>
+                        ${emotionStats.compound_count ? `<div class="dash-row"><span class="label">Compuestas</span><span class="value">${emotionStats.compound_count}</span></div>` : ''}
                         ${emotionStats.mood_trend ? `<div class="dash-row"><span class="label">Tendencia</span><span class="value">${emotionEmojis[emotionStats.mood_trend] || ''} ${emotionStats.mood_trend}</span></div>` : ''}
                         <div class="dash-emotion-bar">${chips}</div>
+                        <canvas id="emotion-sparkline" width="260" height="50" style="width:100%;height:50px;margin:6px 0;border-radius:6px;background:rgba(0,0,0,0.2);"></canvas>
                         <div id="emotion-timeline"></div>
                         <div id="emotion-heatmap"></div>
                     </div>`;
+                    // Render sparkline after DOM update
+                    setTimeout(() => renderEmotionSparkline(), 50);
                 } else if (emotionStats) {
                     html += `<div class="dash-section">
                         <h4>🎭 Emociones</h4>

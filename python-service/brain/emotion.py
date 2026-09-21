@@ -33,6 +33,33 @@ class Emotion(Enum):
     EMBARRASSED = "embarrassed"
 
 
+# ── Compound Emotion Profiles (Session 40) ──────────────────────
+# When two emotions fire in sequence, blend them into a compound.
+
+COMPOUND_EMOTIONS: Dict[str, Dict] = {
+    "happy+surprised":    {"name": "delight",    "emoji": "🤩", "color": "#ffaa44"},
+    "happy+embarrassed":  {"name": "shy_joy",    "emoji": "☺️",  "color": "#ff88aa"},
+    "sad+angry":          {"name": "bitter",     "emoji": "😤", "color": "#884455"},
+    "curious+surprised":  {"name": "amazed",     "emoji": "🤯", "color": "#aa66ff"},
+    "happy+curious":      {"name": "playful",    "emoji": "😏", "color": "#88dd66"},
+    "sad+embarrassed":    {"name": "vulnerable", "emoji": "🥺", "color": "#9977aa"},
+    "angry+surprised":    {"name": "shocked",    "emoji": "🤬", "color": "#ff4466"},
+    "happy+grateful":     {"name": "joyful",     "emoji": "🥳", "color": "#ffaa66"},
+}
+
+
+def detect_compound(current: Emotion, previous: Emotion, intensity: float) -> Optional[Dict]:
+    """Detect compound emotion from current + previous emotion transition.
+
+    Returns compound dict if found and intensity > 0.5, else None.
+    """
+    if intensity <= 0.5:
+        return None
+    key1 = f"{previous.value}+{current.value}"
+    key2 = f"{current.value}+{previous.value}"
+    return COMPOUND_EMOTIONS.get(key1) or COMPOUND_EMOTIONS.get(key2)
+
+
 @dataclass
 class EmotionState:
     """Detected emotional state with confidence and context."""
@@ -41,15 +68,19 @@ class EmotionState:
     secondary: Optional[Emotion] = None
     intensity: float = 0.5  # 0.0 = very mild, 1.0 = very strong
     triggers: List[str] = field(default_factory=list)  # What caused this detection
+    compound: Optional[Dict] = field(default=None)  # Compound emotion info
 
     def to_dict(self) -> Dict:
-        return {
+        result = {
             "primary": self.primary.value,
             "confidence": round(self.confidence, 2),
             "secondary": self.secondary.value if self.secondary else None,
             "intensity": round(self.intensity, 2),
             "triggers": self.triggers[:3],  # Limit for brevity
         }
+        if self.compound:
+            result["compound"] = self.compound
+        return result
 
 
 # ── Emotion Keywords ─────────────────────────────────────────────
@@ -254,12 +285,14 @@ class EmotionDetector:
     def __init__(self):
         self._history: List[EmotionState] = []
         self._max_history = 20
+        self._previous: Optional[Emotion] = None  # For compound detection
 
     def detect(self, text: str) -> EmotionState:
         """Analyze text and return detected emotion.
 
         Uses keyword matching with confidence scoring.
         Multiple matches increase confidence.
+        Compound emotions detected from transitions.
         """
         text_lower = text.lower().strip()
 
@@ -296,22 +329,32 @@ class EmotionDetector:
             # Calculate intensity based on text features
             intensity = self._calculate_intensity(text_lower, primary_emotion)
 
+            # Detect compound emotion from transition (Session 40)
+            compound = None
+            if self._previous and self._previous != primary_emotion:
+                compound = detect_compound(primary_emotion, self._previous, intensity)
+
             state = EmotionState(
                 primary=primary_emotion,
                 confidence=confidence,
                 secondary=secondary,
                 intensity=intensity,
                 triggers=emotion_triggers.get(primary_emotion, []),
+                compound=compound,
             )
+
+        # Track previous emotion for compound detection
+        self._previous = state.primary
 
         # Track history for trend detection
         self._history.append(state)
         if len(self._history) > self._max_history:
             self._history = self._history[-self._max_history:]
 
+        compound_str = f" compound={state.compound['name']}" if state.compound else ""
         logger.debug(
             f"Emotion detected: {state.primary.value} "
-            f"(conf={state.confidence:.2f}, intensity={state.intensity:.2f})"
+            f"(conf={state.confidence:.2f}, intensity={state.intensity:.2f}){compound_str}"
         )
         return state
 
@@ -365,9 +408,12 @@ class EmotionDetector:
             return {"total_analyzed": 0}
 
         emotion_counts: Dict[str, int] = {}
+        compound_count = 0
         for state in self._history:
             key = state.primary.value
             emotion_counts[key] = emotion_counts.get(key, 0) + 1
+            if state.compound:
+                compound_count += 1
 
         return {
             "total_analyzed": len(self._history),
@@ -376,7 +422,31 @@ class EmotionDetector:
             "avg_confidence": round(
                 sum(s.confidence for s in self._history) / len(self._history), 2
             ),
+            "compound_count": compound_count,
         }
+
+    def get_history(self) -> List[Dict]:
+        """Get emotion history as serializable dicts with timestamps.
+
+        Returns the last N emotions with their metadata for time-series display.
+        """
+        import time as _time
+        result = []
+        for i, state in enumerate(self._history):
+            entry = {
+                "emotion": state.primary.value,
+                "confidence": round(state.confidence, 2),
+                "intensity": round(state.intensity, 2),
+                "compound": state.compound,
+                "secondary": state.secondary.value if state.secondary else None,
+            }
+            result.append(entry)
+        return result
+
+    def reset(self):
+        """Reset emotion history and previous state."""
+        self._history.clear()
+        self._previous = None
 
 
 # Singleton

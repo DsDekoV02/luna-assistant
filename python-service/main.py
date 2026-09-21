@@ -482,6 +482,20 @@ async def list_conversations(limit: int = 10):
     }
 
 
+@app.get("/conversations/{session_id}")
+async def get_session_messages(session_id: str):
+    """Get messages from a specific conversation session."""
+    session = conv_memory.load_session(session_id)
+    if not session:
+        raise HTTPException(status_code=404, detail=f"Session not found: {session_id}")
+    return {
+        "session_id": session.session_id,
+        "started_at": session.started_at,
+        "message_count": session.message_count,
+        "messages": session.get_recent_context(max_turns=50),
+    }
+
+
 @app.get("/conversations/search")
 async def search_conversations(q: str, limit: int = 5):
     """Search across conversation history."""
@@ -507,6 +521,19 @@ async def user_preferences():
 async def emotion_stats():
     """Get emotion detection statistics."""
     return emotion_detector.get_stats()
+
+
+@app.get("/emotion/history")
+async def emotion_history():
+    """Get emotion history as time-series data.
+
+    Returns the last detected emotions with compound info,
+    suitable for charting in the dashboard.
+    """
+    return {
+        "history": emotion_detector.get_history(),
+        "total": len(emotion_detector._history),
+    }
 
 
 @app.get("/asr/status")
