@@ -391,6 +391,19 @@ class LunaAvatar {
         'neutral':   null, // falls back to state-based colors
     };
 
+    // Compound emotion blend profiles (Session 38)
+    // Blends two emotions' visual properties with a "flavor" override
+    static COMPOUND_PROFILES = {
+        'delight':    { moonBlend: 0.6, glowColor: 0xffaa44, eyeColor: 0xffcc66, mouthMul: 1.2, blushMul: 0.8, scaleBoost: 0.08 },
+        'shy_joy':    { moonBlend: 0.5, glowColor: 0xff88aa, eyeColor: 0xffaacc, mouthMul: 0.7, blushMul: 1.5, scaleBoost: -0.02 },
+        'bitter':     { moonBlend: 0.5, glowColor: 0x884455, eyeColor: 0xaa6677, mouthMul: 0.3, blushMul: 0.5, scaleBoost: 0.02 },
+        'amazed':     { moonBlend: 0.5, glowColor: 0xaa66ff, eyeColor: 0xcc88ff, mouthMul: 1.3, blushMul: 0.3, scaleBoost: 0.1 },
+        'playful':    { moonBlend: 0.5, glowColor: 0x88dd66, eyeColor: 0xaaff88, mouthMul: 0.8, blushMul: 0.6, scaleBoost: 0.03 },
+        'vulnerable': { moonBlend: 0.5, glowColor: 0x9977aa, eyeColor: 0xbb99cc, mouthMul: 0.5, blushMul: 1.2, scaleBoost: -0.04 },
+        'shocked':    { moonBlend: 0.5, glowColor: 0xff4466, eyeColor: 0xff6688, mouthMul: 1.4, blushMul: 0.4, scaleBoost: 0.12 },
+        'joyful':     { moonBlend: 0.6, glowColor: 0xffaa66, eyeColor: 0xffcc88, mouthMul: 1.1, blushMul: 1.0, scaleBoost: 0.06 },
+    };
+
     // ── State Management ────────────────────────────────────────
 
     setState(newState) {
@@ -403,10 +416,12 @@ class LunaAvatar {
     /**
      * Set emotion-based avatar appearance.
      * Pass null or 'neutral' to clear emotion override.
+     * Supports compound emotions via compoundInfo parameter (Session 38).
      */
-    setEmotion(emotionName, intensity) {
+    setEmotion(emotionName, intensity, compoundInfo) {
         if (!emotionName || emotionName === 'neutral') {
             this.emotionOverride = null;
+            this._compoundProfile = null;
             this._updateVisuals();
             return;
         }
@@ -416,6 +431,33 @@ class LunaAvatar {
         // Scale effect by intensity (0.0-1.0)
         const t = (typeof intensity === 'number') ? Math.max(0.2, Math.min(1, intensity)) : 0.7;
 
+        // Check for compound emotion profile (Session 38)
+        if (compoundInfo && compoundInfo.name) {
+            const profile = LunaAvatar.COMPOUND_PROFILES[compoundInfo.name];
+            if (profile) {
+                this._compoundProfile = profile;
+                // Blend colors with compound profile
+                this.targetColors = {
+                    moon: this._lerpColorValue(colors.moon, profile.glowColor, 0.3),
+                    glow: profile.glowColor,
+                    eye: profile.eyeColor,
+                };
+                this.mouthTarget = colors.mouth * t * profile.mouthMul;
+                this.blushTarget = colors.blush * t * profile.blushMul;
+                this._emotionIntensity = t;
+                this.emotionOverride = colors;
+                // Apply compound shape
+                this._applyCompoundShape(emotionName, profile, t);
+                // Trigger burst for compound too
+                if (t > 0.6 && this._lastBurstEmotion !== compoundInfo.name) {
+                    this.triggerEmotionBurst(emotionName);
+                    this._lastBurstEmotion = compoundInfo.name;
+                }
+                return;
+            }
+        }
+
+        this._compoundProfile = null;
         this.emotionOverride = colors;
         this.targetColors = { moon: colors.moon, glow: colors.glow, eye: colors.eye };
         this.mouthTarget = colors.mouth * t;
@@ -433,6 +475,29 @@ class LunaAvatar {
 
         // Emotion-specific shape changes (scaled by intensity)
         this._applyEmotionShape(emotionName);
+    }
+
+    _applyCompoundShape(emotionName, profile, t) {
+        if (!this.moon) return;
+        const boost = profile.scaleBoost || 0;
+        this._targetMoonScale = { x: 1 + boost * t, y: 1 + boost * t, z: 1.0 };
+        this._targetMoonTilt = 0;
+        // Compound-specific tilt
+        if (profile === LunaAvatar.COMPOUND_PROFILES.shy_joy || profile === LunaAvatar.COMPOUND_PROFILES.vulnerable) {
+            this._targetMoonTilt = -0.06 * t; // tilt down (shy)
+        } else if (profile === LunaAvatar.COMPOUND_PROFILES.amazed) {
+            this._targetMoonTilt = 0.08 * t; // tilt up (amazed)
+        }
+    }
+
+    /**
+     * Helper: lerp between two hex color values.
+     */
+    _lerpColorValue(a, b, t) {
+        const c = new THREE.Color(a);
+        const target = new THREE.Color(b);
+        c.lerp(target, t);
+        return c.getHex();
     }
 
     _applyEmotionShape(emotion) {

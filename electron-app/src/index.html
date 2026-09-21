@@ -803,6 +803,9 @@
             const text = msgInput.value.trim();
             if (!text) return;
 
+            // Track user message for emotion association (Session 38)
+            lastUserMessage = text;
+
             // Reset streaming state so the next Luna response gets its own bubble
             if (streamingDiv) {
                 streamingDiv.classList.remove('streaming');
@@ -1049,6 +1052,7 @@
                         break;
 
                     case 'transcript':
+                        lastUserMessage = msg.content;
                         addMessage(`🎤 ${msg.content}`, 'system');
                         break;
 
@@ -1178,7 +1182,29 @@
 
         let currentEmotion = 'neutral';
         let emotionTimeout = null;
-        let emotionHistory = [];  // Track last 10 emotions for timeline
+        let emotionHistory = [];  // Track last 20 emotions for timeline
+        let emotionBadgeDiv = null;  // Real-time emotion badge element
+        let dashAutoRefreshTimer = null;  // Dashboard auto-refresh
+        let lastUserMessage = '';  // Track last user message for emotion association
+
+        // Compound emotion blending (Session 38)
+        const COMPOUND_EMOTIONS = {
+            'happy+surprised': { name: 'delight', emoji: '🤩', color: '#ffaa44' },
+            'happy+embarrassed': { name: 'shy_joy', emoji: '☺️', color: '#ff88aa' },
+            'sad+angry': { name: 'bitter', emoji: '😤', color: '#884455' },
+            'curious+surprised': { name: 'amazed', emoji: '🤯', color: '#aa66ff' },
+            'happy+curious': { name: 'playful', emoji: '😏', color: '#88dd66' },
+            'sad+embarrassed': { name: 'vulnerable', emoji: '🥺', color: '#9977aa' },
+            'angry+surprised': { name: 'shocked', emoji: '🤬', color: '#ff4466' },
+            'happy+grateful': { name: 'joyful', emoji: '🥳', color: '#ffaa66' },
+        };
+        let previousEmotion = 'neutral';  // For compound detection
+
+        function detectCompoundEmotion(current, previous) {
+            const key1 = `${previous}+${current}`;
+            const key2 = `${current}+${previous}`;
+            return COMPOUND_EMOTIONS[key1] || COMPOUND_EMOTIONS[key2] || null;
+        }
 
         function updateEmotionDisplay(emotion) {
             const emoji = emotionEmojis[emotion.primary] || '😐';
@@ -1188,24 +1214,37 @@
             // Track current emotion for mood persistence
             currentEmotion = emotion.primary || 'neutral';
 
-            // Add to emotion history (keep last 10)
+            // Detect compound emotion (blended)
+            const compound = detectCompoundEmotion(currentEmotion, previousEmotion);
+            if (compound && emotion.intensity > 0.5) {
+                emotion._compound = compound;
+            }
+            previousEmotion = currentEmotion;
+
+            // Add to emotion history with message context (keep last 20)
             emotionHistory.push({
                 emotion: emotion.primary,
                 intensity: emotion.intensity,
                 confidence: emotion.confidence,
-                time: Date.now()
+                time: Date.now(),
+                message: lastUserMessage.substring(0, 120),
+                compound: compound || null,
             });
-            if (emotionHistory.length > 10) emotionHistory.shift();
+            if (emotionHistory.length > 20) emotionHistory.shift();
             renderEmotionTimeline();
 
             // Show emotion indicator in status bar with intensity bar
             const intensityBar = '█'.repeat(Math.round(intensity / 10)) + '░'.repeat(10 - Math.round(intensity / 10));
-            avatarState.textContent = `${emoji} ${emotion.primary} ${intensityBar}`;
+            const compoundLabel = emotion._compound ? ` → ${emotion._compound.emoji} ${emotion._compound.name}` : '';
+            avatarState.textContent = `${emoji} ${emotion.primary}${compoundLabel} ${intensityBar}`;
             avatarState.style.opacity = Math.max(0.6, emotion.intensity);
+
+            // Update real-time emotion badge (floating)
+            updateEmotionBadge(emotion);
 
             // Update Three.js avatar colors and shape based on emotion
             if (lunaAvatar) {
-                lunaAvatar.setEmotion(emotion.primary, emotion.intensity);
+                lunaAvatar.setEmotion(emotion.primary, emotion.intensity, emotion._compound || null);
             }
 
             // Log for debugging
@@ -1220,12 +1259,45 @@
                         avatarState.textContent = `${emoji} ${emotion.primary}`;
                         avatarState.style.opacity = 0.4;
                     }
+                    // Fade badge too
+                    if (emotionBadgeDiv) emotionBadgeDiv.style.opacity = '0.4';
                 }, 15000);
             } else {
                 // Neutral: clear status text and reset avatar
                 avatarState.textContent = '';
                 avatarState.style.opacity = 1;
+                // Remove badge on neutral
+                if (emotionBadgeDiv) {
+                    emotionBadgeDiv.style.opacity = '0';
+                    setTimeout(() => { if (emotionBadgeDiv) emotionBadgeDiv.style.display = 'none'; }, 500);
+                }
             }
+        }
+
+        // ── Real-time Emotion Badge ─────────────────────────────
+        function updateEmotionBadge(emotion) {
+            if (!emotionBadgeDiv) {
+                emotionBadgeDiv = document.createElement('div');
+                emotionBadgeDiv.id = 'emotion-badge';
+                emotionBadgeDiv.style.cssText = `
+                    position: fixed; top: 40px; right: 10px; z-index: 100;
+                    background: rgba(10,10,20,0.9); border: 1px solid rgba(150,50,255,0.3);
+                    border-radius: 12px; padding: 6px 12px; font-size: 12px;
+                    color: #e0e0ff; backdrop-filter: blur(10px);
+                    transition: all 0.5s ease; display: none; opacity: 0;
+                    pointer-events: none; box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+                `;
+                document.body.appendChild(emotionBadgeDiv);
+            }
+            const color = emotion._compound ? emotion._compound.color : (emotionColors[emotion.primary] || '#666688');
+            const emoji = emotion._compound ? emotion._compound.emoji : (emotionEmojis[emotion.primary] || '😐');
+            const label = emotion._compound ? emotion._compound.name : emotion.primary;
+            const intensity = Math.round(emotion.intensity * 100);
+            emotionBadgeDiv.innerHTML = `<span style="font-size:16px;">${emoji}</span> <span style="color:${color};font-weight:600;">${label}</span> <span style="color:#888;font-size:10px;">${intensity}%</span>`;
+            emotionBadgeDiv.style.display = 'block';
+            emotionBadgeDiv.style.opacity = '1';
+            emotionBadgeDiv.style.borderColor = color + '66';
+            emotionBadgeDiv.style.boxShadow = `0 2px 12px ${color}33`;
         }
 
         // ── Emotion Heatmap ─────────────────────────────────────
@@ -1234,25 +1306,27 @@
             const container = document.getElementById(containerId);
             if (!container || emotionHistory.length === 0) return;
 
-            // Create a heatmap grid (emotions × time)
+            // Include compound emotions in counts (Session 38)
             const emotionCounts = {};
             emotionHistory.forEach(entry => {
-                if (!emotionCounts[entry.emotion]) emotionCounts[entry.emotion] = 0;
-                emotionCounts[entry.emotion]++;
+                const key = entry.compound ? entry.compound.name : entry.emotion;
+                if (!emotionCounts[key]) emotionCounts[key] = { count: 0, compound: entry.compound };
+                emotionCounts[key].count++;
             });
-            const sorted = Object.entries(emotionCounts).sort((a, b) => b[1] - a[1]).slice(0, 6);
+            const sorted = Object.entries(emotionCounts).sort((a, b) => b[1].count - a[1].count).slice(0, 8);
 
             let html = '<div style="display:flex;flex-direction:column;gap:3px;margin:4px 0;">';
-            sorted.forEach(([emo, count]) => {
-                const color = emotionColors[emo] || '#666688';
-                const emoji = emotionEmojis[emo] || '😐';
+            sorted.forEach(([emo, data]) => {
+                const color = data.compound ? data.compound.color : (emotionColors[emo] || '#666688');
+                const emoji = data.compound ? data.compound.emoji : (emotionEmojis[emo] || '😐');
+                const count = data.count;
                 const pct = Math.min(100, (count / emotionHistory.length) * 100);
                 html += `<div style="display:flex;align-items:center;gap:6px;font-size:9px;">`;
                 html += `<span style="width:20px;text-align:center;">${emoji}</span>`;
                 html += `<div style="flex:1;height:10px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden;">`;
                 html += `<div style="width:${pct}%;height:100%;background:${color};border-radius:4px;opacity:0.7;transition:width 0.3s;"></div>`;
                 html += `</div>`;
-                html += `<span style="width:24px;text-align:right;color:#888;">${count}</span>`;
+                html += `<span style="width:36px;text-align:right;color:#888;">${data.compound ? data.compound.name : emo} (${count})</span>`;
                 html += `</div>`;
             });
             html += '</div>';
@@ -1274,19 +1348,83 @@
 
             let html = '<div style="display:flex;align-items:flex-end;gap:3px;height:40px;margin:4px 0;">';
             emotionHistory.forEach((entry, i) => {
-                const color = emotionColors[entry.emotion] || '#666688';
-                const emoji = emotionEmojis[entry.emotion] || '😐';
+                const color = entry.compound ? entry.compound.color : (emotionColors[entry.emotion] || '#666688');
+                const emoji = entry.compound ? entry.compound.emoji : (emotionEmojis[entry.emotion] || '😐');
                 const height = Math.max(8, Math.round(entry.intensity * 36));
                 const opacity = 0.5 + (i / emotionHistory.length) * 0.5;
                 const time = new Date(entry.time).toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-                html += `<div title="${emoji} ${entry.emotion} (${Math.round(entry.intensity * 100)}%) - ${time}" style="
+                const label = entry.compound
+                    ? `${emoji} ${entry.compound.name} (${entry.emotion})`
+                    : `${emoji} ${entry.emotion}`;
+                const msgPreview = entry.message ? `\n💬 \"${entry.message.substring(0, 60)}${entry.message.length > 60 ? '...' : ''}\"` : '';
+                html += `<div title="${label} (${Math.round(entry.intensity * 100)}%) - ${time}${msgPreview}" style="
                     width:18px; height:${height}px; background:${color}; border-radius:3px 3px 0 0;
                     opacity:${opacity}; transition: all 0.3s; cursor:pointer;
                     display:flex; align-items:flex-start; justify-content:center;
-                " onclick="this.title">${emoji}</div>`;
+                " onclick="scrollToEmotionMessage(${i})">${emoji}</div>`;
             });
             html += '</div>';
             container.innerHTML = html;
+        }
+
+        function scrollToEmotionMessage(index) {
+            const entry = emotionHistory[index];
+            if (!entry || !entry.message) return;
+            const bubbles = chatArea.querySelectorAll('.msg.user .bubble');
+            for (const bubble of bubbles) {
+                if (bubble.textContent.includes(entry.message.substring(0, 40))) {
+                    bubble.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    bubble.style.transition = 'box-shadow 0.3s';
+                    bubble.style.boxShadow = `0 0 12px ${emotionColors[entry.emotion] || '#9933ff'}88`;
+                    setTimeout(() => { bubble.style.boxShadow = ''; }, 2000);
+                    return;
+                }
+            }
+        }
+
+        // ── Quick Actions (Session 38) ─────────────────────────
+        async function quickAction(action) {
+            const resultDiv = document.getElementById('quick-action-result');
+            if (!resultDiv) return;
+            resultDiv.textContent = 'Cargando...';
+            try {
+                let data;
+                switch (action) {
+                    case 'systeminfo':
+                        data = await fetch('http://127.0.0.1:8765/status').then(r => r.json());
+                        resultDiv.innerHTML = `CPU: ${data.cpu || '?'}% · RAM: ${data.ram || '?'}% · Disco: ${data.disk || '?'}%`;
+                        break;
+                    case 'weather':
+                        data = await fetch('http://127.0.0.1:8765/command', {
+                            method: 'POST', headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({command: 'weather', params: {city: 'Santiago'}})
+                        }).then(r => r.json());
+                        if (data.error) { resultDiv.textContent = `⚠️ ${data.error}`; }
+                        else { resultDiv.innerHTML = `${data.description || '?'} · ${data.temp_c || '?'}°C · 💧 ${data.humidity || '?'}%`;
+                        }
+                        break;
+                    case 'volume':
+                        data = await fetch('http://127.0.0.1:8765/command', {
+                            method: 'POST', headers: {'Content-Type': 'application/json'},
+                            body: JSON.stringify({command: 'volume', params: {action: 'get'}})
+                        }).then(r => r.json());
+                        if (data.error) { resultDiv.textContent = `⚠️ ${data.error}`; }
+                        else { resultDiv.innerHTML = `🔊 ${data.level || '?'}% ${data.muted ? '(silenciado)' : ''}`; }
+                        break;
+                    case 'cache':
+                        data = await fetch('http://127.0.0.1:8765/cache/stats').then(r => r.json());
+                        resultDiv.innerHTML = `📦 ${data.entries || 0} entradas · ${data.size_mb || 0} MB`;
+                        break;
+                    case 'patterns':
+                        data = await fetch('http://127.0.0.1:8765/patterns/stats').then(r => r.json());
+                        resultDiv.innerHTML = `📊 ${data.total_interactions || 0} interacciones · ${data.unique_topics || 0} temas`;
+                        break;
+                    default:
+                        resultDiv.textContent = 'Acción desconocida';
+                }
+            } catch (e) {
+                resultDiv.textContent = `⚠️ Error: ${e.message}`;
+            }
         }
 
         // ── Streaming Safety Net ────────────────────────────────
@@ -1337,7 +1475,17 @@
             dashVisible = !dashVisible;
             dashPanel.classList.toggle('visible', dashVisible);
             dashToggle.classList.toggle('active', dashVisible);
-            if (dashVisible) refreshDashboard();
+            if (dashVisible) {
+                refreshDashboard();
+                // Auto-refresh every 10s while dashboard is open
+                if (dashAutoRefreshTimer) clearInterval(dashAutoRefreshTimer);
+                dashAutoRefreshTimer = setInterval(() => {
+                    if (dashVisible) refreshDashboard();
+                    else { clearInterval(dashAutoRefreshTimer); dashAutoRefreshTimer = null; }
+                }, 10000);
+            } else {
+                if (dashAutoRefreshTimer) { clearInterval(dashAutoRefreshTimer); dashAutoRefreshTimer = null; }
+            }
         });
 
         async function refreshDashboard() {
@@ -1384,13 +1532,26 @@
                     </div>`;
                 }
 
+                // Quick Actions (Session 38)
+                html += `<div class="dash-section">
+                    <h4>⚡ Acciones rápidas</h4>
+                    <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px;">
+                        <button class="dash-refresh" onclick="quickAction('systeminfo')" style="margin:0;font-size:10px;">💻 Sistema</button>
+                        <button class="dash-refresh" onclick="quickAction('weather')" style="margin:0;font-size:10px;">🌤️ Clima</button>
+                        <button class="dash-refresh" onclick="quickAction('volume')" style="margin:0;font-size:10px;">🔊 Volumen</button>
+                        <button class="dash-refresh" onclick="quickAction('cache')" style="margin:0;font-size:10px;">🗑️ Cache</button>
+                        <button class="dash-refresh" onclick="quickAction('patterns')" style="margin:0;font-size:10px;">📊 Patrones</button>
+                    </div>
+                    <div id="quick-action-result" style="margin-top:4px;font-size:10px;color:#aaa;"></div>
+                </div>`;
+
                 // Recent sessions
                 if (sessions && sessions.sessions && sessions.sessions.length > 0) {
                     html += `<div class="dash-section">
                         <h4>📋 Sesiones recientes</h4>`;
                     sessions.sessions.forEach(s => {
                         const time = s.started_at ? new Date(s.started_at).toLocaleString('es-CL', { hour: '2-digit', minute: '2-digit', day: '2-digit', month: '2-digit' }) : '?';
-                        html += `<div class="dash-session">
+                        html += `<div class="dash-session" style="cursor:pointer;" onclick="viewSession('${s.session_id}')">
                             <span>${s.message_count || 0} msgs</span>
                             <span class="session-time">${time}</span>
                             ${s.summary ? `<div style="color:#666;font-size:9px;margin-top:1px;">${escapeHtml(s.summary)}</div>` : ''}
@@ -1503,6 +1664,44 @@
                 }
             } catch (e) {
                 resultsDiv.innerHTML = '<div style="color:#666;font-size:10px;">Error en búsqueda</div>';
+            }
+        }
+
+        // ── View Session Messages ─────────────────────────────
+        async function viewSession(sessionId) {
+            const resultsDiv = document.getElementById('dash-search-results') || document.createElement('div');
+            try {
+                const resp = await fetch(`http://127.0.0.1:8765/conversations/${encodeURIComponent(sessionId)}`);
+                if (!resp.ok) {
+                    resultsDiv.innerHTML = '<div style="color:#666;font-size:10px;">Sesión no encontrada</div>';
+                    return;
+                }
+                const data = await resp.json();
+                const messages = data.messages || [];
+
+                let html = `<div style="margin-top:8px;">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;">
+                        <span style="color:#cc99ff;font-size:11px;font-weight:600;">📋 Sesión ${data.session_id}</span>
+                        <span style="color:#666;font-size:9px;">${data.message_count || 0} mensajes</span>
+                    </div>`;
+
+                if (messages.length === 0) {
+                    html += '<div style="color:#666;font-size:10px;">Sin mensajes en esta sesión</div>';
+                } else {
+                    messages.forEach(m => {
+                        const role = m.role === 'user' ? '👤' : '🌙';
+                        const color = m.role === 'user' ? 'rgba(100,100,255,0.1)' : 'rgba(150,50,255,0.1)';
+                        const content = escapeHtml((m.content || '').substring(0, 200));
+                        html += `<div style="padding:4px 6px;margin-bottom:3px;background:${color};border-radius:6px;font-size:10px;">
+                            <span style="margin-right:4px;">${role}</span>
+                            <span style="color:#bbb;">${content}</span>
+                        </div>`;
+                    });
+                }
+                html += '</div>';
+                resultsDiv.innerHTML = html;
+            } catch (e) {
+                resultsDiv.innerHTML = '<div style="color:#666;font-size:10px;">Error al cargar sesión</div>';
             }
         }
 
