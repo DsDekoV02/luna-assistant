@@ -1,0 +1,69 @@
+{
+  "session_id": "20260920_233727",
+  "started_at": "2026-09-20T23:37:27.739792",
+  "turns": [
+    {
+      "role": "user",
+      "content": "Hola Luna, estoy super feliz hoy! Todo salio perfecto",
+      "timestamp": "2026-09-20T23:38:19.592980",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 1.0,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "perfecto",
+            "feliz"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡¡DEKOV!! 🎉🎉🎉\n\n¡Qué lindo escucharte así! De verdad se nota la energía de felicidad ✨\n\nRecién hace un rato estabas muerto de cansancio y ahora ¡todo perfecto! Eso es lo que me gusta escuchar 💙\n\n**¡Cuéntame, cuéntame!** 👀\n\n- ¿Qué salió tan bien hoy?\n- ¿El proyecto que no funcionaba por fin corrió? 🚀\n- ¿Algo de la moto? 🏍️\n- ¿O simplemente fue un día increíble?\n\n¡Quiero celebrar contigo, Salocin! 🥳🎊",
+      "timestamp": "2026-09-20T23:38:32.604082",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "No funciona nada!!! Llevo horas con esto y no puedo mas",
+      "timestamp": "2026-09-20T23:39:10.166979",
+      "metadata": {
+        "emotion": {
+          "primary": "frustrated",
+          "confidence": 1.0,
+          "secondary": "excited",
+          "intensity": 0.65,
+          "triggers": [
+            "no funciona",
+            "no puedo mas"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Ey, D! Tranquilo, respira un momento 😊\n\nHace un rato estabas contento porque todo salió perfecto y ahora... ¿qué pasó? ¿Se complicó algo?\n\nCuéntame:\n\n- ¿Qué es lo que no funciona? 💻\n- ¿Es un proyecto en específico?\n- ¿Algo del código que estás intentando correr?\n- ¿Algún error que te está apareciendo?\n\nNo tienes que resolverlo solo, para eso estoy aquí 💙 A ver si entre los dos lo sacamos adelante.",
+      "timestamp": "2026-09-20T23:39:18.534018",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Me pregunto como funciona el sistema de emociones de Luna",
+      "timestamp": "2026-09-20T23:39:18.545021",
+      "metadata": {
+        "emotion": {
+          "primary": "curious",
+          "confidence": 0.5,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "como"
+          ]
+        }
+      }
+    }
+  ],
+  "metadata": {}
+}

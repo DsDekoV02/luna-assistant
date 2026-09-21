@@ -273,4 +273,42 @@ La estrategia optima es usar texto simple y natural.
 
 ---
 
+## 2026-09-20 — Session 28: Voice Design Default + Tool Expansion
+
+### Voice Design como Default ✅
+- **Config:** `voice.default_tts: "design"` en config.yaml
+- **Modelo:** `mimo-v2.5-tts-voicedesign` produce mejor calidad que voice clone
+- **Formato:** `user` = descripción de voz, `assistant` = texto a hablar
+- **Perfiles disponibles:** anime_es, joven_latina, calm_assistant
+- **Implementación:** `use_design` y `use_clone` se leen desde config, pasados a `speak_async()`
+- **Voice clone queda como fallback** configurable con `voice.default_tts: "clone"`
+
+### Tool Calling — Nuevas Herramientas
+
+#### `reminder` ✅
+- Definida en LUNA_TOOLS desde antes, pero faltaba handler en allowlist
+- Handler: parse ISO 8601 → threading.Timer → `_notify()` al disparar
+- Limitación: NO persiste entre reinicios del servicio
+
+#### `notes` ✅ NUEVA
+- Tool definition + handler completo
+- Acciones: save, list, read, delete
+- Storage: `memory/notes/*.md` (markdown legible por RAG)
+- Títulos sanitizados como filenames
+- Integración natural con RAG semántico (los chunks se indexan automáticamente)
+
+**Allowlist total:** 16 herramientas (antes 14)
+```
+systeminfo, screenshot, listdir, openapp, volume, datetime, timer,
+websearch, clipboard, readfile, webfetch, processes, notify,
+weather, reminder, notes
+```
+
+### Tests
+- 507/507 pasando (497→507, +10 nuevos)
+- Tests para reminder: validación de mensaje, tiempo inválido, tiempo pasado, set exitoso
+- Tests para notes: list, save+read round-trip, read inexistente, delete inexistente, acción inválida
+
+---
+
 *"Cada experimento nos acerca más a la Luna."* 🌙

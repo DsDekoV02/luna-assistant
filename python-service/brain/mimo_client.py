@@ -312,6 +312,32 @@ LUNA_TOOLS = [
                 "required": ["message"]
             }
         }
+    },
+    {
+        "type": "function",
+        "function": {
+            "name": "notes",
+            "description": "Guardar, listar, leer o eliminar notas del usuario",
+            "parameters": {
+                "type": "object",
+                "properties": {
+                    "action": {
+                        "type": "string",
+                        "enum": ["save", "list", "read", "delete"],
+                        "description": "Accion: save (guardar), list (listar), read (leer), delete (eliminar)"
+                    },
+                    "title": {
+                        "type": "string",
+                        "description": "Titulo de la nota"
+                    },
+                    "content": {
+                        "type": "string",
+                        "description": "Contenido de la nota (solo con action=save)"
+                    }
+                },
+                "required": ["action"]
+            }
+        }
     }
 ]
 

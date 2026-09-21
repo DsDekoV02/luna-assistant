@@ -201,3 +201,63 @@ class TestWeatherCommand:
         result = allowlist.execute("weather", {"city": "Santiago"})
         # Either succeeds or returns error (network may not be available)
         assert "city" in result or "error" in result
+
+
+# ── reminder handler ──────────────────────────────────────────────
+
+class TestReminderCommand:
+    def test_reminder_requires_message(self, allowlist):
+        result = allowlist.execute("reminder", {"message": "", "time_iso": "2099-01-01T12:00:00"})
+        assert "error" in result
+
+    def test_reminder_invalid_time(self, allowlist):
+        result = allowlist.execute("reminder", {"message": "Test", "time_iso": "not-a-date"})
+        assert "error" in result
+
+    def test_reminder_past_time(self, allowlist):
+        result = allowlist.execute("reminder", {"message": "Test", "time_iso": "2020-01-01T00:00:00"})
+        assert "error" in result
+
+    def test_reminder_sets_successfully(self, allowlist):
+        result = allowlist.execute("reminder", {"message": "Test reminder", "time_iso": "2099-12-31T23:59:00"})
+        assert result.get("reminder_set") is True
+        assert result.get("message") == "Test reminder"
+        assert "fires_in_seconds" in result
+
+
+# ── notes handler ─────────────────────────────────────────────────
+
+class TestNotesCommand:
+    def test_notes_list(self, allowlist):
+        result = allowlist.execute("notes", {"action": "list"})
+        assert "notes" in result
+        assert "total" in result
+
+    def test_notes_save_requires_title(self, allowlist):
+        result = allowlist.execute("notes", {"action": "save", "content": "test"})
+        assert "error" in result
+
+    def test_notes_save_and_read(self, allowlist):
+        # Save a note
+        result = allowlist.execute("notes", {"action": "save", "title": "test session28", "content": "Hello from tests"})
+        assert result.get("saved") is True
+
+        # Read it back
+        result = allowlist.execute("notes", {"action": "read", "title": "test session28"})
+        assert "content" in result
+        assert "Hello from tests" in result["content"]
+
+        # Cleanup
+        allowlist.execute("notes", {"action": "delete", "title": "test session28"})
+
+    def test_notes_read_nonexistent(self, allowlist):
+        result = allowlist.execute("notes", {"action": "read", "title": "nonexistent_note_xyz"})
+        assert "error" in result
+
+    def test_notes_delete_nonexistent(self, allowlist):
+        result = allowlist.execute("notes", {"action": "delete", "title": "nonexistent_note_xyz"})
+        assert "error" in result
+
+    def test_notes_invalid_action(self, allowlist):
+        result = allowlist.execute("notes", {"action": "invalid"})
+        assert "error" in result

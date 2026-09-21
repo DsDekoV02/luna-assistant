@@ -26,7 +26,9 @@ from brain.emotion import get_emotion_detector, EmotionDetector, get_response_st
 from voice.tts import TTSEngine
 from voice.stt import STTEngine
 from voice.streaming import get_streaming_handler, StreamingVoiceHandler
+from asr.engine import get_asr_engine, ASREngine
 from tools.allowlist import get_allowlist, CommandAllowlist
+from tools.reminder_store import get_reminder_store
 from tools.security import check_injection, sanitize_input, validate_command
 from memory.cache import get_cache, DiskCache
 from memory.rag import get_rag, RAGEngine
@@ -81,15 +83,33 @@ except Exception as e:
         memory_path=config.get("memory", {}).get("memory_path", "../")
     )
 allowlist = get_allowlist()
+
+# Reschedule persisted reminders on startup
+reminder_store = get_reminder_store(data_dir=Path(__file__).parent / "data")
+def _reminder_startup_callback(entry):
+    logger.info(f"Expired reminder fired: #{entry['id']} - {entry['message']}")
+    allowlist.execute("notify", {"title": "Luna - Recordatorio", "message": entry["message"]})
+reminder_store.reschedule_pending(callback=_reminder_startup_callback)
+logger.info(f"Reminder store loaded: {reminder_store.stats()}")
 mode_manager = get_mode_manager(config.get("modes", {}).get("default", "casa"))
 proactive = get_proactive_engine()
 pattern_engine = get_pattern_engine()
 
 voice_ref = config.get("voice_ref_path", "../experiments/luna_voz_v5b_kohana_fina.wav")
 voice_ref_abs = str(Path(__file__).parent / voice_ref)
-tts_engine = TTSEngine(mimo_client, cache=cache, voice_ref_path=voice_ref_abs)
+tts_default_mode = config.get("voice", {}).get("default_tts", "edge")
+edge_voice = config.get("voice", {}).get("edge_voice", "es-MX-DaliaNeural")
+tts_use_design = tts_default_mode == "design"
+tts_use_clone = tts_default_mode == "clone"
+tts_use_edge = tts_default_mode == "edge"
+tts_engine = TTSEngine(mimo_client, cache=cache, voice_ref_path=voice_ref_abs, voice_design_profile=config.get("voice_design_profile", "anime_es"), default_tts=tts_default_mode, edge_voice=edge_voice)
 stt_engine = STTEngine(mimo_client, sample_rate=config.get("voice", {}).get("sample_rate", 16000))
 streaming_handler = get_streaming_handler(mimo_client, tts_engine, stt_engine)
+
+# ASR engine (MiMo API primary, Whisper fallback)
+whisper_model = config.get("asr", {}).get("whisper_model", "base")
+asr_engine = get_asr_engine(mimo_client, whisper_model=whisper_model)
+logger.info(f"ASR engine initialized: {asr_engine.get_status()}")
 
 # Emotion detection
 emotion_detector = get_emotion_detector()
@@ -141,6 +161,7 @@ class TTSRequest(BaseModel):
     text: str
     use_clone: bool = True
     use_design: bool = False
+    use_edge: bool = False
     save_path: Optional[str] = None
 
 class ModeRequest(BaseModel):
@@ -288,7 +309,7 @@ async def chat(request: ChatRequest):
 async def text_to_speech(request: TTSRequest):
     """Convert text to speech."""
     try:
-        audio = tts_engine.speak(request.text, use_clone=request.use_clone, use_design=request.use_design)
+        audio = tts_engine.speak(request.text, use_clone=request.use_clone, use_design=request.use_design, use_edge=request.use_edge)
         if not audio:
             raise HTTPException(status_code=500, detail="TTS generation failed")
 
@@ -426,6 +447,22 @@ async def clear_patterns():
     return {"cleared": True}
 
 
+@app.get("/notes")
+async def list_notes_endpoint():
+    """List saved notes."""
+    from tools.allowlist import get_allowlist
+    al = get_allowlist()
+    return al.execute("notes", {"action": "list"})
+
+
+@app.get("/notes/{title}")
+async def read_note(title: str):
+    """Read a specific note."""
+    from tools.allowlist import get_allowlist
+    al = get_allowlist()
+    return al.execute("notes", {"action": "read", "title": title})
+
+
 # ── Conversation Memory Endpoints ─────────────────────────────────
 
 @app.get("/conversations")
@@ -470,6 +507,23 @@ async def user_preferences():
 async def emotion_stats():
     """Get emotion detection statistics."""
     return emotion_detector.get_stats()
+
+
+@app.get("/asr/status")
+async def asr_status():
+    """Get ASR engine status (API availability, Whisper backend)."""
+    return asr_engine.get_status()
+
+
+@app.post("/asr/transcribe")
+async def asr_transcribe_endpoint(file_path: str):
+    """Transcribe an audio file using ASR (MiMo API or Whisper fallback)."""
+    if not Path(file_path).exists():
+        raise HTTPException(status_code=404, detail=f"File not found: {file_path}")
+    text = asr_engine.transcribe(file_path)
+    if not text:
+        raise HTTPException(status_code=500, detail="Transcription failed")
+    return {"text": text, "backend": asr_engine.get_status()["backend"]}
 
 
 async def retry_on_failure(func, max_retries=2, delay=1.0):
@@ -654,8 +708,9 @@ async def handle_text_message(ws: WebSocket, data: dict, conv: list, ws_id: str)
                     logger.error(f"Audio send error: {e}")
 
             # Fire-and-forget: TTS runs in thread pool, text already sent
+            # Default: voice_design > voice_clone > standard
             asyncio.create_task(
-                tts_engine.speak_async(full_response, on_complete=_send_audio)
+                tts_engine.speak_async(full_response, on_complete=_send_audio, use_clone=tts_use_clone, use_design=tts_use_design, use_edge=tts_use_edge)
             )
 
         # Send proactive suggestions periodically (every 4 messages)

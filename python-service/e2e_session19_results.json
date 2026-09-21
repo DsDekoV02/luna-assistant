@@ -1,11 +1,11 @@
 {
-  "timestamp": "2026-09-20 15:07:00",
+  "timestamp": "2026-09-21 00:40:27",
   "session": 19,
   "all_passed": true,
   "results": {
     "health": {
       "status": 200,
-      "ok": false
+      "ok": true
     },
     "chat_happy": {
       "status": 200,
@@ -35,11 +35,11 @@
     },
     "emotion_stats": {
       "status": 200,
-      "analyzed": 12
+      "analyzed": 16
     },
     "sessions": {
       "status": 200,
-      "count": 3
+      "count": 5
     },
     "avatar_mapping": {
       "status": 200,

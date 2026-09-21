@@ -1103,6 +1103,7 @@
 
         let currentEmotion = 'neutral';
         let emotionTimeout = null;
+        let emotionHistory = [];  // Track last 10 emotions for timeline
 
         function updateEmotionDisplay(emotion) {
             const emoji = emotionEmojis[emotion.primary] || '😐';
@@ -1111,6 +1112,16 @@
 
             // Track current emotion for mood persistence
             currentEmotion = emotion.primary || 'neutral';
+
+            // Add to emotion history (keep last 10)
+            emotionHistory.push({
+                emotion: emotion.primary,
+                intensity: emotion.intensity,
+                confidence: emotion.confidence,
+                time: Date.now()
+            });
+            if (emotionHistory.length > 10) emotionHistory.shift();
+            renderEmotionTimeline();
 
             // Show emotion indicator in status bar with intensity bar
             const intensityBar = '█'.repeat(Math.round(intensity / 10)) + '░'.repeat(10 - Math.round(intensity / 10));
@@ -1140,6 +1151,35 @@
                 avatarState.textContent = '';
                 avatarState.style.opacity = 1;
             }
+        }
+
+        // ── Emotion Timeline ─────────────────────────────────────
+
+        const emotionColors = {
+            'happy': '#ffcc33', 'excited': '#ff6633', 'sad': '#4466cc', 'frustrated': '#cc4433',
+            'angry': '#ff2222', 'anxious': '#9944cc', 'tired': '#667799', 'curious': '#33cc88',
+            'confused': '#8866cc', 'grateful': '#ff8866', 'sarcastic': '#cc66ff', 'neutral': '#666688',
+        };
+
+        function renderEmotionTimeline() {
+            const container = document.getElementById('emotion-timeline');
+            if (!container || emotionHistory.length === 0) return;
+
+            let html = '<div style="display:flex;align-items:flex-end;gap:3px;height:40px;margin:4px 0;">';
+            emotionHistory.forEach((entry, i) => {
+                const color = emotionColors[entry.emotion] || '#666688';
+                const emoji = emotionEmojis[entry.emotion] || '😐';
+                const height = Math.max(8, Math.round(entry.intensity * 36));
+                const opacity = 0.5 + (i / emotionHistory.length) * 0.5;
+                const time = new Date(entry.time).toLocaleTimeString('es-CL', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+                html += `<div title="${emoji} ${entry.emotion} (${Math.round(entry.intensity * 100)}%) - ${time}" style="
+                    width:18px; height:${height}px; background:${color}; border-radius:3px 3px 0 0;
+                    opacity:${opacity}; transition: all 0.3s; cursor:pointer;
+                    display:flex; align-items:flex-start; justify-content:center;
+                " onclick="this.title">${emoji}</div>`;
+            });
+            html += '</div>';
+            container.innerHTML = html;
         }
 
         // ── Streaming Safety Net ────────────────────────────────
@@ -1227,6 +1267,7 @@
                         <div class="dash-row"><span class="label">Confianza prom.</span><span class="value">${Math.round((emotionStats.avg_confidence || 0) * 100)}%</span></div>
                         ${emotionStats.mood_trend ? `<div class="dash-row"><span class="label">Tendencia</span><span class="value">${emotionEmojis[emotionStats.mood_trend] || ''} ${emotionStats.mood_trend}</span></div>` : ''}
                         <div class="dash-emotion-bar">${chips}</div>
+                        <div id="emotion-timeline"></div>
                     </div>`;
                 } else if (emotionStats) {
                     html += `<div class="dash-section">
@@ -1260,8 +1301,66 @@
                     <div id="dash-search-results"></div>
                 </div>`;
 
+                // Notes with search
+                let notes = null;
+                try {
+                    notes = await fetch('http://127.0.0.1:8765/notes').then(r => r.json()).catch(() => null);
+                } catch(e) {}
+                html += `<div class="dash-section">
+                    <h4>📝 Notas</h4>`;
+                if (notes && notes.notes && notes.notes.length > 0) {
+                    html += `<div style="display:flex;gap:4px;margin-bottom:4px;">
+                        <input type="text" id="dash-notes-search" placeholder="Buscar notas..." style="flex:1;background:rgba(255,255,255,0.04);border:1px solid rgba(150,50,255,0.2);border-radius:6px;padding:4px 8px;color:#e0e0ff;font-size:10px;outline:none;">
+                        <button class="dash-refresh" onclick="searchNotes()" style="margin:0;">🔍</button>
+                    </div>
+                    <div id="dash-notes-results"></div>`;
+                    notes.notes.slice(0, 5).forEach(n => {
+                        html += `<div class="dash-session">
+                            <span style="color:#cc99ff;">${escapeHtml(n.title)}</span>
+                            <span class="session-time">${n.modified || ''}</span>
+                        </div>`;
+                    });
+                } else {
+                    html += `<div style="color:#666;font-size:10px;">No hay notas guardadas</div>`;
+                }
+                html += `</div>`;
+
+                // Voice mode
+                let asrStatus = null;
+                try {
+                    asrStatus = await fetch('http://127.0.0.1:8765/asr/status').then(r => r.json()).catch(() => null);
+                } catch(e) {}
+                html += `<div class="dash-section">
+                    <h4>🎤 Voz</h4>
+                    <div class="dash-row"><span class="label">Modo TTS</span><span class="value">Voice Design (anime_es)</span></div>
+                    <div class="dash-row"><span class="label">Modelo TTS</span><span class="value">mimo-v2.5-tts-voicedesign</span></div>`;
+                if (asrStatus) {
+                    const asrBackend = asrStatus.backend === 'mimo-asr' ? '☁️ MiMo API' : (asrStatus.backend === 'whisper' ? '🔊 Whisper local' : '❌ No disponible');
+                    html += `<div class="dash-row"><span class="label">ASR</span><span class="value">${asrBackend}</span></div>`;
+                    if (asrStatus.whisper_loaded) {
+                        html += `<div class="dash-row"><span class="label">Whisper</span><span class="value">${asrStatus.whisper_model}</span></div>`;
+                    }
+                }
+                html += `</div>`;
+
+                // System info
+                let sysInfo = null;
+                try {
+                    sysInfo = await fetch('http://127.0.0.1:8765/status').then(r => r.json()).catch(() => null);
+                } catch(e) {}
+                if (sysInfo) {
+                    html += `<div class="dash-section">
+                        <h4>💻 Sistema</h4>
+                        <div class="dash-row"><span class="label">CPU</span><span class="value">${sysInfo.cpu || '?'}%</span></div>
+                        <div class="dash-row"><span class="label">RAM</span><span class="value">${sysInfo.ram || '?'}%</span></div>
+                        <div class="dash-row"><span class="label">Disco</span><span class="value">${sysInfo.disk || '?'}%</span></div>
+                    </div>`;
+                }
+
                 html += `<button class="dash-refresh" onclick="refreshDashboard()">↻ Actualizar</button>`;
                 dashContent.innerHTML = html || '<div style="color:#666">No hay datos disponibles. ¿El servicio está corriendo?</div>';
+                // Render emotion timeline after DOM update
+                renderEmotionTimeline();
             } catch (e) {
                 dashContent.innerHTML = '<div style="color:#666">Error al cargar dashboard. Verifica conexion.</div>';
             }
@@ -1295,6 +1394,47 @@
                 }
             } catch (e) {
                 resultsDiv.innerHTML = '<div style="color:#666;font-size:10px;">Error en búsqueda</div>';
+            }
+        }
+
+        async function searchNotes() {
+            const input = document.getElementById('dash-notes-search');
+            const resultsDiv = document.getElementById('dash-notes-results');
+            if (!input || !resultsDiv) return;
+            const query = input.value.trim().toLowerCase();
+            if (!query) { resultsDiv.innerHTML = ''; return; }
+
+            try {
+                const notesResp = await fetch('http://127.0.0.1:8765/notes');
+                const notesData = await notesResp.json();
+                const allNotes = notesData.notes || [];
+                const filtered = allNotes.filter(n => (n.title || '').toLowerCase().includes(query));
+
+                if (filtered.length === 0) {
+                    resultsDiv.innerHTML = '<div style="color:#666;font-size:10px;padding:4px 0;">Sin resultados</div>';
+                } else {
+                    let html = '';
+                    filtered.forEach(n => {
+                        html += `<div style="padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:10px;cursor:pointer;" onclick="viewNote('${escapeHtml(n.title)}')">
+                            <span style="color:#cc99ff;">${escapeHtml(n.title)}</span>
+                            <span style="color:#666;font-size:9px;margin-left:4px;">${n.modified || ''}</span>
+                        </div>`;
+                    });
+                    resultsDiv.innerHTML = html;
+                }
+            } catch (e) {
+                resultsDiv.innerHTML = '<div style="color:#666;font-size:10px;">Error en búsqueda</div>';
+            }
+        }
+
+        async function viewNote(title) {
+            try {
+                const resp = await fetch(`http://127.0.0.1:8765/notes/${encodeURIComponent(title)}`);
+                const data = await resp.json();
+                const content = data.content || 'Sin contenido';
+                addMessage(`📝 ${title}:\n${content}`, 'system');
+            } catch (e) {
+                addMessage('⚠️ Error al leer nota', 'system');
             }
         }
 

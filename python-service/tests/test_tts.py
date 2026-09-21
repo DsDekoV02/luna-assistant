@@ -54,24 +54,24 @@ class TestTTSEngineInit:
 
 class TestSpeak:
     def test_basic_speak(self, tts_engine, mock_client):
-        result = tts_engine.speak("Hola mundo", use_clone=False)
+        result = tts_engine.speak("Hola mundo", use_clone=False, use_edge=False)
         assert result == b"RIFF" + b"\x00" * 200
         mock_client.tts.assert_called_once()
 
     def test_clone_speak(self, tts_engine, mock_client):
-        result = tts_engine.speak("Hola mundo", use_clone=True)
+        result = tts_engine.speak("Hola mundo", use_clone=True, use_edge=False)
         assert result is not None
         mock_client.voice_clone.assert_called_once()
 
     def test_cache_miss_then_set(self, tts_engine, mock_cache, mock_client):
         mock_cache.get.return_value = None
-        tts_engine.speak("Test", use_clone=False)
+        tts_engine.speak("Test", use_clone=False, use_edge=False)
         mock_cache.set.assert_called_once()
 
     def test_cache_hit(self, tts_engine, mock_cache, mock_client):
         cached_audio = b"CACHED_AUDIO"
         mock_cache.get.return_value = cached_audio
-        result = tts_engine.speak("Test", use_clone=False)
+        result = tts_engine.speak("Test", use_clone=False, use_edge=False)
         assert result == cached_audio
         mock_client.tts.assert_not_called()
 
@@ -80,7 +80,7 @@ class TestSpeak:
         mock_client.tts.return_value = b"FALLBACK_AUDIO"
 
         engine = TTSEngine(mock_client, cache=mock_cache, voice_ref_path=sample_wav_file)
-        result = engine.speak("Test", use_clone=True)
+        result = engine.speak("Test", use_clone=True, use_edge=False)
         assert result == b"FALLBACK_AUDIO"
 
     def test_cache_key_differs_by_mode(self, tts_engine):

@@ -22,7 +22,7 @@ class CommandAllowlist:
             "systeminfo", "screenshot", "listdir", "openapp",
             "volume", "datetime", "timer", "websearch",
             "clipboard", "readfile", "webfetch", "processes",
-            "notify", "weather"
+            "notify", "weather", "reminder", "list_reminders", "notes"
         ]
         self.log_commands = log_commands
         self._timers = {}
@@ -56,6 +56,9 @@ class CommandAllowlist:
             "webfetch": self._webfetch,
             "processes": self._processes,
             "notify": self._notify,
+            "reminder": self._reminder,
+            "list_reminders": self._list_reminders,
+            "notes": self._notes,
         }
 
         handler = dispatch.get(command)
@@ -464,6 +467,102 @@ class CommandAllowlist:
             return {"notified": True, "title": safe_title, "message": safe_msg}
         except Exception as e:
             return {"error": f"Notification failed: {e}"}
+
+    def _reminder(self, message: str, time_iso: str = "") -> Dict[str, Any]:
+        """Create a reminder that fires at a specific time. Persisted to disk."""
+        from tools.reminder_store import get_reminder_store
+        from datetime import datetime as dt
+
+        if not message:
+            return {"error": "Reminder message is required"}
+
+        # Parse the target time
+        try:
+            target = dt.fromisoformat(time_iso.replace("Z", "+00:00"))
+        except (ValueError, AttributeError):
+            return {"error": f"Invalid time format: {time_iso}. Use ISO 8601."}
+
+        now = dt.now()
+        delay = (target - now).total_seconds()
+
+        if delay < 0:
+            return {"error": "Reminder time is in the past"}
+
+        def _on_fire(entry):
+            logger.info(f"Reminder: {entry['message']}")
+            self._notify("Luna - Recordatorio", entry['message'])
+
+        store = get_reminder_store()
+        entry = store.add(message=message, scheduled_time=target, callback=_on_fire)
+
+        return {
+            "reminder_set": True,
+            "id": entry["id"],
+            "message": message,
+            "target_time": time_iso,
+            "fires_in_seconds": round(delay)
+        }
+
+    def _list_reminders(self, status: str = "") -> Dict[str, Any]:
+        """List reminders, optionally filtered by status (pending/completed)."""
+        from tools.reminder_store import get_reminder_store
+        store = get_reminder_store()
+        filter_status = status if status else None
+        reminders = store.list_reminders(status=filter_status)
+        return {
+            "reminders": reminders,
+            "count": len(reminders),
+            "stats": store.stats(),
+        }
+
+    def _notes(self, action: str = "list", title: str = "", content: str = "") -> Dict[str, Any]:
+        """Save, list, read, or delete notes for the user."""
+        notes_dir = Path(__file__).parent.parent / "memory" / "notes"
+        notes_dir.mkdir(parents=True, exist_ok=True)
+
+        if action == "save":
+            if not title:
+                return {"error": "Title is required to save a note"}
+            safe_title = "_".join(title.lower().split())[:50]
+            note_path = notes_dir / f"{safe_title}.md"
+            timestamp = datetime.now().strftime("%Y-%m-%d %H:%M")
+            with open(note_path, "w", encoding="utf-8") as f:
+                f.write(f"# {title}\n\n")
+                f.write(f"*Creado: {timestamp}*\n\n")
+                f.write(content or "(sin contenido)")
+            return {"saved": True, "title": title, "path": str(note_path)}
+
+        elif action == "list":
+            notes = []
+            for p in sorted(notes_dir.glob("*.md"), key=lambda x: x.stat().st_mtime, reverse=True):
+                notes.append({
+                    "title": p.stem.replace("_", " ").title(),
+                    "modified": datetime.fromtimestamp(p.stat().st_mtime).isoformat(),
+                    "size": p.stat().st_size
+                })
+            return {"notes": notes[:20], "total": len(notes)}
+
+        elif action == "read":
+            if not title:
+                return {"error": "Title is required to read a note"}
+            safe_title = "_".join(title.lower().split())[:50]
+            note_path = notes_dir / f"{safe_title}.md"
+            if not note_path.exists():
+                return {"error": f"Note not found: {title}"}
+            with open(note_path, "r", encoding="utf-8") as f:
+                return {"title": title, "content": f.read()[:5000]}
+
+        elif action == "delete":
+            if not title:
+                return {"error": "Title is required to delete a note"}
+            safe_title = "_".join(title.lower().split())[:50]
+            note_path = notes_dir / f"{safe_title}.md"
+            if not note_path.exists():
+                return {"error": f"Note not found: {title}"}
+            note_path.unlink()
+            return {"deleted": True, "title": title}
+
+        return {"error": "Invalid notes action. Use: save, list, read, delete"}
 
 
 # Singleton

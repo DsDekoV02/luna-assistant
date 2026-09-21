@@ -27,6 +27,7 @@ class LunaAvatar {
         this.emotionOverride = null;
         this._targetMoonScale = { x: 1, y: 1, z: 1 };
         this._targetMoonTilt = 0;
+        this._lastBurstEmotion = null;
 
         this._initScene();
         this._createStarField();
@@ -353,6 +354,8 @@ class LunaAvatar {
 
         this.trailSystem = new THREE.Points(geo, mat);
         this.trailVelocities = velocities;
+        this._trailTargetColor = 0xcc88ff;  // Default trail color
+        this._trailCurrentColor = 0xcc88ff;
         this.scene.add(this.trailSystem);
     }
 
@@ -403,6 +406,15 @@ class LunaAvatar {
         this.mouthTarget = colors.mouth * t;
         this.blushTarget = colors.blush * t;
         this._emotionIntensity = t;
+
+        // Trigger particle burst for strong emotions
+        if (t > 0.7 && this._lastBurstEmotion !== emotionName) {
+            this.triggerEmotionBurst(emotionName);
+            this._lastBurstEmotion = emotionName;
+        }
+        if (t <= 0.5) {
+            this._lastBurstEmotion = null;
+        }
 
         // Emotion-specific shape changes (scaled by intensity)
         this._applyEmotionShape(emotionName);
@@ -559,11 +571,33 @@ class LunaAvatar {
             this.rightBlush.material.opacity = this._lerp(currentBlush, this.blushTarget, speed);
         }
 
-        // ── Orbital rings ──
-        for (const ring of this.orbitalRings) {
+        // ── Orbital rings (emotion-reactive colors) ──
+        for (let ri = 0; ri < this.orbitalRings.length; ri++) {
+            const ring = this.orbitalRings[ri];
             ring.group.rotation.z += ring.config.speed * dt;
             // Subtle wobble
             ring.group.rotation.x = ring.config.tilt + Math.sin(this.time * 0.5) * 0.05;
+            // Emotion-reactive ring color: blend toward emotion glow
+            if (this.emotionOverride && this._emotionIntensity) {
+                const ringTarget = this.emotionOverride.glow;
+                if (!ring._currentColor) ring._currentColor = ring.config.color;
+                ring._currentColor = this._lerpColor(ring._currentColor, ringTarget, 0.02 + ri * 0.005);
+                // Update ring mesh
+                const ringMesh = ring.group.children[0];
+                if (ringMesh && ringMesh.material) ringMesh.material.color.setHex(ring._currentColor);
+                // Update particles on ring
+                const ringParticles = ring.group.children[1];
+                if (ringParticles && ringParticles.material) ringParticles.material.color.setHex(ring._currentColor);
+            } else {
+                // Reset to default
+                if (ring._currentColor && ring._currentColor !== ring.config.color) {
+                    ring._currentColor = this._lerpColor(ring._currentColor, ring.config.color, 0.02);
+                    const ringMesh = ring.group.children[0];
+                    if (ringMesh && ringMesh.material) ringMesh.material.color.setHex(ring._currentColor);
+                    const ringParticles = ring.group.children[1];
+                    if (ringParticles && ringParticles.material) ringParticles.material.color.setHex(ring._currentColor);
+                }
+            }
         }
 
         // ── Aura glow pulse (emotion intensity affects brightness) ──
@@ -583,13 +617,22 @@ class LunaAvatar {
             this.glowRing.scale.set(ringPulse, ringPulse, 1);
         }
 
-        // ── Star twinkle ──
+        // ── Star twinkle (emotion-reactive tint) ──
         if (this.stars) {
             this.stars.rotation.y = this.time * 0.01;
             this.stars.material.opacity = 0.3 + Math.sin(this.time * 0.8) * 0.1;
+            // Stars tint toward emotion color for subtle mood shift
+            if (this.emotionOverride && this._emotionIntensity) {
+                if (!this._starTargetColor) this._starTargetColor = 0xaabbff;
+                this._starTargetColor = this._lerpColor(this._starTargetColor, this.emotionOverride.glow, 0.008);
+                this.stars.material.color.setHex(this._starTargetColor);
+            } else if (this._starTargetColor && this._starTargetColor !== 0xaabbff) {
+                this._starTargetColor = this._lerpColor(this._starTargetColor, 0xaabbff, 0.008);
+                this.stars.material.color.setHex(this._starTargetColor);
+            }
         }
 
-        // ── Particle trails ──
+        // ── Particle trails (emotion-reactive colors) ──
         if (this.trailSystem) {
             const positions = this.trailSystem.geometry.attributes.position.array;
             for (let i = 0; i < this.trailVelocities.length; i++) {
@@ -601,8 +644,19 @@ class LunaAvatar {
                 positions[i * 3 + 2] = v.zOffset + Math.sin(this.time + i) * 0.05;
             }
             this.trailSystem.geometry.attributes.position.needsUpdate = true;
+            // Emotion-reactive trail color: blend toward emotion glow color
+            if (this.emotionOverride && this._emotionIntensity) {
+                this._trailTargetColor = this.emotionOverride.glow;
+            } else {
+                this._trailTargetColor = 0xcc88ff;  // Default purple
+            }
+            this._trailCurrentColor = this._lerpColor(this._trailCurrentColor, this._trailTargetColor, 0.03);
+            this.trailSystem.material.color.setHex(this._trailCurrentColor);
             this.trailSystem.material.opacity = 0.3 + Math.sin(this.time * 1.2) * 0.1;
         }
+
+        // ── Emotion-specific eye effects ──
+        this._applyEmotionEyeEffects();
 
         // ── State-specific animations ──
         this._applyStateAnimation();
@@ -662,6 +716,150 @@ class LunaAvatar {
                 }
                 break;
         }
+    }
+
+    // ── Emotion-Specific Eye Effects ──────────────────────────────
+
+    _applyEmotionEyeEffects() {
+        if (!this.emotionOverride || !this._emotionIntensity) return;
+        const t = this._emotionIntensity;
+        const emo = this.emotionOverride;
+
+        // Happy / Grateful: Sparkle eyes (scale up, add shimmer)
+        if (this._lastBurstEmotion === 'happy' || this._lastBurstEmotion === 'grateful' ||
+            this.emotionOverride === LunaAvatar.EMOTION_COLORS['happy'] ||
+            this.emotionOverride === LunaAvatar.EMOTION_COLORS['grateful']) {
+            if (this.leftEye) {
+                const sparkle = 1.0 + Math.sin(this.time * 6) * 0.08 * t;
+                this.leftEye.scale.setScalar(sparkle);
+                this.rightEye.scale.setScalar(sparkle);
+            }
+            // Highlight shimmer
+            if (this.leftHighlight) {
+                const shimmer = 0.012 + Math.sin(this.time * 8) * 0.006 * t;
+                this.leftHighlight.scale.setScalar(shimmer / 0.012);
+                this.rightHighlight.scale.setScalar(shimmer / 0.012);
+            }
+        }
+        // Sad / Tired: Droopy eyes (pupils shift down, eyes narrow)
+        else if (this.emotionOverride === LunaAvatar.EMOTION_COLORS['sad'] ||
+                 this.emotionOverride === LunaAvatar.EMOTION_COLORS['tired']) {
+            if (this.leftPupil) {
+                this.leftPupil.position.y = 0.12 - 0.015 * t + Math.sin(this.time * 0.8) * 0.003;
+                this.rightPupil.position.y = 0.12 - 0.015 * t + Math.sin(this.time * 0.8) * 0.003;
+            }
+            if (this.leftEye) {
+                this.leftEye.scale.y = 1 - 0.15 * t;
+                this.rightEye.scale.y = 1 - 0.15 * t;
+            }
+        }
+        // Angry / Frustrated: Narrowed eyes, pupils shrink
+        else if (this.emotionOverride === LunaAvatar.EMOTION_COLORS['angry'] ||
+                 this.emotionOverride === LunaAvatar.EMOTION_COLORS['frustrated']) {
+            if (this.leftEye) {
+                this.leftEye.scale.y = 1 - 0.2 * t;
+                this.rightEye.scale.y = 1 - 0.2 * t;
+                this.leftEye.scale.x = 1 + 0.05 * t;
+                this.rightEye.scale.x = 1 + 0.05 * t;
+            }
+            if (this.leftPupil) {
+                this.leftPupil.scale.setScalar(1 - 0.2 * t);
+                this.rightPupil.scale.setScalar(1 - 0.2 * t);
+            }
+        }
+        // Curious: Wide eyes, pupils look up-right
+        else if (this.emotionOverride === LunaAvatar.EMOTION_COLORS['curious']) {
+            if (this.leftPupil) {
+                this.leftPupil.position.x = -0.18 + 0.02 * t + Math.sin(this.time * 1.5) * 0.01;
+                this.leftPupil.position.y = 0.12 + 0.02 * t;
+                this.rightPupil.position.x = 0.12 + 0.02 * t + Math.sin(this.time * 1.5) * 0.01;
+                this.rightPupil.position.y = 0.12 + 0.02 * t;
+            }
+            if (this.leftEye) {
+                this.leftEye.scale.setScalar(1 + 0.1 * t);
+                this.rightEye.scale.setScalar(1 + 0.1 * t);
+            }
+        }
+        // Excited: Big sparkling eyes
+        else if (this.emotionOverride === LunaAvatar.EMOTION_COLORS['excited']) {
+            if (this.leftEye) {
+                const pulse = 1.1 + Math.sin(this.time * 10) * 0.06 * t;
+                this.leftEye.scale.setScalar(pulse);
+                this.rightEye.scale.setScalar(pulse);
+            }
+        }
+    }
+
+    // ── Emotion Particle Burst ───────────────────────────────────
+
+    /**
+     * Trigger a burst of particles in the emotion's color.
+     * Called when intensity > 0.7 for a visual 'sparkle' effect.
+     */
+    triggerEmotionBurst(emotionName) {
+        const colors = LunaAvatar.EMOTION_COLORS[emotionName];
+        if (!colors) return;
+
+        const burstCount = 12;
+        const geo = new THREE.BufferGeometry();
+        const positions = new Float32Array(burstCount * 3);
+        const velocities = [];
+
+        for (let i = 0; i < burstCount; i++) {
+            const angle = (i / burstCount) * Math.PI * 2;
+            positions[i * 3] = 0;
+            positions[i * 3 + 1] = 0;
+            positions[i * 3 + 2] = 0.65;
+            velocities.push({
+                x: Math.cos(angle) * (0.02 + Math.random() * 0.03),
+                y: Math.sin(angle) * (0.02 + Math.random() * 0.03),
+                z: (Math.random() - 0.5) * 0.02,
+                life: 1.0,
+                decay: 0.015 + Math.random() * 0.01,
+            });
+        }
+
+        geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+
+        const mat = new THREE.PointsMaterial({
+            color: colors.glow,
+            size: 0.04,
+            transparent: true,
+            opacity: 0.9,
+            sizeAttenuation: true,
+        });
+
+        const burst = new THREE.Points(geo, mat);
+        this.scene.add(burst);
+
+        // Animate burst
+        const animateBurst = () => {
+            const pos = burst.geometry.attributes.position.array;
+            let alive = false;
+            for (let i = 0; i < burstCount; i++) {
+                const v = velocities[i];
+                if (v.life <= 0) continue;
+                alive = true;
+                v.life -= v.decay;
+                pos[i * 3] += v.x;
+                pos[i * 3 + 1] += v.y;
+                pos[i * 3 + 2] += v.z;
+                v.x *= 0.96;
+                v.y *= 0.96;
+                v.z *= 0.96;
+            }
+            burst.geometry.attributes.position.needsUpdate = true;
+            burst.material.opacity = Math.max(0, velocities[0].life * 0.9);
+
+            if (alive) {
+                requestAnimationFrame(animateBurst);
+            } else {
+                this.scene.remove(burst);
+                burst.geometry.dispose();
+                burst.material.dispose();
+            }
+        };
+        animateBurst();
     }
 
     // ── Cleanup ─────────────────────────────────────────────────

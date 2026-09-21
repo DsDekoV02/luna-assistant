@@ -10,7 +10,7 @@ Asistente personal AI con avatar interactivo en Three.js, voz clonada, detecció
 ## ✨ Características
 
 - **🧠 Motor Cognitivo** — Integración con MiMo API (mimo-v2.5-pro) para razonamiento y tool calling
-- **🎤 Voz Clonada** — TTS con voice cloning (mimo-v2.5-tts-voiceclone) y text processor optimizado
+- **🎤 Voz Clonada** — TTS con voice cloning (mimo-v2.5-tts-voiceclone) y text processor optimizado + **Edge TTS** (Microsoft, alta calidad, gratis)
 - **👂 STT Offline** — Reconocimiento de voz con mimo-v2.5-asr
 - **😊 Detección de Emociones** — Análisis en tiempo real del texto (happy, sad, angry, curious, frustrated)
 - **🎨 Avatar Three.js** — Luna visual con morphing por emoción, partículas y colores dinámicos
@@ -125,6 +125,25 @@ Pipeline de 11 pasos que optimiza el texto antes del voice clone:
 
 **Resultado:** WER reducido de 66.7% a 58.3% en el pipeline E2E.
 
+## 🎤 Edge TTS (Novedad — Sesión 33)
+
+Integración con Microsoft Edge TTS como backend TTS principal:
+
+- **Alta calidad** — Voces neuronales naturales en español
+- **Gratis** — Sin API key, sin límites de uso
+- **Voz chilena** — `es-CL-CatalinaNeural` como default (pronuncia "Dekov" correctamente)
+- **Fallback** — MiMo TTS (clone/design) como alternativa
+- **Configurable** — Cambia la voz en `config.yaml` → `voice.edge_voice`
+
+**Voces disponibles:**
+| Voz | País | Notas |
+|---|---|---|
+| es-CL-CatalinaNeural | 🇨🇱 Chile | **Default** — Mejor para Nicolas |
+| es-MX-DaliaNeural | 🇖🇽 México | Cálida y expresiva |
+| es-ES-ElviraNeural | 🇪🇸 España | Elegante y clara |
+| es-AR-ElenaNeural | 🇦🇷 Argentina | Cercana |
+| es-CO-SalomeNeural | 🇨🇴 Colombia | Dulce |
+
 ## 🧪 Tests
 
 ```bash
@@ -139,7 +158,7 @@ Cobertura completa de todos los módulos.
 | Componente | Tecnología |
 |------------|------------|
 | Motor cognitivo | MiMo v2.5 Pro (1M contexto, reasoning, tools) |
-| TTS | MiMo v2.5 TTS + Voice Clone |
+| TTS | Edge TTS (Microsoft) + MiMo v2.5 TTS + Voice Clone |
 | STT | MiMo v2.5 ASR |
 | Backend | Python + FastAPI + WebSocket |
 | Frontend | Electron + Three.js |
@@ -156,8 +175,8 @@ Si te resulta útil o te parece interesante, considera dejar una ⭐ en el repo.
 
 Este proyecto está en **desarrollo activo** y puede tener problemas menores. Fue construido a lo largo de 24+ sesiones de desarrollo autónomo con AI, y recientemente migrado de disco por fallos de hardware.
 
-**Tests:** 497/497 pasando ✅
-**Última sesión:** 2026-09-20 (Session 26 — Voice Clone Quality Analysis + Text Processor V6)
+**Tests:** 538/538 pasando ✅
+**Última sesión:** 2026-09-21 (Session 33 — Edge TTS Integration + Chilean Voice + TTS Quality Breakthrough)
 
 Si encontrás bugs, errores de documentación, o tenés sugerencias:
 
