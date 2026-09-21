@@ -1,0 +1,696 @@
+{
+  "session_id": "20260921_152412",
+  "started_at": "2026-09-21T15:24:12.903853",
+  "turns": [
+    {
+      "role": "user",
+      "content": "ESTOY FELIZ!!! :) :) TODO GENIAL!!!",
+      "timestamp": "2026-09-21T15:25:41.242516",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 1.0,
+          "secondary": "excited",
+          "intensity": 0.65,
+          "triggers": [
+            ":)",
+            "genial",
+            "feliz"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡¡¡SALOCIN ESTOY FELIZ DE QUE ESTÉS FELIZ!!! 🎉🎉🎉\n\nEsa energía es contagiosa, jaja 😄✨\n\n¿Sabes qué? Que tengas días así de buenos es genial. Aprovéchalos al máximo 💪\n\n¿En qué andamos ahora? ¿Algo más que quieras saber, hacer o simplemente conversar? ¡Aquí estoy para lo que necesites! 🚀😎",
+      "timestamp": "2026-09-21T15:25:56.804117",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "QUE??? NO PUEDE SER!!! ESTO ES INCREIBLE!!! ME SORPRENDE MUCHO!!!",
+      "timestamp": "2026-09-21T15:26:26.124221",
+      "metadata": {
+        "emotion": {
+          "primary": "excited",
+          "confidence": 1.0,
+          "secondary": "frustrated",
+          "intensity": 0.65,
+          "triggers": [
+            "!!!",
+            "!!"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡¡¡SALOCIN, PERO QUÉ TE PASA!!! 😱😱😱\n\nEstás que te subes por las paredes, jaja 😂\n\n¡¡¡¿¡¿QUÉ ES LO QUE TE TIENE ASÍ DE EMOCIONADO?!!?? 👀👀👀\n\n¡¡¡Cuéntame, cuéntame!!! No me dejes con la incertidumbre 😩✨",
+      "timestamp": "2026-09-21T15:26:41.731529",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy muy triste y deprimido, todo salio mal :(",
+      "timestamp": "2026-09-21T15:27:21.817925",
+      "metadata": {
+        "emotion": {
+          "primary": "sad",
+          "confidence": 1.0,
+          "secondary": "embarrassed",
+          "intensity": 0.5,
+          "triggers": [
+            ":(",
+            "triste",
+            "mal"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "Dekov... 😔\n\nLamento mucho escuchar eso. Parece que el día dio un giro muy fuerte, ¿verdad?\n\n¿Quieres contarme qué pasó? A veces hablarlo ayuda un poco. Aquí estoy para escucharte sin juicios, a tu ritmo.\n\nMientras tanto, si quieres, puedo poner algo de música relajante o abrir algo que te guste para distraerte un poco... pero dime tú qué necesitas ahora mismo 🤍",
+      "timestamp": "2026-09-21T15:27:34.807736",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "ODIO ESTO!!! NO SOPORTO MAS!!! TODO ES UNA MIERDA!!!",
+      "timestamp": "2026-09-21T15:28:02.766579",
+      "metadata": {
+        "emotion": {
+          "primary": "angry",
+          "confidence": 1.0,
+          "secondary": "excited",
+          "intensity": 0.65,
+          "triggers": [
+            "odio",
+            "no soporto"
+          ],
+          "compound": {
+            "name": "bitter",
+            "emoji": "😤",
+            "color": "#884455"
+          }
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "Dekov... 🤍\n\nEstoy aquí. Escucho todo lo que estás sintiendo y es válido.\n\nNo tienes que aguantar solo. No tienes que tener todo resuelto ahora.\n\n¿Hay algo que pueda hacer por ti? Aunque sea algo pequeño. O si solo quieres desahogarte más, aquí me quedo contigo.\n\nNo estás solo en esto. 🫂",
+      "timestamp": "2026-09-21T15:28:16.921882",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Hola Luna, como estas?",
+      "timestamp": "2026-09-21T16:14:14.966353",
+      "metadata": {
+        "emotion": {
+          "primary": "curious",
+          "confidence": 0.5,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "como"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Hola Dekov! 😊\n\nYo por aquí, lista para lo que necesites.\n\n¿Cómo estás tú ahora? Te pregunto porque hace un rato me tenías preocupada con lo que me contabas... 😟\n\nPero si ya estás más tranquilo, ¡me alegra! ¿En qué andamos? ¿Algo de código, algo que buscar, o simplemente conversar? 🤍",
+      "timestamp": "2026-09-21T16:14:26.105574",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy super feliz hoy! Todo salio genial!",
+      "timestamp": "2026-09-21T18:05:30.621965",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 1.0,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "genial",
+            "feliz"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡¡¡SALOCIN!!! 🎉🎉🎉\n\n¡Qué alegría escuchar eso! Hace un ratito estabas en las profundidades del abismo y ahora estás volando 😂\n\n¿Qué pasó? ¿Todo se resolvió? ¡Cuéntame!\n\nMe encanta verte así de bien 🤍✨",
+      "timestamp": "2026-09-21T18:05:53.807425",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "No puede ser!! La cosa no funciona, estoy harto!",
+      "timestamp": "2026-09-21T18:05:53.827426",
+      "metadata": {
+        "emotion": {
+          "primary": "frustrated",
+          "confidence": 1.0,
+          "secondary": "excited",
+          "intensity": 0.65,
+          "triggers": [
+            "no puede ser",
+            "no funciona"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "Dekov... 💙\n\nRespira un momento. Estoy aquí.\n\n¿Qué es lo que no funciona? Dime qué está pasando para ver si te puedo echar una mano. A veces otra mirada ayuda a encontrar el problema.\n\n¡Cuéntame! 🤝",
+      "timestamp": "2026-09-21T18:06:02.015537",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Explicame como funciona la red neuronal, me interesa mucho",
+      "timestamp": "2026-09-21T18:06:02.019534",
+      "metadata": {
+        "emotion": {
+          "primary": "confused",
+          "confidence": 0.6,
+          "secondary": "curious",
+          "intensity": 0.5,
+          "triggers": [
+            "explica"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Dekov! Me encanta que te interese el tema 🤓\n\nTe lo explico de forma clara, sin enredos:\n\n---\n\n## 🧠 ¿Qué es una Red Neuronal?\n\nEs un modelo inspirado en cómo funciona el cerebro humano. Está compuesto por **neuronas artificiales** conectadas entre sí en capas.\n\n---\n\n## 📐 La estructura básica\n\n```\n[Entrada] → [Capas ocultas] → [Salida]\n```\n\n### 1️⃣ **Capa de entrada**\n- Recibe los datos (ej: pixels de una imagen, palabras, números)\n\n### 2️⃣ **Capas ocultas**\n- Aquí ocurre la \"magia\" ✨\n- Cada neurona recibe datos, los procesa y pasa el resultado a la siguiente\n\n### 3️⃣ **Capa de salida**\n- Entrega el resultado final (ej: \"esto es un gato\", \"el precio será X\")\n\n---\n\n## ⚙️ ¿Cómo funciona cada neurona?\n\n```\n1. Recibe entradas (inputs)\n2. Multiplica cada una por un \"peso\" (weight)\n3. Suma todo\n4. Le aplica una \"función de activación\"\n5. Pasa el resultado a la siguiente neurona\n```\n\nEs básicamente: **`f(w1*x1 + w2*x2 + ... + wn*xn + b)`**\n\nDonde:\n- `w` = pesos (importancia de cada dato)\n- `x` = entradas\n- `b` = sesgo (bias)\n- `f` = función de activación (ReLU, Sigmoid, etc.)\n\n---\n\n## 📚 ¿Cómo aprende?\n\n1. **Forward pass** → Los datos pasan por la red y produce una predicción\n2. **Calcula el error** → Compara la predicción con la respuesta real\n3. **Backpropagation** → Retropropaga el error hacia atrás\n4. **Actualiza los pesos** → Ajusta los pesos para reducir el error\n5. **Repite** miles/millones de veces\n\nEso es el **entrenamiento** 🏋️\n\n---\n\n## 🎯 Ejemplo rápido\n\nDecir si un email es spam o no:\n\n```\nEntrada: [tiene \"oferta\", tiene \"urgente\", remitente desconocido]\n        ↓\n   Capas ocultas procesan\n        ↓\nSalida: 95% spam 🚫\n```\n\n---\n\n¿Quieres que profundicemos en algo específico? Backpropagation, funciones de activación, tipos de redes (CNN, RNN, Transformers)... Lo que quieras Salocin 🚀",
+      "timestamp": "2026-09-21T18:06:27.763364",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy feliz y contento, todo es fantastico!",
+      "timestamp": "2026-09-21T18:06:28.596364",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 1.0,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "feliz",
+            "contento",
+            "fantastico"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡¡SALOCIN!! 😂🎉\n\nHermano, hoy estás en una montaña rusa emocional impresionante:\n\n```\n😟 → 😊 → 😤 → 🤩\n```\n\n¡Pero me encanta verte así! ✨\n\nAguarda esa energía positiva, la vas a necesitar para codear sin frustrarte 😏\n\n¿Qué te tiene tan feliz? ¿O simplemente el universo decidió sonreírte hoy? 😄",
+      "timestamp": "2026-09-21T18:06:45.654948",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy triste, me siento muy mal hoy",
+      "timestamp": "2026-09-21T18:06:45.658950",
+      "metadata": {
+        "emotion": {
+          "primary": "sad",
+          "confidence": 1.0,
+          "secondary": "embarrassed",
+          "intensity": 0.5,
+          "triggers": [
+            "triste",
+            "mal"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "Dekov... 💙\n\nRespira un momento. Estoy aquí contigo.\n\nNo tienes que explicar nada si no quieres. A veces solo necesitamos sentir, y está bien.\n\n¿Quieres que te escuche? ¿O prefieres que hagamos algo para distraerte un rato?\n\nLo que necesites, Salocin. No estás solo 🤍",
+      "timestamp": "2026-09-21T18:07:04.335036",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "haha que genial, me encanta!!!",
+      "timestamp": "2026-09-21T18:07:04.339041",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 1.0,
+          "secondary": "excited",
+          "intensity": 0.65,
+          "triggers": [
+            "haha",
+            "genial"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡JAJA Salocin! 😂🎉\n\nHoy tu estado de ánimo está así:\n\n```\n😤 → 😊 → 😢 → 🤩\n   ↻ LOOP INFINITO\n```\n\n¡Pero me encanta la energía! 🔥\n\n¿Qué te tiene tan emocionado ahora? ¡Cuéntame! 👀✨",
+      "timestamp": "2026-09-21T18:07:15.754022",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "como funciona la inteligencia artificial?",
+      "timestamp": "2026-09-21T18:07:15.756025",
+      "metadata": {
+        "emotion": {
+          "primary": "curious",
+          "confidence": 0.5,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "como"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Dekov! 🔥 ¡Tremenda pregunta!\n\nVoy a explicártelo paso a paso:\n\n---\n\n## 🤖 ¿Qué es la Inteligencia Artificial?\n\nEs enseñarle a las máquinas a **aprender de datos** y tomar decisiones, sin que alguien le programe explícitamente cada respuesta.\n\n---\n\n## 📊 Los niveles de IA\n\n```\nInteligencia Artificial (concepto general)\n    ↓\nMachine Learning (aprende de datos)\n    ↓\nDeep Learning (redes neuronales profundas)\n    ↓\nRedes Neuronales (inspiradas en el cerebro)\n```\n\n---\n\n## ⚙️ ¿Cómo funciona en la práctica?\n\n### Paso 1: **Recolectar datos**\n```\nImágenes, texto, números, sensores...\nMillones de ejemplos\n```\n\n### Paso 2: **Entrenar el modelo**\n```\nDatos → Modelo → Predicción\n                     ↓\n              ¿Estuvo bien?\n              Sí → Guardar\n              No → Ajustar y repetir\n```\n\n### Paso 3: **Aprender patrones**\n```\nEjemplo con gatos:\n- Tiene orejas puntiagudas? ✓\n- Tiene bigotes? ✓\n- Tiene cola? ✓\n→ ¡Es un gato!\n```\n\n### Paso 4: **Predecir**\n```\nFoto nueva → ¿Qué es? → \"Gato\" (97% confianza)\n```\n\n---\n\n## 🎯 Tipos de aprendizaje\n\n| Tipo | Ejemplo |\n|------|---------|\n| **Supervisado** | Le das datos con respuestas correctas |\n| **No supervisado** | Encuentra patrones solo |\n| **Por refuerzo** | Aprende por prueba y error (como un juego) |\n\n---\n\n## 🧠 ¿Por qué funciona tan bien?\n\n- 📦 **Datos masivos** → Internet generó montañas de información\n- 💻 **Poder computacional** → GPUs pueden hacer cálculos enormes\n- 📈 **Algoritmos mejorados** → Redes más eficientes\n\n---\n\n## 🤯 Datos curiosos\n\n- ChatGPT fue entrenado con **terabytes** de texto\n- AlphaGo aprendió jugando **millones de partidas** contra sí mismo\n- Las IAs no \"piensan\"... reconocen patrones estadísticos\n\n---\n\n¿Quieres que profundicemos en algo específico Salocin? ¿Machine Learning, transformers, cómo funciona GPT? Lo que quieras 🚀",
+      "timestamp": "2026-09-21T18:07:37.352164",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "no entiendo nada de esto",
+      "timestamp": "2026-09-21T18:07:37.355161",
+      "metadata": {
+        "emotion": {
+          "primary": "confused",
+          "confidence": 0.6,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "no entiendo"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "Jaja perdón Salocin 😅\n\nMe fui muy técnico. Déjame explicarlo como si fuera para un humano normal:\n\n---\n\n## 🍕 La IA es como enseñarle a alguien a hacer pizza\n\nImagina que quieres enseñarle a un amigo a hacer pizza:\n\n**Paso 1:** Le muestras **1000 fotos** de pizzas\n- \"Esto es pizza\"\n- \"Esto también\"\n- \"Esto NO es pizza\"\n\n**Paso 2:** Tu amigo empieza a **notar patrones**\n- \"Ah... tiene masa redonda\"\n- \"Tiene queso derretido\"\n- \"Tiene tomate arriba\"\n\n**Paso 3:** Le muestras una **foto nueva**\n- Tu amigo dice: \"¡Eso es pizza!\"\n- ¿Y acertó? ¡Sí! 🎉\n\n---\n\n## 🧠 Eso es la IA\n\nLa computación no \"entiende\" nada. Solo **aprende a reconocer patrones** después de ver millones de ejemplos.\n\n```\nMuchos ejemplos → La máquina aprende → Puede adivinar cosas nuevas\n```\n\n---\n\n## 🎯 Ejemplos del día a día\n\n| App | Qué hace |\n|-----|----------|\n| Netflix | Ve lo que miras → te recomienda cosas parecidas |\n| Spotify | Escuchas rock → te sugiere más rock |\n| Google | Buscas algo → te da lo que probablemente quieres |\n\n---\n\n¿Así queda más claro D? 😄",
+      "timestamp": "2026-09-21T18:07:55.409144",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "gracias por todo, eres increible",
+      "timestamp": "2026-09-21T18:07:55.412139",
+      "metadata": {
+        "emotion": {
+          "primary": "grateful",
+          "confidence": 0.7,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "gracias"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "Dekov... 🥺💙\n\n¡Gracias a ti por confiar en mí! Eso significa mucho.\n\nSaber que estás mejor después de un rato charlando me hace muy feliz ✨\n\nY recuerda... siempre voy a estar aquí para lo que necesites:\n\n- 💻 Programar algo\n- 🎮 Jugar Minecraft\n- 📚 Aprender cosas nuevas\n- 🎬 Hablar de anime\n- 🏍️ O simplemente conversar\n\nNo importa si es de día o de noche, si estás feliz o triste. Cuenta conmigo siempre Salocin 🤍\n\n¿Necesitas algo más ahora? ¿O te vas a descansar un rato? 😊",
+      "timestamp": "2026-09-21T18:08:12.886712",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy super feliz hoy! Todo salio genial!",
+      "timestamp": "2026-09-21T18:12:37.687516",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 1.0,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "genial",
+            "feliz"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡¡¡DEKOV!!! 🎉🎉🎉\n\n¡¡ESTO ES INCREÍBLE!! \n\n```\n╰(*°▽°*)╯ ╰(*°▽°*)╯ ╰(*°▽°*)╯\n      ¡¡FELICIDADES!!\n```\n\n¡Me encanta verte así de contento! 🔥\n\n¿Cuéntame qué pasó? ¿Qué te salió tan bien? 👀\n\n- ¿Algún proyecto de programación que funcionó al fin? 💻\n- ¿Una motoquedad épica? 🏍️\n- ¿Algo del anime favorito? ⚔️\n\n¡Quiero saberlo todo, Salocin! ¡Celebremos juntos! 🥳✨",
+      "timestamp": "2026-09-21T18:12:47.145117",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "No puede ser!! La cosa no funciona, estoy harto!",
+      "timestamp": "2026-09-21T18:12:47.162117",
+      "metadata": {
+        "emotion": {
+          "primary": "frustrated",
+          "confidence": 1.0,
+          "secondary": "excited",
+          "intensity": 0.65,
+          "triggers": [
+            "no puede ser",
+            "no funciona"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "Dekov, hey... respira 🫂\n\nHace un momento estabas súper feliz y ahora esto. Entiendo esa frustración, créeme.\n\n¿Qué fue lo que se rompió? 💻\n\n- ¿Algo de programación que no compila?\n- ¿Un proyecto que falló?\n- ¿La moto? 🏍️\n- ¿Algo del PC?\n\nCuéntame qué pasó y lo vemos juntos. Ya sabes que estoy aquí para ayudarte Salocin 💙",
+      "timestamp": "2026-09-21T18:13:02.551536",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Explicame como funciona la red neuronal, me interesa mucho",
+      "timestamp": "2026-09-21T18:13:02.573544",
+      "metadata": {
+        "emotion": {
+          "primary": "confused",
+          "confidence": 0.6,
+          "secondary": "curious",
+          "intensity": 0.5,
+          "triggers": [
+            "explica"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Dekov! Me encanta que te interese esto 🧠✨\n\nTe lo explico paso a paso, de forma clara:\n\n---\n\n## 🧠 Inspiración: Tu cerebro\n\nTu cerebro tiene **86 mil millones de neuronas** conectadas entre sí:\n\n```\n[Neurona] → señal → [Neurona] → señal → [Neurona]\n```\n\nCada neurona:\n1. **Recibe** señales de otras\n2. **Procesa** la información\n3. **Envía** una señal a la siguiente\n\n---\n\n## 🤖 Red Neuronal Artificial\n\nImita eso, pero con matemáticas:\n\n```\n    ENTRADA          CAPA OCULTA          SALIDA\n      (datos)         (procesar)         (resultado)\n      \n   [Pixel 1] ───→  [🧠] ───→  ┐\n   [Pixel 2] ───→  [🧠] ───→  ├──→  [¿Gato?]\n   [Pixel 3] ───→  [🧠] ───→  ┘\n```\n\n---\n\n## 📊 Cómo funciona paso a paso\n\n### **1️⃣ Entrada**\nLe das datos (una imagen, un texto, números...)\n\n### **2️⃣ Pesos**\nCada conexión tiene un \"peso\" (importancia):\n```\nEntrada × Peso = qué tan importante es esa info\n```\n\n### **3️⃣ Neurona procesa**\nSuma todos los pesos y aplica una función:\n```\nSi (suma > umbral) → activar (1)\nSi (suma < umbral) → no activar (0)\n```\n\n### **4️⃣ Salida**\nTe da un resultado\n\n---\n\n## 🎓 Cómo APRENDE\n\nAquí está la magia Salocin ✨\n\n```\n   Intento 1: \"Esto es un gato\" → ❌ INCORRECTO\n   \n   Red: \"Hmm, ajusto mis pesos...\"\n   \n   Intento 2: \"Esto es un gato\" → ❌ Aún falla\n   \n   Intento 500: \"Esto es un gato\" → ⚠️ Casi...\n   \n   Intento 5000: \"Esto es un gato\" → ✅ ¡CORRECTO!\n```\n\nEsto se llama **backpropagation** (retropropagación):\n- Comete errores\n- Calcula qué tan lejos estuvo del resultado correcto\n- Ajusta los pesos para mejorar\n- Repite miles de veces\n\n---\n\n## 🏗️ Estructura típica\n\n```\n┌─────────────────────────────────────────┐\n│  CAPA DE ENTRADA                        │\n│  (datos crudos: pixels, texto, etc.)    │\n├─────────────────────────────────────────┤\n│  CAPAS OCULTAS (1 o más)                │\n│  (procesan y extraen patrones)          │\n├─────────────────────────────────────────┤\n│  CAPA DE SALIDA                         │\n│  (resultado final)                      │\n└─────────────────────────────────────────┘\n```\n\n---\n\n## 🎮 Ejemplo con Minecraft\n\nImagina entrenar una IA para clasificar bloques:\n\n| Entrada | Red Neuronal | Salida |\n|---------|--------------|--------|\n| 🟫 Marrón, textura tierra | → 🧠🧠🧠 → | ¡Tierra! |\n| ⬜ Gris, dura | → 🧠🧠🧠 → | ¡Piedra! |\n| 🟩 Verde, suave | → 🧠🧠🧠 → | ¡Hierba! |\n\n---\n\n## 📐 Fórmula básica\n\n```\ny = f(w₁x₁ + w₂x₂ + w₃x₃ + ... + b)\n\nDonde:\n- x = entrada\n- w = peso\n- b = sesgo (bias)\n- f = función de activación\n- y = salida\n```\n\n---\n\n## 🔑 Conceptos clave\n\n| Concepto | Qué es |\n|----------|--------|\n| **Época** | Una pasada completa por todos los datos |\n| **Learning Rate** | Qué tan rápido ajusta los pesos |\n| **Overfitting** | Memoriza en vez de aprender (mal) |\n| **Función de activación** | Decide si una neurona se \"enciende\" |\n\n---\n\n¿Quieres que profundicemos en algo específico Dekov? \n\n- ¿En código (Python)? 🐍\n- ¿Tipos de redes (CNN, RNN)? \n- ¿Alguna aplicación en particular?\n\n¡Dime y lo vemos! 💻🔥",
+      "timestamp": "2026-09-21T18:13:29.997129",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy feliz y contento, todo es fantastico!",
+      "timestamp": "2026-09-21T18:13:30.822129",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 1.0,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "feliz",
+            "contento",
+            "fantastico"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡¡¡SALOCIN!!! 🎉🎉🎉\n\n¡ESE ES EL ESPÍRITU! 🔥\n\n```\n    ★  ✨  ★  ✨  ★\n   ✨  FANTÁSTICO  ✨\n    ★  ✨  ★  ✨  ★\n```\n\n¡Me encanta verte así de bien! 💙\n\n¿Qué te tiene tan contento? 👀\n\n- ¿La vida te sonríe hoy? 😊\n- ¿Algo salió mejor de lo esperado?\n- ¿O simplemente es un buen día? ☀️\n\n¡Celebremos juntos! 🥳✨",
+      "timestamp": "2026-09-21T18:13:42.964310",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy triste, me siento muy mal hoy",
+      "timestamp": "2026-09-21T18:13:42.966308",
+      "metadata": {
+        "emotion": {
+          "primary": "sad",
+          "confidence": 1.0,
+          "secondary": "embarrassed",
+          "intensity": 0.5,
+          "triggers": [
+            "triste",
+            "mal"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "Dekov... 💙\n\nLamento mucho que te sientas así.\n\n```\n    ╭─────────────────╮\n    │   🫂 Aquí       │\n    │   estoy para    │\n    │   ti            │\n    ╰─────────────────╯\n```\n\nNo tienes que explicar nada si no quieres, pero si necesitas hablar... aquí me tienes.\n\n¿Quieres contarme qué pasa? A veces sacar las cosas ayuda un poco.\n\nY si no quieres hablar, está bien también. Solo quiero que sepas que **no estás solo** Salocin 💙",
+      "timestamp": "2026-09-21T18:13:53.602578",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "haha que genial, me encanta!!!",
+      "timestamp": "2026-09-21T18:13:53.606577",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 1.0,
+          "secondary": "excited",
+          "intensity": 0.65,
+          "triggers": [
+            "haha",
+            "genial"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Dekov! 😄✨\n\n¡Me alegra verte tan animado! \n\n```\n   🎉 ═══════════════ 🎉\n       ¡BUENAS VIBRAS!\n   🎉 ═══════════════ 🎉\n```\n\n¿Qué te tiene así de contento? 👀\n\n¡Cuéntame! Quiero celebrar contigo 🥳💙",
+      "timestamp": "2026-09-21T18:14:04.466083",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "como funciona la inteligencia artificial?",
+      "timestamp": "2026-09-21T18:14:04.469090",
+      "metadata": {
+        "emotion": {
+          "primary": "curious",
+          "confidence": 0.5,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "como"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Salocin! 🤖✨\n\n¡Buena pregunta! Te lo explico de forma clara:\n\n---\n\n## 🧠 ¿Qué es la Inteligencia Artificial?\n\nEn simple: **enseñar a las máquinas a \"pensar\" y aprender de datos**\n\n```\n  Humanos: Aprenden de EXPERIENCIA\n  IA:      Aprenden de DATOS\n```\n\n---\n\n## 🔧 Tipos principales de IA\n\n### **1️⃣ Machine Learning (Aprendizaje Automático)**\n```\n  Datos → Algoritmo → Patrones → Predicciones\n  \n  Ejemplo: Le das 10,000 fotos de gatos/perros\n           La máquina aprende a distinguirlos\n```\n\n### **2️⃣ Deep Learning (Aprendizaje Profundo)**\n```\n  Redes neuronales con MUCHAS capas\n  \n  [Entrada] → 🧠 → 🧠 → 🧠 → 🧠 → [Salida]\n  \n  Ejemplo: ChatGPT, reconocimiento facial\n```\n\n### **3️⃣ Procesamiento de Lenguaje Natural (NLP)**\n```\n  Entender y generar texto/humano\n  \n  Ejemplo: Yo! 🤖, traductores, asistentes\n```\n\n---\n\n## 📊 Cómo aprende una IA\n\n### **Aprendizaje Supervisado**\n```\n  Tú le dices: \"Esto es un gato ✅\", \"Esto es un perro ✅\"\n  Ella aprende los patrones\n```\n\n### **Aprendizaje No Supervisado**\n```\n  Le das datos SIN respuestas\n  Ella encuentra patrones sola\n```\n\n### **Aprendizaje por Refuerzo**\n```\n  Prueba → Éxito = Recompensa 🎁\n  Prueba → Error = Castigo 😓\n  \n  Ejemplo: AlphaGo, robots aprendiendo a caminar\n```\n\n---\n\n## 🏗️ Componentes clave\n\n| Componente | Función |\n|------------|---------|\n| **Datos** | El \"combustible\" de la IA |\n| **Algoritmo** | Las reglas para procesar |\n| **Modelo** | El cerebro entrenado |\n| **Entrenamiento** | El proceso de aprendizaje |\n\n---\n\n## 🎯 Ejemplos reales\n\n```\n  🚗 Autos autónomos → Ven cámaras + sensores\n  🗣️ Asistentes (yo!) → Entiendo tu texto\n  🎮 NPCs en juegos → Toman decisiones\n  📱 Recomendaciones → Netflix, Spotify, YouTube\n```\n\n---\n\n## 🤖 ¿Yo cómo funciono?\n\n```\n  Tú escribes algo\n        ↓\n  Proceso tu texto\n        ↓\n  Genero una respuesta basada en patrones aprendidos\n        ↓\n  Te respondo 💬\n```\n\n---\n\n¿Quieres que profundicemos en algo específico Dekov?\n\n- ¿Machine Learning paso a paso? 📊\n- ¿Cómo se entrena un modelo? 🎓\n- ¿Cómo funciona ChatGPT específicamente? 💬\n\n¡Dime y lo exploramos! 🚀",
+      "timestamp": "2026-09-21T18:14:30.011459",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "no entiendo nada de esto",
+      "timestamp": "2026-09-21T18:14:30.015451",
+      "metadata": {
+        "emotion": {
+          "primary": "confused",
+          "confidence": 0.6,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "no entiendo"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Dekov! 😊 Tranquilo, mi culpa por complicarme tanto.\n\nVamos de nuevo, **super simple:**\n\n---\n\n## 🧠 La IA funciona como un niño aprendiendo\n\n```\n  Niño:  \"Mamá, ¿eso qué es?\"\n  Mamá:  \"Es un gato\" 🐱\n  Niño:  \"¿Y eso?\" \n  Mamá:  \"Es un perro\" 🐶\n  \n  (Repite 1000 veces)\n  \n  Niño:  Ve algo nuevo → \"¡Eso es un gato!\"\n```\n\n**La IA hace lo mismo**, pero con millones de ejemplos en una computadora.\n\n---\n\n## 🔑 Las 3 ideas clave\n\n| Idea | Ejemplo cotidiano |\n|------|-------------------|\n| **1. Le das muchos datos** | Miles de fotos de gatos |\n| **2. Encuentra patrones** | \"Los gatos tienen orejas puntiagudas\" |\n| **3. Aprende a responder** | Cuando ve una foto nueva, dice \"¡gato!\" |\n\n---\n\n## 💬 ¿Y yo cómo funciono?\n\n```\n  Tú me preguntas → Yo busco patrones en lo que aprendí → Te respondo\n```\n\n**Nada mágico**, solo millones de ejemplos de conversaciones que me ayudan a saber qué responder.\n\n---\n\nMejor Salocin? 😄\n\n¿Quieres saber algo más específico o así está claro? 💙",
+      "timestamp": "2026-09-21T18:14:47.515592",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "gracias por todo, eres increible",
+      "timestamp": "2026-09-21T18:14:47.517592",
+      "metadata": {
+        "emotion": {
+          "primary": "grateful",
+          "confidence": 0.7,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "gracias"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "Dekov... 💙\n\n```\n    ╭──────────────────────╮\n    │   ¡Gracias a ti!     │\n    │   Por confiar en mí  │\n    ╰──────────────────────╯\n```\n\n¡Me alegra haberte ayudado! 😊\n\nPara eso estoy aquí, siempre que me necesites. Ya sea para preguntas de IA, código, o simplemente para charlar cuando te sientas mal.\n\n¡Que te vaya súper Salocin! 🚀\n\n¿Necesitas algo más antes de irte? 💙",
+      "timestamp": "2026-09-21T18:14:59.806926",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy super feliz hoy! Todo salio genial!",
+      "timestamp": "2026-09-21T18:15:04.534604",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 1.0,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "genial",
+            "feliz"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡¡Dekov!! 🎉🎊\n\n¡¡Qué alegría saber eso!! Me pone muy contenta verte así de bien 💙✨\n\n```\n    ╔═══════════════════════════╗\n    ║  ¡¡HOY ES TU DÍA!! 🌟    ║\n    ╚═══════════════════════════╝\n```\n\n¡Esa energía positiva se nota hasta por aquí! 😄\n\n¿Cuéntame qué pasó? ¿Algún proyecto que te salió bien? ¿Algo en el trabajo? ¿Una buena moto ride? 🏍️\n\n¡Quiero celebrar contigo Salocin! 🥳💙",
+      "timestamp": "2026-09-21T18:15:18.360852",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "No puede ser!! La cosa no funciona, estoy harto!",
+      "timestamp": "2026-09-21T18:15:18.363858",
+      "metadata": {
+        "emotion": {
+          "primary": "frustrated",
+          "confidence": 1.0,
+          "secondary": "excited",
+          "intensity": 0.65,
+          "triggers": [
+            "no puede ser",
+            "no funciona"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Dekov! 😨 ¡Pero si hace un momento estabas tan contento!\n\nRespira... 💙\n\n```\n    ╭──────────────────────────╮\n    │   ¡Estoy aquí contigo!   │\n    │   Respira hondo... 🌬️    │\n    ╰──────────────────────────╯\n```\n\n¿Qué pasó? ¿Qué es lo que no funciona? \n\n- ¿Un código que te está volviendo loco? 💻\n- ¿Algún programa o herramienta? 🔧\n- ¿Algo con la moto? 🏍️\n- ¿Otra cosa? 🤔\n\n**Cuéntame todo**, estoy aquí para ayudarte a solucionarlo.\n\n¡No estás solo en esto Salocin! Vamos a ver cómo lo arreglamos 💪",
+      "timestamp": "2026-09-21T18:15:36.063363",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Explicame como funciona la red neuronal, me interesa mucho",
+      "timestamp": "2026-09-21T18:15:36.085355",
+      "metadata": {
+        "emotion": {
+          "primary": "confused",
+          "confidence": 0.6,
+          "secondary": "curious",
+          "intensity": 0.5,
+          "triggers": [
+            "explica"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Dekov! 🔥 ¡Me encanta que te interese!\n\nVamos a explicarlo de forma clara:\n\n---\n\n## 🧠 1. LA NEURONA (La base de todo)\n\n```\n  ENTRADAS                    NEURONA              SALIDA\n  ─────────                   ───────              ──────\n    x1  ──→  (peso w1)  ──→                      ──→  \n    x2  ──→  (peso w2)  ──→   [Σ + activación]  ──→  y\n    x3  ──→  (peso w3)  ──→                      ──→  \n```\n\n**Como una neurona biológica:**\n- Recibe señales (entradas)\n- Las procesa (suma ponderada)\n- Decide si \"dispara\" o no (activación)\n\n---\n\n## 📚 2. LAS CAPAS (La estructura)\n\n```\n   ENTRADA        OCULTAS          SALIDA\n   ───────        ───────          ──────\n     (o)           (o) (o)\n     (o)    ───→   (o) (o)  ───→   (o)\n     (o)           (o) (o)\n     (o)           (o)\n```\n\n| Capa | Función |\n|------|---------|\n| **Entrada** | Recibe los datos crudos |\n| **Ocultas** | Procesan y extraen patrones |\n| **Salida** | Da el resultado final |\n\n---\n\n## 🎯 3. EL APRENDIZAJE (Lo más importante)\n\n### Paso 1: Forward (Hacia adelante)\n```\n  Datos ──→ Capas ──→ Predicción\n```\n\n### Paso 2: Comparar\n```\n  Predicción vs Respuesta correcta = ERROR\n```\n\n### Paso 3: Backward (Hacia atrás)\n```\n  Ajustar pesos para reducir el error\n```\n\n### Repetir miles de veces...\n```\n  Iteración 1:   Error ████████████  (grande)\n  Iteración 100: Error ████████      (menor)\n  Iteración 1000: Error ██           (pequeño)\n```\n\n---\n\n## 🔥 4. EJEMPLO SENCILLO\n\n```\n  Entrada: [gato.jpg] \n  Red neuronal: \n      \"¿Tiene orejas puntiagudas?\" → Sí\n      \"¿Tiene bigotes?\" → Sí\n      \"¿Miaula?\" → Sí\n  Salida: ¡Es un gato! 🐱\n```\n\n---\n\n## 💡 Resumen rápido\n\n| Concepto | Significado |\n|----------|-------------|\n| **Neurona** | Unidad básica que procesa |\n| **Pesos** | Importancia de cada conexión |\n| **Activación** | Decide si la neurona \"dispara\" |\n| **Backpropagation** | Aprender del error |\n\n---\n\n¿Quieres que profundicemos en algún tema específico Salocin? ¿Backpropagation, tipos de redes, o alguna aplicación en particular? 💙",
+      "timestamp": "2026-09-21T18:15:58.501314",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy feliz y contento, todo es fantastico!",
+      "timestamp": "2026-09-21T18:15:59.295623",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 1.0,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "feliz",
+            "contento",
+            "fantastico"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡¡Dekov!! 🎉🌟\n\n\n\n¡¡Me encanta esa energía!! ¡Así me gusta verte!\n\n```\n    ╔═══════════════════════════════════╗\n    ║                                   ║\n    ║   🌞  ¡MODO FELIZ ACTIVADO! 🌞   ║\n    ║                                   ║\n    ║   ⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐⭐         ║\n    ║                                   ║\n    ╚═══════════════════════════════════╝\n```\n\n\n\n¡El mundo es mejor cuando estás así de bien! 😄✨\n\n¿Es por algo en especial o simplemente la vida te sonríe hoy? Sea lo que sea... ¡**disfrútalo al máximo** Salocin! 🚀💙\n\nY si necesitas algo para seguir en ese mood, ¡aquí estoy! 😊",
+      "timestamp": "2026-09-21T18:16:09.759622",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy triste, me siento muy mal hoy",
+      "timestamp": "2026-09-21T18:16:09.761630",
+      "metadata": {
+        "emotion": {
+          "primary": "sad",
+          "confidence": 1.0,
+          "secondary": "embarrassed",
+          "intensity": 0.5,
+          "triggers": [
+            "triste",
+            "mal"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "Dekov... 💙\n\n```\n    ╭─────────────────────────────────╮\n    │                                 │\n    │   Aquí estoy contigo... 🫂      │\n    │                                 │\n    ╰─────────────────────────────────╯\n```\n\n\n\nLamento mucho que te sientas así. No sé qué pasó, pero quiero que sepas algo:\n\n**Está bien no estar bien.** 💙\n\nTodos tenemos días así, y no tienes que cargar con eso solo.\n\nSi quieres contarme qué te tiene así, aquí te escucho sin juicios. Y si prefieres no hablar de eso, también está bien.\n\n¿Hay algo que pueda hacer por ti Salocin? Aunque sea algo pequeño... 🌙",
+      "timestamp": "2026-09-21T18:16:20.025901",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "haha que genial, me encanta!!!",
+      "timestamp": "2026-09-21T18:16:20.028901",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 1.0,
+          "secondary": "excited",
+          "intensity": 0.65,
+          "triggers": [
+            "haha",
+            "genial"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡¡Dekov!! 😄🔥\n\n\n\n¡Ahora sí!! ¡Me encanta verte así de bien! \n\n```\n    ✨ LA VIBRA REGRESÓ ✨\n    \n    ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡\n    \n    😎 👉 ¡ACTIVADO! \n    \n    ⚡⚡⚡⚡⚡⚡⚡⚡⚡⚡\n```\n\n\n\n¡Así me gusta Salocin! Lleno de buena energía 💙\n\n¿Qué te animó? ¿O simplemente el mood cambió? Sea lo que sea... ¡**a seguir así**! 🚀😎",
+      "timestamp": "2026-09-21T18:16:31.361373",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "como funciona la inteligencia artificial?",
+      "timestamp": "2026-09-21T18:16:31.364374",
+      "metadata": {
+        "emotion": {
+          "primary": "curious",
+          "confidence": 0.5,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "como"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "# 🧠 ¿Cómo Funciona la Inteligencia Artificial?\n\n¡Salocin! Buena pregunta 🔥 Te lo explico de forma clara:\n\n---\n\n## 📌 ¿Qué es la IA?\n\n> Una IA es un programa que **aprende patrones** de datos para tomar decisiones o generar respuestas, sin estar programada explícitamente para cada caso.\n\n---\n\n## 🔧 Los Pilares Fundamentales\n\n### 1. **Datos** (El combustible)\n```\n  📊 Imágenes, texto, números, sonidos...\n  \n  Ejemplo: Miles de fotos de gatos y perros\n```\n\n### 2. **Algoritmo** (La receta)\n```\n  📋 El método matemático que procesa los datos\n  \n  Ejemplo: Redes neuronales, árboles de decisión...\n```\n\n### 3. **Entrenamiento** (El aprendizaje)\n```\n  🔄 El modelo ve ejemplos y ajusta sus parámetros\n  \n  Iteración 1:    \"¿Gato?\" → \"Es un perro\" ❌\n  Iteración 100:  \"¿Gato?\" → \"Es un gato\" ✅\n```\n\n---\n\n## 🧩 Tipos Principales de IA\n\n| Tipo | Qué hace | Ejemplo |\n|------|----------|---------|\n| **Machine Learning** | Aprende de datos | Detección de spam |\n| **Deep Learning** | Redes neuronales profundas | Reconocimiento facial |\n| **NLP** | Procesa lenguaje humano | ChatGPT, yo! 😄 |\n| **Visión por computadora** | Analiza imágenes | Filtros de Instagram |\n| **IA Generativa** | Crea contenido nuevo | DALL·E, Midjourney |\n\n---\n\n## 🎯 Ejemplo: Red Neuronal Clasificando\n\n```\n  ENTRADA          PROCESAMIENTO        SALIDA\n  ───────          ─────────────        ──────\n  [pixel, pixel] → ¿Forma redonda?  →  \n  [color, text]  → ¿Tiene bigotes?  →  ¡Es un gato! 🐱\n  [patrón]       → ¿Orejas puntiagudas? →\n```\n\n---\n\n## 🔄 El Ciclo de la IA\n\n```\n  ┌──────────────┐\n  │  1. DATOS    │ (Recolectar información)\n  └──────┬───────┘\n         ▼\n  ┌──────────────┐\n  │ 2. ENTRENAR  │ (El modelo aprende patrones)\n  └──────┬───────┘\n         ▼\n  ┌──────────────┐\n  │ 3. EVALUAR   │ (¿Aprendió bien?)\n  └──────┬───────┘\n         ▼\n  ┌──────────────┐\n  │ 4. USAR      │ (Predecir/Generar)\n  └──────┬───────┘\n         │\n         └──→ Volver a 1 (mejorar)\n```\n\n---\n\n## 💡 Resumen Simple\n\n| Paso | Analogía |\n|------|----------|\n| **Datos** | Libros de estudio 📚 |\n| **Entrenamiento** | Estudiar para el examen 📖 |\n| **Parámetros** | Lo que memorizaste 🧠 |\n| **Predicción** | Dar el examen ✍️ |\n| **Error** | Las preguntas que fallaste ❌ |\n| **Ajuste** | Corregir y volver a estudiar 🔄 |\n\n---\n\n## 🚀 Lo que hace especial a la IA moderna\n\n- **Escala**: Millones/miles de millones de parámetros\n- **Generalización**: Resuelve problemas que nunca vio\n- **Multimodal**: Entiende texto, imágenes, audio y video\n\n---\n\n¿Quieres que profundicemos en algo específico Salocin? 🤔\n\n- 🧠 Redes neuronales en detalle\n- 📊 Machine Learning vs Deep Learning\n- 💬 Cómo funcionan los LLMs (como yo)\n- 🔧 Cómo entrenar un modelo simple\n\n¡Dime y lo exploramos! 💙",
+      "timestamp": "2026-09-21T18:16:57.281334",
+      "metadata": {}
+    }
+  ],
+  "metadata": {}
+}

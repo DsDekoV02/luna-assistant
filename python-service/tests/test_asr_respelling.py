@@ -1,5 +1,7 @@
 """
 Tests for ASR respelling dictionary — fixes proper nouns that ASR misrecognizes.
+
+Session 42: Added tests for Chilean places, apps, anime references, and MiMo Desktop.
 """
 
 import pytest
@@ -58,3 +60,55 @@ class TestASRRespelling:
         result = fix_asr_names("dekov y dekov")
         # First should be replaced, second left as-is (count=1)
         assert result.count("Dekov") >= 1
+
+    # ── Session 42: Chilean places ───────────────────────────────
+
+    def test_chilean_places(self):
+        """Chilean city/place names should be properly capitalized."""
+        assert fix_asr_names("vivo en santiago") == "vivo en Santiago"
+        assert fix_asr_names("estoy en valparaiso") == "estoy en Valparaiso"
+        assert fix_asr_names("concepcion es grande") == "Concepcion es grande"
+        assert fix_asr_names("providencia") == "Providencia"
+
+    # ── Session 42: App/tool names ───────────────────────────────
+
+    def test_app_names(self):
+        """App names Nicolas uses should be properly recognized."""
+        assert "JetBrains" in fix_asr_names("abre jet brains")
+        assert "IntelliJ" in fix_asr_names("usar intelli j")
+        assert "PyCharm" in fix_asr_names("abre pi charm")
+        assert "CurseForge" in fix_asr_names("abre curse forge")
+        assert "Notepad++" in fix_asr_names("abre notepad plus plus")
+        assert "OBS" in fix_asr_names("graba con o b s")
+
+    # ── Session 42: Anime / cultural ─────────────────────────────
+
+    def test_anime_references(self):
+        """Anime references should be properly capitalized."""
+        assert "SAO" in fix_asr_names("vi sao ayer")
+        assert "DanMachi" in fix_asr_names("dan machi temporada nueva")
+        assert "Hololive" in fix_asr_names("vi hololive")
+        assert "Sword Art Online" in fix_asr_names("sword art online fatal bullet")
+
+    # ── Session 42: VR / hardware ────────────────────────────────
+
+    def test_vr_hardware(self):
+        """VR terms should be properly recognized."""
+        assert "Meta Quest" in fix_asr_names("meta quest")
+        assert "Meta Horizon" in fix_asr_names("meta horizon")
+
+    # ── Session 42: MiMo Desktop ─────────────────────────────────
+
+    def test_mimo_desktop(self):
+        """MiMo Desktop should be properly recognized."""
+        assert "MiMo Desktop" in fix_asr_names("mimo desktop")
+        assert "MiMo Desktop" in fix_asr_names("mi mo desktop")
+
+    # ── Session 42: Hardware ASR errors ──────────────────────────
+
+    def test_hardware_errors(self):
+        """Hardware misrecognitions should be fixed."""
+        assert "CPU" in fix_asr_names("tucep al 50")
+        assert "CPU" in fix_asr_names("cerep usage")
+        assert "RAM" in fix_asr_names("rame al 70")
+        assert "SSD" in fix_asr_names("ese ese de")

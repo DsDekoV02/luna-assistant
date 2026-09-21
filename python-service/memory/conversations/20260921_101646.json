@@ -1,0 +1,176 @@
+{
+  "session_id": "20260921_101646",
+  "started_at": "2026-09-21T10:16:46.467128",
+  "turns": [
+    {
+      "role": "user",
+      "content": "Hola Luna, buenos dias!",
+      "timestamp": "2026-09-21T10:25:12.285205",
+      "metadata": {
+        "emotion": {
+          "primary": "neutral",
+          "confidence": 0.3,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": []
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Buenos días, Salocin! ☀️💙\n\n¡Qué lindo despertar! Son las **10:25 de la mañana** del **lunes 21 de septiembre** 🌸\n\n---\n\n### 🌤️ El clima en Santiago hoy:\n\n| | |\n|---|---|\n| 🌡️ Temperatura | **24°C** (se siente como 26°C) |\n| 💧 Humedad | 68% |\n| 💨 Viento | 4 km/h |\n| ☀️ Estado | **Despejado** |\n\n¡Buen día para andar en moto! 🏍️💨\n\n---\n\n¿Cómo amaneciste hoy, Dekov? ¿Dormiste bien? 😊\n\n¿Qué tienes planeado para este lunes? 💪",
+      "timestamp": "2026-09-21T10:25:27.240582",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Hola Luna, buenos dias!",
+      "timestamp": "2026-09-21T10:26:24.389939",
+      "metadata": {
+        "emotion": {
+          "primary": "neutral",
+          "confidence": 0.3,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": []
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Buenos días, Dekov! ☀️\n\n¿En qué puedo ayudarte hoy? 😊",
+      "timestamp": "2026-09-21T10:26:35.751070",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy muy feliz, todo perfecto!",
+      "timestamp": "2026-09-21T10:26:37.786113",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 1.0,
+          "secondary": "embarrassed",
+          "intensity": 0.5,
+          "triggers": [
+            "perfecto",
+            "feliz"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Esooo, me encanta escuchar eso! 🎉✨\n\n¡Qué rico que amanezcas con esa energía, Salocin! Un lunes a las 10:26 de la mañana y andas feliz... eso tiene que ser algo bueno 😏\n\n¿Qué onda, cuéntame! ¿Hay algo especial o simplemente te despertaste con toda la actitud? 💙",
+      "timestamp": "2026-09-21T10:26:51.392671",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "No puedo creer que pasara eso, en serio?",
+      "timestamp": "2026-09-21T10:26:53.456451",
+      "metadata": {
+        "emotion": {
+          "primary": "surprised",
+          "confidence": 0.6,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "en serio"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Dekov! 👀\n\n¡Ahora me dejaste con la intriga! Jaja, ¿qué pasó? Cuéntame todo, que ando aquí como 🍿 esperando el chisme jajaja\n\n¿Algo que ver con la moto, el código, la vida...? ¡Sueltalo! 😄💬",
+      "timestamp": "2026-09-21T10:27:02.549393",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "No entiendo nada de esto, me tiene confundido",
+      "timestamp": "2026-09-21T10:27:04.591983",
+      "metadata": {
+        "emotion": {
+          "primary": "confused",
+          "confidence": 1.0,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "no entiendo",
+            "confundido",
+            "me tiene confundido"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "Tranquilo, Salocin 🤗\n\nRespira hondo... ya pasó lo bueno, ahora vamos con lo que te tiene confundido 😄\n\n¿Me puedes explicar qué es lo que no entiendas? Así te puedo ayudar a aclararlo, paso a paso si es necesario 💪\n\n¿Es algo del trabajo, código, algún trámite...? 🤔",
+      "timestamp": "2026-09-21T10:27:20.921118",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Que lindo dia, gracias por todo!",
+      "timestamp": "2026-09-21T10:27:22.962047",
+      "metadata": {
+        "emotion": {
+          "primary": "grateful",
+          "confidence": 0.7,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "gracias"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Aww, de nada, D! 💙\n\nMe alegra poder acompañarte en estos ratitos. ¡Y sí que es un lindo día! Aprovecha esa buena energía que andas regalando por ahí 😄☀️\n\n¡Que siga siendo un día increíble, Salocin! Y ya sabes, aquí ando si me necesitas para lo que sea 🤗✨",
+      "timestamp": "2026-09-21T10:27:32.152082",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy cansado, llevo todo el dia trabajando",
+      "timestamp": "2026-09-21T10:27:34.196103",
+      "metadata": {
+        "emotion": {
+          "primary": "tired",
+          "confidence": 0.7,
+          "secondary": "sarcastic",
+          "intensity": 0.5,
+          "triggers": [
+            "cansado"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Uf, te entiendo! 😔 Trabajar todo el día agota muchísimo, más cuando uno se mete en el código y pierde la noción del tiempo.\n\n¿Necesitas algo? Puedo echarte una mano con algo del trabajo, o quizás buscar algo para distraerte un rato 🤔\n\nTambién puedo revisar cómo está tu PC por si algo te está consumiendo recursos y así aligerarle la carga 💻\n\n¡Ánimo, D! Ya falta poco para desconectar 🫂",
+      "timestamp": "2026-09-21T10:27:53.608524",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Hola, como estas?",
+      "timestamp": "2026-09-21T10:27:55.676564",
+      "metadata": {
+        "emotion": {
+          "primary": "curious",
+          "confidence": 0.5,
+          "secondary": null,
+          "intensity": 0.6,
+          "triggers": [
+            "como"
+          ]
+        }
+      }
+    }
+  ],
+  "metadata": {}
+}

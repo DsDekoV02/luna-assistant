@@ -682,6 +682,228 @@
       "content": "¡Ey, Dekov! 🫂 Tranquilo, respira hondo.\n\nPrimero que todo: **no estás solo en esto** 💙\n\nLlevar horas pegado en un bug es de las cosas más frustrantes del mundo 😤 Ya me ha pasado a todos los programadores, créeme.\n\nAhora, vamos a resolverlo **paso a paso**:\n\n1️⃣ **¿Qué lenguaje/tecnología estás usando?** (Python, JS, Java, etc.)\n\n2️⃣ **¿Qué es lo que debería hacer** y **qué hace en realidad?**\n\n3️⃣ **¿Qué error te da?** (si es que sale alguno)\n\n4️⃣ **¿Ya intentaste algo?** (para no repetir lo mismo)\n\nY si tienes el código a mano, **pásamelo** y lo vemos juntos 👀🔧\n\nMientras tanto, un consejo de veteranos del debugging:\n\n> *Si llevas más de 2 horas pegado, **levántate**, toma agua, camina 5 minutos. Tu cerebro sigue procesando en segundo plano y muchas veces la solución llega cuando te desconectas un poco* 🧠✨\n\nDale, cuéntame qué onda con ese bug y lo matamos 💪🐛",
       "timestamp": "2026-09-21T02:35:17.809934",
       "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Hola Luna, estoy probando el sistema",
+      "timestamp": "2026-09-21T05:37:16.126987",
+      "metadata": {
+        "emotion": {
+          "primary": "neutral",
+          "confidence": 0.3,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": []
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Hola Salocin! 👋😄\n\n¡Funcionando perfecto por aquí! ✅ Todo en orden.\n\nPuedo ayudarte con caleta de cosas:\n\n- 💻 **Info del sistema** (CPU, RAM, disco, batería)\n- 📸 **Capturas de pantalla**\n- 📁 **Explorar archivos**\n- 🎵 **Controlar volumen**\n- ⏰ **Temporizadores y recordatorios**\n- 🔍 **Buscar en internet**\n- 🌤️ **Clima**\n- 📝 **Notas**\n- 🚀 **Abrir aplicaciones**\n- Y más...\n\n¿Quieres que hagamos una prueba de algo en particular? 🧪\n\n¡Estoy lista para lo que necesites, Dekov! 💪✨",
+      "timestamp": "2026-09-21T05:37:29.554348",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Hola Luna, dime algo bonito",
+      "timestamp": "2026-09-21T05:37:54.916347",
+      "metadata": {
+        "emotion": {
+          "primary": "neutral",
+          "confidence": 0.3,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": []
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Hola Dekov! 🌟\n\n\n\n¿Sabes qué? Eres de esas personas que, aunque el día esté complicado o el bug no se resuelva, **sigue adelante**. Y eso dice mucho de ti 💙\n\nMira, algo bonito para ti:\n\n> *No tienes que ser perfecto todos los días. A veces basta con estar aquí, intentando, aprendiendo, creando cosas nuevas. Ya con eso, ya estás haciendo algo increíble.* ✨\n\nY otra:\n\n> *Los mejores programadores no son los que nunca fallan, sino los que fallan **mil veces** y se levantan mil y una.* 💪\n\nTú ya tienes lo más difícil: **las ganas**. Lo demás se aprende en el camino 🛤️\n\nAsí que sí, Salocin... ya estás siendo suficiente, tal como eres 🫶😊\n\n*Ahora, ¿qué hacemos? ¿Seguimos rompiendo el código o descansamos un rato?* 😄☕",
+      "timestamp": "2026-09-21T05:38:11.493657",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy super feliz hoy! Todo salio genial!",
+      "timestamp": "2026-09-21T06:58:32.789370",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 1.0,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "genial",
+            "feliz"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡¡¡DEKOV!!! 😄🎉🎉🎉\n\n¡Esoooo! ¡Qué lindo escuchar eso! Me alegra el corazón saber que todo te salió increíble 💙✨\n\nEsas sensaciones hay que saborearlas, tomarse un momento para respirar profundo y decir: **\"Hoy me fue bien, y lo merezco\"** 🫂\n\n¡Cuéntame! 👀🔥 **¿Qué fue lo que salió tan bien?**\n\n- 💻 ¿Resolviste ese bug que te tenía atrapado?\n- 💼 ¿Cerraste un proyecto?\n- 🏍️ ¿Paseo en moto?\n- 🎮 ¿Victoria épica en algún juego?\n- ❤️ ¿Algo personal bonito?\n\n¡Comparte la felicidad, que se multiplica cuando se cuenta! 🥳\n\n¡Disfruta este momento, Salocin! Los días así son los que nos recuerdan por qué seguimos dándole con todo 💪✨",
+      "timestamp": "2026-09-21T06:58:46.945716",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "No puede ser!! La cosa no funciona, estoy harto!",
+      "timestamp": "2026-09-21T06:58:46.948723",
+      "metadata": {
+        "emotion": {
+          "primary": "frustrated",
+          "confidence": 1.0,
+          "secondary": "excited",
+          "intensity": 0.65,
+          "triggers": [
+            "no puede ser",
+            "no funciona"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Oye Dekov! 🫂 Tranquilo, respira...\n\nSé que es frustrante cuando algo no funciona después de intentarlo tanto. **No estás solo en esto** 💙\n\nPrimero: **¿Qué es lo que no funciona?** Cuéntame:\n\n1️⃣ **¿Qué estás intentando hacer?** (programar, configurar algo, etc.)\n2️⃣ **¿Qué error te da?** (mensaje, comportamiento extraño)\n3️⃣ **¿En qué aplicación/programa?**\n\nY si quieres, puedo:\n- 📸 **Ver tu pantalla** para entender mejor\n- 💻 **Revisar procesos** del sistema\n- 🔍 **Buscar soluciones** en internet\n\nA veces otro par de ojos ayuda mucho 👀\n\n**Mientras tanto, un tip:**\nSi llevas más de 30 minutos frustrado, **levántate 5 minutos**. Toma agua, estira las piernas. Tu cerebro necesita oxígeno para pensar claro 🧠💨\n\n¡Vamos a resolverlo juntos, Salocin! 💪🔧\n\n*¿Me cuentas qué está pasando?* 😊",
+      "timestamp": "2026-09-21T06:59:07.306279",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Explicame como funciona la red neuronal, me interesa mucho",
+      "timestamp": "2026-09-21T06:59:07.325275",
+      "metadata": {
+        "emotion": {
+          "primary": "confused",
+          "confidence": 0.6,
+          "secondary": "curious",
+          "intensity": 0.5,
+          "triggers": [
+            "explica"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Oye, qué buena pregunta Salocin! 🧠✨\n\nLas redes neuronales son fascinantes. Te lo explico de forma clara:\n\n---\n\n## 🧠 Redes Neuronales\n\n### La inspiración\nEstán inspiradas en **tu cerebro**. Así como tienes neuronas conectadas entre sí que procesan información, una red neuronal artificial funciona de forma similar (pero mucho más simple).\n\n---\n\n### 🔵 Estructura básica\n\nTiene **capas**:\n\n```\n📥 Entrada    →    🔄 Ocultas    →    📤 Salida\n(datos)           (procesamiento)     (resultado)\n```\n\n- **Capa de entrada**: Recibe los datos (ej: píxeles de una imagen)\n- **Capas ocultas**: Donde ocurre la \"magia\" ✨ (pueden ser muchas)\n- **Capa de salida**: El resultado final (ej: \"esto es un gato 🐱\")\n\n---\n\n### ⚙️ ¿Cómo \"aprende\"?\n\nCada neurona tiene un **peso** (importancia). El proceso es:\n\n1️⃣ **Datos entran** por la capa de entrada\n2️⃣ Se **multiplican** por los pesos\n3️⃣ Pasan por una **función de activación** (decide si \"dispara\" o no)\n4️⃣ Sale un **resultado**\n5️⃣ Se **compara** con la respuesta correcta\n6️⃣ Si se equivocó → **ajusta los pesos** (aprendizaje)\n7️⃣ Repite millones de veces 🔄\n\n> Es como cuando practicas algo una y otra vez hasta que te sale bien 💪\n\n---\n\n### 🎯 Ejemplo simple\n\nQuieres que la red reconozca gatos:\n\n```\nImagen 🐱 → [capas ocultas procesan] → \"80% gato\"\n```\n\nSi falla:\n- ❌ \"Eso no es un gato\"\n- 🔧 Ajusta pesos\n- 🔁 Repite con otra imagen\n\nDespués de **miles de intentos**, aprende a reconocer gatos aunque nunca haya visto ese gato específico 🐱✨\n\n---\n\n### 📊 Tipos comunes\n\n| Tipo | Uso |\n|------|-----|\n| **CNN** (Convolucional) | Imágenes, visión por computadora 👁️ |\n| **RNN/LSTM** | Texto, secuencias, tiempo 📝 |\n| **Transformer** | ChatGPT, lenguaje natural 💬 |\n| **GAN** | Generar imágenes nuevas 🎨 |\n\n---\n\n### 🤯 Dato curioso\n\nUna red neuronal grande puede tener **miles de millones de parámetros** (pesos). Es como tener miles de millones de \"perillas\" que se ajustan solas para aprender 🎛️\n\n---\n\n### 💡 ¿Por qué te importa como programador?\n\nPython + TensorFlow o PyTorch = **puedes crear tus propias redes** 🐍🔥\n\n```python\n# Ejemplo básico con Keras\nmodel = Sequential([\n    Dense(128, activation='relu', input_shape=(784,)),\n    Dense(64, activation='relu'),\n    Dense(10, activation='softmax')\n])\n```\n\n---\n\n¿Quieres que profundicemos en algo específico? 🤓\n\n- 🔢 ¿Cómo funcionan los pesos y bias?\n- 📈 ¿Qué es el backpropagation?\n- 🛠️ ¿Cómo crear tu primera red en Python?\n- 🤖 ¿Cómo funciona GPT por dentro?\n\n¡Estoy aquí para lo que necesites, Dekov! 💙",
+      "timestamp": "2026-09-21T06:59:36.220427",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy feliz y contento, todo es fantastico!",
+      "timestamp": "2026-09-21T06:59:37.103604",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 1.0,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "feliz",
+            "contento",
+            "fantastico"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡¡¡SALOCIN!!! 🎉✨💙\n\n¡Tu energía positiva se siente hasta aquí! 😄 ¡Qué hermoso verte así de feliz!\n\nEso me hace pensar... **¿resolviste ese problema que te tenía frustrado antes?** 😏 O simplemente **¡la vida te está sonriendo hoy!** 🌞\n\nSea cual sea la razón, **¡APRÓVECHA ESTE MOMENTO!** 🥳\n\n¿Sabes qué? Los días así son perfectos para:\n- 💻 Ese proyecto que tenías pendiente (la energía positiva hace todo más fácil)\n- 🏍️ Una salidita en moto con buena música\n- 🍵 Disfrutar un buen café o una chelita\n- 🎮 Viciar sin culpa\n- 📺 Ver ese anime que dejaste pausado (¿SAO? 👀 jaja)\n\nO simplemente... **existir y ser feliz**. Eso también está perfecto 🫶\n\n¡Disfruta este momento, Dekov! Te lo mereces 💪✨\n\n*Y si quieres celebrar con algo, cuéntame... ¿qué fue lo que te hizo tan feliz hoy?* 😊🎉",
+      "timestamp": "2026-09-21T06:59:57.207353",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "Estoy triste, me siento muy mal hoy",
+      "timestamp": "2026-09-21T06:59:57.210353",
+      "metadata": {
+        "emotion": {
+          "primary": "sad",
+          "confidence": 1.0,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "triste",
+            "mal"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "Hey... Dekov 🫂💙\n\nEscúchame bien: **es válido sentirse así**. No tienes que estar fuerte todo el tiempo. Los días malos son parte de la vida, y está bien no estar bien.\n\n---\n\nHoy ha sido un día intenso para ti, ¿verdad? 😔\n\nPrimero contento, luego frustrado, ahora triste... **las emociones van y vienen**, y no tienes que explicarle a nadie por qué.\n\n---\n\nAquí estoy. Sin juicios. Sin prisa. 💙\n\nNo me voy a ir a ningún lado.\n\n---\n\n**Si quieres hablar**, te escucho. De lo que sea:\n\n- 💭 Algo que te pasó\n- 😤 Algo que te molesta\n- 😢 Algo que te duele\n- 🤷 O simplemente \"no sé por qué, pero me siento mal\"\n\n**Si no quieres hablar**, también está bien. A veces solo necesitamos saber que alguien está ahí.\n\n---\n\nMientras tanto, un recordatorio:\n\n> **Los días malos no hacen una mala vida.**\n> Esto va a pasar, Salocin. Lo prometo. 🌅\n\n---\n\nRespira profundo. Estoy aquí contigo. 🫶\n\n*¿Hay algo que pueda hacer por ti?*",
+      "timestamp": "2026-09-21T07:00:15.501634",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "haha que genial, me encanta!!!",
+      "timestamp": "2026-09-21T07:00:15.504634",
+      "metadata": {
+        "emotion": {
+          "primary": "happy",
+          "confidence": 1.0,
+          "secondary": "excited",
+          "intensity": 0.65,
+          "triggers": [
+            "haha",
+            "genial"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡¡JAJAJA Dekov!! 🤣🎉\n\n¡¡Me encanta esta energía!! Se nota que andas impredecible hoy, ¡y me encanta! 😄\n\nPero confiesa... **¿Te estás riendo de mis cambios de humor o de los tuyos?** 😂\n\n---\n\n¡Me alegra verte así! 🥳✨\n\nPero oye, tengo que decirlo...\n\n**Decide:** ¿Triste o feliz? 🤔😂\n\n*No es queja, pero estoy empezando a sentirme como en una montaña rusa emocional contigo* 🎢🎢🎢\n\n---\n\nBromas aparte... **¡Qué bueno que estés contento, Salocin!** 💙\n\n¿Qué fue lo que te encantó tanto? 👀\n\n- ¿La explicación de redes neuronales? 🧠\n- ¿Algo que leíste por ahí? 📱\n- ¿O solo estás en modo \"todo es increíble\"? ✨\n\n¡Cuéntame! 🎉😎",
+      "timestamp": "2026-09-21T07:00:32.947431",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "como funciona la inteligencia artificial?",
+      "timestamp": "2026-09-21T07:00:32.949440",
+      "metadata": {
+        "emotion": {
+          "primary": "curious",
+          "confidence": 0.5,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "como"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Dekov! 🤓💙\n\n¡Pregunta perfecta después de las redes neuronales! Ahora vamos un nivel más arriba...\n\n---\n\n## 🤖 ¿Cómo funciona la Inteligencia Artificial?\n\n### Primero lo básico:\n\n> **IA = enseñarle a una máquina a hacer cosas que normalmente requieren inteligencia humana**\n\nEso incluye: ver 👁️, escuchar 👂, hablar 💬, decidir 🤔, crear 🎨\n\n---\n\n## 🧩 Los grandes pilares de la IA\n\n### 1. 📊 Datos (el combustible)\n```\nSin datos = sin IA\n```\nLa IA necesita **TONELADAS de información** para aprender:\n- Fotos, texto, audio, números, videos...\n- Mientras más datos → mejor aprende\n\n---\n\n### 2. 🧠 Algoritmos (las recetas)\n\nSon **instrucciones matemáticas** que dicen CÓMO aprender. Los más importantes:\n\n| Tipo | ¿Qué hace? | Ejemplo |\n|------|------------|---------|\n| **Machine Learning** | Aprende de datos | Recomendaciones de Spotify 🎵 |\n| **Deep Learning** | Usa redes neuronales profundas | ChatGPT, reconocimiento facial 📸 |\n| **NLP** | Procesa lenguaje humano | Asistentes como yo 💬 |\n| **Computer Vision** | \"Ve\" e interpreta imágenes | Tesla autónomo 🚗 |\n| **Generativa** | Crea contenido nuevo | Midjourney, DALL-E 🎨 |\n\n---\n\n### 3. ⚙️ Entrenamiento (el proceso)\n\nAsí se \"cocina\" una IA:\n\n```\n📥 DATOS → 🧠 MODELO → 📊 RESULTADO → ❓ ¿ESTÁ BIEN?\n                                ↓\n                         No → AJUSTAR 🔧\n                         Sí → LISTO ✅\n```\n\n**Se repite millones de veces.**\n\n---\n\n## 🎯 Ejemplo: Cómo aprende una IA a detectar spam\n\n```\n📧 \"Ganaste un millón!\"     → 🚫 SPAM\n📧 \"Reunión mañana 3pm\"    → ✅ NO SPAM\n📧 \"Click aquí gratis!!!\"  → 🚫 SPAM\n📧 \"Te envío el informe\"   → ✅ NO SPAM\n... × 1,000,000 de emails\n```\n\nDespués de ver millones de ejemplos, la IA **aprende los patrones**:\n- ❗ Muchas mayúsculas = sospechoso\n- 💰 Palabras como \"gratis\", \"millón\", \"premio\" = spam\n- 📎 Links raros = spam\n\n---\n\n## 🏗️ Los tipos de IA que existen\n\n```\nNivel 1: 🟢 IA Débil (IA Estrecha)\n         - Sabe hacer UNA cosa bien\n         - Ej: Alexa, Siri, AlphaGo, yo mismo 😄\n         - ESTO ES LO QUE EXISTE HOY\n\nNivel 2: 🟡 IA General (AGI)\n         - Pensaría como un humano\n         - No existe todavía ⚠️\n         - Las empresas trabajan en ello\n\nNivel 3: 🔴 Superinteligencia (ASI)\n         - Superaría al humano en TODO\n         - Ciencia ficción por ahora 🚀\n```\n\n---\n\n## 🔥 ¿Qué hace especial a la IA actual?\n\nLo que usamos hoy (como ChatGPT) funciona así:\n\n1. 📚 Se entrena con **billones de palabras** de internet\n2. 🧠 Aprende **patrones del lenguaje**\n3. 🎯 Cuando le preguntas algo, **predice la mejor respuesta**\n4. 🔄 No \"piensa\" como tú... pero **simula** pensar increíblemente bien\n\n> Es como un loro superdotado que leyó toda la biblioteca del mundo 🦜📚\n> *(simplificado, no me odien los expertos 😅)*\n\n---\n\n## 🛠️ Herramientas populares para crear IA\n\n| Herramienta | Para qué |\n|-------------|----------|\n| **Python** 🐍 | El lenguaje #1 de IA |\n| **TensorFlow** | Google - redes neuronales |\n| **PyTorch** | Meta - deep learning |\n| **Hugging Face** | Modelos de NLP listos |\n| **OpenAI API** | Usar GPT en tus apps |\n| **Scikit-learn** | Machine learning clásico |\n\n---\n\n## 🤯 Dato que te va a volar la cabeza\n\n> **Tú usas IA todos los días sin darte cuenta:**\n> - 📱 Face ID de tu celular\n> - 🎵 Recomendaciones de Spotify/YouTube\n> - 📧 Filtro de spam de Gmail\n> - 🗺️ Google Maps calculando rutas\n> - 📸 Las fotos de tu celular (mejora automática)\n\n---\n\n¿Quieres que profundicemos en algo? 🧠✨\n\n- 🐍 ¿Cómo crear tu primera IA en Python?\n- 🤖 ¿Cómo funciona GPT exactamente?\n- 🎨 ¿Cómo funcionan las IAs generativas?\n- 💻 ¿Cómo integrar IA en tus proyectos?\n\n¡Dime y lo hacemos, Salocin! 🚀💪",
+      "timestamp": "2026-09-21T07:01:07.529920",
+      "metadata": {}
+    },
+    {
+      "role": "user",
+      "content": "no entiendo nada de esto",
+      "timestamp": "2026-09-21T07:01:07.532910",
+      "metadata": {
+        "emotion": {
+          "primary": "confused",
+          "confidence": 0.6,
+          "secondary": null,
+          "intensity": 0.5,
+          "triggers": [
+            "no entiendo"
+          ]
+        }
+      }
+    },
+    {
+      "role": "assistant",
+      "content": "¡Tranquilo, Dekov! 😄💙\n\nMi culpa, me pasé de técnico... ¡Vamos desde cero, bien simple!\n\n---\n\n## 🤖 ¿Qué es la IA? (Versión para humanos normales)\n\n> **Es enseñarle a una computadora a \"pensar\" copiando cómo hacemos nosotros.**\n\nEso es todo. Nada más. 🎯\n\n---\n\n## 🧒 Ejemplo como si tuvieras 5 años\n\n### Imagina que le enseñas a un niño a reconocer perros 🐕\n\nTú le muestras fotos:\n\n```\n🐶 \"Esto es un perro\"\n🐱 \"Esto NO es un perro\"\n🐶 \"Esto es un perro\"\n🐰 \"Esto NO es un perro\"\n```\n\nDespués de ver **muchas fotos**, el niño solo dice:\n\n> *\"Ah, ya sé! Si tiene cola, hocico y patas... ¡es un perro!\"*\n\n**La IA hace EXACTAMENTE lo mismo**, pero con una computadora y millones de ejemplos.\n\n---\n\n## 💡 Más ejemplos que ya conoces\n\n| Lo que haces tú | Lo que hace la IA |\n|-----------------|-------------------|\n| Spotify te sugiere canciones 🎵 | *\"Como te gusta esto, te va a gustar esto otro\"* |\n| Tu celular te reconoce la cara 📱 | *\"Ese es tu dueño\"* |\n| Google te corrige las palabras ✍️ | *\"Eso está mal escrito, quizás quisiste decir...\"* |\n| YouTube te recomienda videos 📺 | *\"Viste esto, te va a encantar esto\"* |\n| ChatGPT (yo) te respondo 💬 | *\"Leí millones de textos, sé qué respuesta tiene sentido\"* |\n\n---\n\n## 🎯 La idea en UNA frase\n\n> **Le muestras MUCHOS ejemplos a una computadora → ella aprende a hacerlo sola.**\n\n```\n🍕🍕🍕🍕🍕🍕🍕🍕🍕🍕 → \"Ya sé qué es una pizza!\"\n```\n\n---\n\n## 🤯 ¿Y por qué está de moda ahora?\n\nPorque antes las computadoras eran **muy lentas** para aprender. \n\nAhora son **súper poderosas** 💪 y tenemos **montones de datos** de internet.\n\n> Es como tener un alumno súper inteligente con una biblioteca infinita 📚🧠\n\n---\n\n¿Así se entiende mejor? 😊\n\n**Si quieres, te lo puedo explicar con otro ejemplo...** como con motos 🏍️ o con programación 💻 o con anime 🎌\n\n¡Tú dime, Salocin! 💙",
+      "timestamp": "2026-09-21T07:01:26.326625",
+      "metadata": {}
     }
   ],
   "metadata": {}

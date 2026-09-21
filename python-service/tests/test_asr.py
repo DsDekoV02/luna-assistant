@@ -1,6 +1,9 @@
 """
 Tests for the ASR (Automatic Speech Recognition) engine.
 Tests MiMo API integration and Whisper fallback logic.
+
+Session 42: Added tests for confidence scoring, detailed transcription,
+and enhanced status reporting.
 """
 
 import pytest
@@ -155,6 +158,62 @@ class TestASREngine:
         engine._whisper = None
         status = engine.get_status()
         assert status["backend"] == "none"
+
+    # ── Session 42: Confidence scoring tests ─────────────────────
+
+    def test_transcribe_with_confidence_api(self):
+        """Test confidence scoring from API transcription."""
+        client = MagicMock()
+        client.asr.return_value = "hola dekov, soy luna"
+        engine = ASREngine(client)
+
+        with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as f:
+            _create_test_wav(f.name)
+            result = engine.transcribe_with_confidence(f.name)
+
+        assert result["text"] == "hola Dekov, soy luna"
+        assert result["confidence"] == 0.85  # API estimate
+        assert result["backend"] == "mimo-asr"
+        assert result["language"] == "es"
+        assert result["error"] is None
+
+    def test_transcribe_with_confidence_file_not_found(self):
+        """Test confidence scoring with missing file."""
+        client = MagicMock()
+        engine = ASREngine(client)
+
+        result = engine.transcribe_with_confidence("/nonexistent.wav")
+        assert result["text"] == ""
+        assert result["confidence"] == 0.0
+        assert result["backend"] == "none"
+        assert result["error"] == "file_not_found"
+
+    def test_transcribe_count_tracking(self):
+        """Test that transcribe count is tracked."""
+        client = MagicMock()
+        client.asr.return_value = "test"
+        engine = ASREngine(client)
+
+        assert engine._transcribe_count == 0
+
+        with tempfile.NamedTemporaryFile(suffix=".wav", delete=False) as f:
+            _create_test_wav(f.name)
+            engine.transcribe(f.name)
+            engine.transcribe(f.name)
+
+        assert engine._transcribe_count == 2
+        assert engine._api_success_count == 2
+
+    def test_status_includes_counts(self):
+        """Test that status includes usage counts."""
+        client = MagicMock()
+        engine = ASREngine(client)
+        status = engine.get_status()
+        assert "transcribe_count" in status
+        assert "error_count" in status
+        assert "api_success_count" in status
+        assert "whisper_success_count" in status
+        assert "success_rate" in status
 
 
 class TestASREngineSingleton:

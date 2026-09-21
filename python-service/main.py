@@ -553,6 +553,20 @@ async def asr_transcribe_endpoint(file_path: str):
     return {"text": text, "backend": asr_engine.get_status()["backend"]}
 
 
+@app.post("/asr/transcribe_detailed")
+async def asr_transcribe_detailed_endpoint(file_path: str):
+    """Transcribe audio with confidence score, backend info, and language detection.
+
+    Session 42: Enhanced ASR endpoint with structured metadata.
+    """
+    if not Path(file_path).exists():
+        raise HTTPException(status_code=404, detail=f"File not found: {file_path}")
+    result = asr_engine.transcribe_with_confidence(file_path)
+    if not result["text"]:
+        raise HTTPException(status_code=500, detail=result.get("error", "Transcription failed"))
+    return result
+
+
 async def retry_on_failure(func, max_retries=2, delay=1.0):
     """Retry a synchronous function on failure with backoff."""
     import time as _time

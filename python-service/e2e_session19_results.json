@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-21 00:40:27",
+  "timestamp": "2026-09-21 18:15:58",
   "session": 19,
-  "all_passed": true,
+  "all_passed": false,
   "results": {
     "health": {
       "status": 200,
@@ -21,7 +21,7 @@
     },
     "tts_clone": {
       "status": 200,
-      "size": 299564,
+      "size": 238124,
       "ok": true
     },
     "tts_v5": {
@@ -30,12 +30,12 @@
       "ok": true
     },
     "conv_stats": {
-      "status": 200,
+      "status": 404,
       "total_messages": 0
     },
     "emotion_stats": {
       "status": 200,
-      "analyzed": 16
+      "analyzed": 20
     },
     "sessions": {
       "status": 200,

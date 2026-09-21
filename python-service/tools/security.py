@@ -73,6 +73,12 @@ def validate_command(command: str, params: dict) -> tuple[bool, str]:
 
     Returns (is_valid, error_message).
     """
+    # Check if command is in the allowlist (defense in depth)
+    from tools.allowlist import get_allowlist
+    allowlist = get_allowlist()
+    if not allowlist.is_allowed(command):
+        return False, f"Command '{command}' is not in the allowlist"
+
     # Check for injection in params
     for key, value in params.items():
         if isinstance(value, str):
