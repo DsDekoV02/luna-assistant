@@ -1,5 +1,5 @@
 {
-  "next_id": 30,
+  "next_id": 31,
   "reminders": [
     {
       "id": 2,
@@ -195,6 +195,13 @@
       "message": "Test reminder",
       "scheduled_time": "2099-12-31T23:59:00",
       "created_at": "2026-09-21T21:15:17.002633",
+      "status": "pending"
+    },
+    {
+      "id": 30,
+      "message": "Test reminder",
+      "scheduled_time": "2099-12-31T23:59:00",
+      "created_at": "2026-09-21T22:26:00.927663",
       "status": "pending"
     }
   ]

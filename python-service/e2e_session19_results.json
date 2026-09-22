@@ -1,7 +1,7 @@
 {
-  "timestamp": "2026-09-21 18:15:58",
+  "timestamp": "2026-09-21 22:24:05",
   "session": 19,
-  "all_passed": false,
+  "all_passed": true,
   "results": {
     "health": {
       "status": 200,
@@ -30,12 +30,12 @@
       "ok": true
     },
     "conv_stats": {
-      "status": 404,
+      "status": 200,
       "total_messages": 0
     },
     "emotion_stats": {
       "status": 200,
-      "analyzed": 20
+      "analyzed": 18
     },
     "sessions": {
       "status": 200,

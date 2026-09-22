@@ -1471,7 +1471,7 @@
             resultDiv.textContent = `Probando ${backend}...`;
             resultDiv.style.color = '#cc99ff';
             try {
-                const testText = 'Hola Nicolas, soy Luna. Esta es una prueba de voz.';
+                const testText = 'Hola, soy Luna. Esta es una prueba de voz.';
                 const resp = await fetch(`http://127.0.0.1:8765/voice/test_phrase?text=${encodeURIComponent(testText)}&backend=${backend}`);
                 if (!resp.ok) {
                     const err = await resp.json().catch(() => ({}));
