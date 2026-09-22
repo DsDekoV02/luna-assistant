@@ -23,7 +23,7 @@ sys.path.insert(0, str(Path(__file__).parent))
 
 from brain.mimo_client import MiMoClient, get_client, LUNA_SYSTEM_PROMPT
 from brain.emotion import get_emotion_detector, EmotionDetector, get_response_style
-from voice.tts import TTSEngine
+from voice.tts import TTSEngine, EDGE_TTS_AVAILABLE
 from voice.stt import STTEngine
 from voice.streaming import get_streaming_handler, StreamingVoiceHandler
 from asr.engine import get_asr_engine, ASREngine
@@ -464,6 +464,8 @@ async def read_note(title: str):
 
 
 # ── Conversation Memory Endpoints ─────────────────────────────────
+# NOTE: Static routes MUST be defined before {session_id} to avoid FastAPI
+# matching "search", "stats", "preferences" as session IDs.
 
 @app.get("/conversations")
 async def list_conversations(limit: int = 10):
@@ -479,20 +481,6 @@ async def list_conversations(limit: int = 10):
             }
             for s in sessions
         ]
-    }
-
-
-@app.get("/conversations/{session_id}")
-async def get_session_messages(session_id: str):
-    """Get messages from a specific conversation session."""
-    session = conv_memory.load_session(session_id)
-    if not session:
-        raise HTTPException(status_code=404, detail=f"Session not found: {session_id}")
-    return {
-        "session_id": session.session_id,
-        "started_at": session.started_at,
-        "message_count": session.message_count,
-        "messages": session.get_recent_context(max_turns=50),
     }
 
 
@@ -513,6 +501,66 @@ async def conversation_stats():
 async def user_preferences():
     """Get analyzed user preferences from conversation history."""
     return conv_memory.get_user_preferences()
+
+
+@app.get("/conversations/export")
+async def export_conversations(limit: int = 10, format: str = "json"):
+    """Export conversation history.
+
+    Args:
+        limit: Number of sessions to export
+        format: 'json' or 'markdown'
+    """
+    sessions = conv_memory.get_recent_sessions(limit)
+    if format == "markdown":
+        lines = ["# Luna JARVIS — Historial de Conversaciones\n"]
+        for s in sessions:
+            lines.append(f"## Sesión {s.session_id}")
+            lines.append(f"- Inicio: {s.started_at}")
+            lines.append(f"- Mensajes: {s.message_count}")
+            if s.summary:
+                lines.append(f"- Resumen: {s.summary}")
+            session = conv_memory.load_session(s.session_id)
+            if session:
+                messages = session.get_recent_context(max_turns=50)
+                for m in messages:
+                    role = "👤 Usuario" if m.get("role") == "user" else "🌙 Luna"
+                    lines.append(f"\n**{role}:** {m.get('content', '')[:500]}")
+            lines.append("")
+        content = "\n".join(lines)
+        return JSONResponse(
+            content={"format": "markdown", "content": content},
+            media_type="application/json",
+        )
+    else:
+        export = []
+        for s in sessions:
+            session_data = {
+                "session_id": s.session_id,
+                "started_at": s.started_at,
+                "message_count": s.message_count,
+                "summary": s.summary,
+                "messages": [],
+            }
+            session = conv_memory.load_session(s.session_id)
+            if session:
+                session_data["messages"] = session.get_recent_context(max_turns=50)
+            export.append(session_data)
+        return {"format": "json", "sessions": export, "exported_at": datetime.now().isoformat()}
+
+
+@app.get("/conversations/{session_id}")
+async def get_session_messages(session_id: str):
+    """Get messages from a specific conversation session."""
+    session = conv_memory.load_session(session_id)
+    if not session:
+        raise HTTPException(status_code=404, detail=f"Session not found: {session_id}")
+    return {
+        "session_id": session.session_id,
+        "started_at": session.started_at,
+        "message_count": session.message_count,
+        "messages": session.get_recent_context(max_turns=50),
+    }
 
 
 # ── Emotion Endpoints ─────────────────────────────────────────────
@@ -565,6 +613,93 @@ async def asr_transcribe_detailed_endpoint(file_path: str):
     if not result["text"]:
         raise HTTPException(status_code=500, detail=result.get("error", "Transcription failed"))
     return result
+
+
+@app.post("/voice/compare")
+async def voice_compare_endpoint(backends: Optional[list] = None):
+    """Compare all TTS backends on test phrases.
+
+    Generates the same text with Edge, Clone, Design, and Standard TTS.
+    Returns metadata + file paths for side-by-side comparison.
+    """
+    try:
+        from voice.compare import VoiceComparator, TEST_PHRASES
+        comparator = VoiceComparator()
+        results = comparator.run_comparison(backends=backends)
+        return results
+    except Exception as e:
+        logger.error(f"Voice comparison error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.get("/voice/backends")
+async def voice_backends_endpoint():
+    """List available TTS backends and their status."""
+    return {
+        "backends": {
+            "edge": {
+                "available": EDGE_TTS_AVAILABLE,
+                "voice": tts_engine.edge_voice,
+                "quality": "high",
+                "cost": "free",
+            },
+            "clone": {
+                "available": tts_engine.voice_ref_b64 is not None,
+                "reference": Path(tts_engine.voice_ref_path).name if tts_engine.voice_ref_path else None,
+                "quality": "medium-high",
+                "cost": "api",
+            },
+            "design": {
+                "available": True,
+                "profile": tts_engine.voice_design_profile,
+                "quality": "high",
+                "cost": "api",
+            },
+            "standard": {
+                "available": True,
+                "quality": "basic",
+                "cost": "api",
+            },
+        },
+        "default": tts_engine.default_tts,
+        "edge_voice": tts_engine.edge_voice,
+    }
+
+
+@app.post("/voice/test_phrase")
+async def voice_test_phrase_endpoint(text: str, backend: str = "edge"):
+    """Generate TTS for a single phrase with a specific backend.
+
+    Useful for quick voice testing from the Electron app.
+    Returns base64-encoded WAV audio.
+    """
+    import base64
+    try:
+        if backend == "edge":
+            audio = tts_engine.speak(text, use_edge=True)
+        elif backend == "clone":
+            audio = tts_engine.speak(text, use_clone=True, use_edge=False)
+        elif backend == "design":
+            audio = tts_engine.speak(text, use_design=True, use_edge=False)
+        elif backend == "standard":
+            audio = tts_engine.speak(text, use_clone=False, use_design=False, use_edge=False)
+        else:
+            raise HTTPException(status_code=400, detail=f"Unknown backend: {backend}")
+
+        if not audio:
+            raise HTTPException(status_code=500, detail="TTS generation failed")
+
+        return {
+            "audio": base64.b64encode(audio).decode("utf-8"),
+            "format": "wav",
+            "size": len(audio),
+            "backend": backend,
+        }
+    except HTTPException:
+        raise
+    except Exception as e:
+        logger.error(f"Voice test error: {e}")
+        raise HTTPException(status_code=500, detail=str(e))
 
 
 async def retry_on_failure(func, max_retries=2, delay=1.0):

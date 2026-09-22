@@ -175,8 +175,8 @@ Si te resulta útil o te parece interesante, considera dejar una ⭐ en el repo.
 
 Este proyecto está en **desarrollo activo** y puede tener problemas menores. Fue construido a lo largo de 24+ sesiones de desarrollo autónomo con AI, y recientemente migrado de disco por fallos de hardware.
 
-**Tests:** 538/538 pasando ✅
-**Última sesión:** 2026-09-21 (Session 42 — ASR Enhancement + Respelling Dictionary Cleanup + Confidence Scoring)
+**Tests:** 556/556 pasando ✅
+**Última sesión:** 2026-09-21 (Session 44 — Voice Comparison Tool + Conversation Export + Dashboard Voice Test UI)
 
 Si encontrás bugs, errores de documentación, o tenés sugerencias:
 

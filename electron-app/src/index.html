@@ -1464,6 +1464,38 @@
             ctx.stroke();
         }
 
+        // ── Voice Test (Session 44) ────────────────────────────
+        async function testVoiceBackend(backend) {
+            const resultDiv = document.getElementById('voice-test-result');
+            if (!resultDiv) return;
+            resultDiv.textContent = `Probando ${backend}...`;
+            resultDiv.style.color = '#cc99ff';
+            try {
+                const testText = 'Hola Nicolas, soy Luna. Esta es una prueba de voz.';
+                const resp = await fetch(`http://127.0.0.1:8765/voice/test_phrase?text=${encodeURIComponent(testText)}&backend=${backend}`);
+                if (!resp.ok) {
+                    const err = await resp.json().catch(() => ({}));
+                    resultDiv.textContent = `⚠️ ${err.detail || 'Error'}`;
+                    resultDiv.style.color = '#f87171';
+                    return;
+                }
+                const data = await resp.json();
+                const sizeKB = Math.round(data.size / 1024);
+                resultDiv.textContent = `✅ ${backend}: ${sizeKB}KB — reproduciendo...`;
+                resultDiv.style.color = '#4ade80';
+                // Play the audio
+                if (data.audio) {
+                    playAudio(data.audio);
+                    setTimeout(() => {
+                        resultDiv.textContent = `✅ ${backend}: ${sizeKB}KB`;
+                    }, 3000);
+                }
+            } catch (e) {
+                resultDiv.textContent = `⚠️ Error: ${e.message}`;
+                resultDiv.style.color = '#f87171';
+            }
+        }
+
         // ── Quick Actions (Session 38) ─────────────────────────
         async function quickAction(action) {
             const resultDiv = document.getElementById('quick-action-result');
@@ -1695,7 +1727,22 @@
                     if (asrStatus.whisper_loaded) {
                         html += `<div class="dash-row"><span class="label">Whisper</span><span class="value">${asrStatus.whisper_model}</span></div>`;
                     }
+                    if (asrStatus._transcribe_count !== undefined) {
+                        const successRate = asrStatus.success_rate ? Math.round(asrStatus.success_rate * 100) : '?';
+                        html += `<div class="dash-row"><span class="label">Transcripciones</span><span class="value">${asrStatus._transcribe_count} (${successRate}% ok)</span></div>`;
+                    }
                 }
+                // Voice test buttons
+                html += `<div style="margin-top:6px;">
+                    <div style="font-size:10px;color:#888;margin-bottom:3px;">Probar voz:</div>
+                    <div style="display:flex;gap:4px;flex-wrap:wrap;">
+                        <button class="dash-refresh" onclick="testVoiceBackend('edge')" style="margin:0;font-size:9px;">🌐 Edge</button>
+                        <button class="dash-refresh" onclick="testVoiceBackend('clone')" style="margin:0;font-size:9px;">🧬 Clone</button>
+                        <button class="dash-refresh" onclick="testVoiceBackend('design')" style="margin:0;font-size:9px;">🎨 Design</button>
+                        <button class="dash-refresh" onclick="testVoiceBackend('standard')" style="margin:0;font-size:9px;">📢 Standard</button>
+                    </div>
+                    <div id="voice-test-result" style="margin-top:3px;font-size:10px;color:#aaa;"></div>
+                </div>`;
                 html += `</div>`;
 
                 // System info
